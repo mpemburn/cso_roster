@@ -15,11 +15,7 @@ class RoleUser extends Model
 
     protected $fillable = [
         'user_id',
-        'role_id',
-        'roles_id',
-        'users_id',
-        'users_members_id',
-        'users_members_users_id'
+        'role_id'
     ];
 
     protected $guarded = [];

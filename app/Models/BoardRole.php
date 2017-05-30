@@ -14,9 +14,7 @@ class BoardRole extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'role',
-        'board_members_id',
-        'board_members_members_id'
+        'role'
     ];
 
     protected $guarded = [];

@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MemberDue
+ * Class PasswordReset
  */
-class MemberDue extends Model
+class PasswordReset extends Model
 {
-    protected $table = 'member_dues';
+    protected $table = 'password_resets';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'member_id',
-        'paid_date',
-        'members_id'
+        'email',
+        'token'
     ];
 
     protected $guarded = [];

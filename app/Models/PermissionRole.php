@@ -15,9 +15,7 @@ class PermissionRole extends Model
 
     protected $fillable = [
         'permission_id',
-        'role_id',
-        'permissions_id',
-        'roles_id'
+        'role_id'
     ];
 
     protected $guarded = [];

@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Permission
+ * Class MemberDue
  */
-class Permission extends Model
+class MemberDues extends Model
 {
-    protected $table = 'permissions';
+    protected $table = 'member_dues';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'name',
-        'display_name',
-        'description'
+        'member_id',
+        'paid_date'
     ];
 
     protected $guarded = [];

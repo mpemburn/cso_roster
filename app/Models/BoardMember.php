@@ -17,10 +17,7 @@ class BoardMember extends Model
         'member_id',
         'board_role_id',
         'start_date',
-        'end_date',
-        'members_id',
-        'members_id1',
-        'members_users_id'
+        'end_date'
     ];
 
     protected $guarded = [];
