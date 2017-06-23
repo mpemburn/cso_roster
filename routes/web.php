@@ -44,11 +44,11 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'uses' => 'MembersController@setNewPassword'
     ]);
-//
-//    Route::get('member', [
-//        'middleware' => ['auth'],
-//        'uses' => 'MembersController@index'
-//    ]);
+
+    Route::get('member', [
+        'middleware' => ['auth'],
+        'uses' => 'MembersController@index'
+    ]);
 //    Route::get('/member/covens', [
 //        'middleware' => ['auth'],
 //        'uses' => 'MembersController@listCovens'

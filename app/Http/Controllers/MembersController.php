@@ -3,9 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contracts\MemberRepositoryContract;
 
 class MembersController extends Controller
 {
+    /**
+     * @var MemberRepositoryContract
+     */
+    protected $repository;
+
+    /**
+     * MembersController constructor.
+     * @param MemberRepositoryContract $repository
+     */
+    public function __construct(MemberRepositoryContract $repository)
+    {
+        $this->repository = $repository;
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +28,8 @@ class MembersController extends Controller
      */
     public function index()
     {
-        //
+        $allMembers = $this->repository->findAll([],[], 200, []);
+        var_dump($allMembers);
     }
 
     /**
