@@ -26,15 +26,22 @@ class Member extends Model
         'state',
         'zip',
         'email',
-        'phone',
-        'phone_ext',
+        'home_phone',
+        'cell_phone',
+        'emergency_contact',
+        'emergency_phone_1',
+        'emergency_phone_2',
         'comments',
-        'start_date',
-        'end_date',
-        'users_id'
+        'member_since_date',
+        'google_group_date',
+        'user_id'
     ];
 
-    protected $guarded = [];
 
-        
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
 }

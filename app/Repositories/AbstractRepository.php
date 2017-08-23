@@ -77,4 +77,18 @@ abstract class AbstractRepository
         return $result->where($where)->paginate($limit)->appends(Input::except('page'));
     }
 
+    /**
+     * @param array $data
+     * @return Model
+     */
+    public function create(array $data = [])
+    {
+        $model = $this->model->newInstance($data);
+        if (!$model->wasRecentlyCreated) {
+            $model->save();
+        }
+
+        return $model;
+    }
+
 }
