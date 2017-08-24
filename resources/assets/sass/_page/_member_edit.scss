@@ -1,0 +1,42 @@
+.main-column {
+  padding: 0;
+  .form-group {
+    overflow: auto;
+    margin-bottom: 5px;
+    label {
+      margin: 0;
+      padding: 0;
+    }
+    &.primary-phone {
+      .outlined {
+        margin: 0 16px;
+        border: 1px solid #111;
+
+        .phone-label {
+          display: inline-block;
+          width: 45px !important;
+        }
+      }
+    }
+  }
+}
+
+.sidebar-column {
+  padding: 0;
+  .form-group {
+    label {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.form-group .primary-phone {
+}
+
+.member-saving {
+  position: relative;
+  top: 5px;
+  font-size: 24px;
+  color: #111;
+}

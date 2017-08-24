@@ -1,0 +1,199 @@
+/* Sass file containing all global styles */
+body {
+  font-family: 'Arial';
+}
+
+input {
+  border: 1px solid #111;
+  border-radius: 3px !important;
+
+  &.error {
+    border: 2px solid red;
+  }
+
+  &.required {
+    &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+      color:    #f00;
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color:    #f00;
+      opacity:  1;
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color:    #f00;
+      opacity:  1;
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color:    #f00;
+    }
+  }
+
+  &:read-only {
+    border: none;
+  }
+}
+
+input[type="submit"],
+input[type="button"] {
+  &.short {
+    padding: 4px 8px;
+  }
+}
+
+select {
+  border-radius: 3px !important;
+
+  &.error {
+    border: 2px solid red;
+  }
+
+  &:disabled {
+    border: none;
+  }
+}
+
+select option:first-child{
+  color: #f00;
+}
+
+textarea {
+  &.error {
+    border: 2px solid red;
+  }
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead td {
+  padding: 4px;
+  text-align: left;
+  font-size: 10pt;
+  background-color: #999999;
+  color: #fff;
+}
+
+tbody tr {
+  border-bottom: 1px solid #999;
+}
+
+tbody tr:hover {
+  background-color: #999999;
+  color: #fff;
+  cursor: pointer !important;
+  a {
+    color: #fff;
+  }
+}
+
+tbody td {
+  padding: 4px;
+  text-align: left;
+  font-size: 9pt;
+}
+
+.container {
+  padding-bottom: 64px;
+}
+
+.content {
+  text-align: center;
+  display: inline-block;
+}
+
+.emphasize {
+  font-weight: bold;
+  color: #a94442 !important;
+}
+
+.form-group {
+  input,
+  select {
+    margin: 2px;
+  }
+  select {
+    height: 27px;
+  }
+}
+
+.title {
+  font-size: 12px;
+}
+
+.main-nav {
+  padding: 0;
+  margin-bottom: 32px;
+}
+
+.show-sm-up {
+  @extend .hidden-xs;
+  @extend .hidden-sm;
+}
+
+.show-lg-up {
+  @extend .hidden-xs;
+  @extend .hidden-sm;
+  @extend .hidden-md;
+}
+
+/* jQuery DataTable overrides */
+
+table.dataTable {
+  thead td {
+    padding-left: 8px;
+    padding-right: 14px;
+  }
+
+  td.filterable {
+    padding-left: 0;
+    padding-right: 14px;
+
+    select {
+      color: #111 !important;
+    }
+  }
+  tbody {
+    td{
+      padding: 4px;
+      vertical-align: top;
+      border-bottom: 1px solid #999 !important;
+
+      &.nobr {
+        white-space: nowrap;
+      }
+    }
+    tr {
+
+      &:hover {
+        background-color: #999999;
+        color: #fff;
+        cursor: pointer !important;
+        a {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.dataTables_filter {
+  input {
+    padding: 0 5px;
+    border: 1pt solid #111;
+  }
+}
+
+.modal-backdrop {
+  background-color: #ffffff;
+}
+
+.panel-default >.panel-heading {
+  color: #ffffff;
+  background-color: #337ab7 !important;
+}
+
+.saved {
+  color: red;
+  font-weight: bold;
+}

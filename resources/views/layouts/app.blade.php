@@ -99,7 +99,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 <!-- Add any dynamic scripts that were pushed in a template -->
 @stack('scripts')
-        <!-- Add script compiled via gulp/elixir -->
+<!-- Add script compiled via gulp/elixir -->
 <script src="{{ URL::to('/js') }}/all.js"></script>
 </body>
 </html>

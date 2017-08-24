@@ -1,0 +1,65 @@
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 100%;
+  border: 1px solid #111;
+  border-radius: 3px;
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  outline: medium none;
+  padding: 8px 12px;
+}
+
+.twitter-typeahead {
+  width: 100%;
+}
+
+.typeahead {
+  background-color: #ffffff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+.tt-query {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.tt-hint {
+  padding-left: 14px;
+  color: #999999;
+}
+
+.tt-suggestion.tt-cursor {
+  background-color: #0097cf;
+  color: #ffffff;
+}
+
+.tt-menu {
+  border: 1px solid #aaa;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  &.tt-open {
+    width: 100%;
+    background-color: #ffffff;
+  }
+  .tt-suggestion {
+    padding: 3px 20px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+.tt-suggestion p {
+  margin: 0;
+}

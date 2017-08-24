@@ -1,0 +1,23 @@
+/**
+* CSS to accompany jquery.clearable.js
+*
+* Adapted from http://stackoverflow.com/questions/6258521/clear-icon-inside-input-text
+*/
+.clearable {
+  background: #fff url(data:image/gif;base64,R0lGODlhBwAHAIAAAP///5KSkiH5BAAAAAAALAAAAAAHAAcAAAIMTICmsGrIXnLxuDMLADs=) no-repeat right -10px center;
+  border: 1px solid #999;
+  padding: 3px 24px 3px 4px; /* Second value must match settings.offset in jQuery plugin */
+  border-radius: 3px;
+
+  &.x {
+    background-position: right 10px center;
+  }
+  &.onX {
+    cursor: pointer;
+  }
+  &::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}

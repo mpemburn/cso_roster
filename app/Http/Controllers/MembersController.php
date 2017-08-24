@@ -28,8 +28,8 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $allMembers = $this->repository->findAll([],[], 200, []);
-        var_dump($allMembers);
+        $activeMembers = $this->repository->findAll([],[], 200, []);
+        return view('members_list', ['members' => $activeMembers]);
     }
 
     /**
