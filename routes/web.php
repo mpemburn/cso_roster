@@ -49,18 +49,19 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'uses' => 'MembersController@index'
     ]);
-//    Route::get('/member/covens', [
-//        'middleware' => ['auth'],
-//        'uses' => 'MembersController@listCovens'
-//    ]);
-//    Route::get('/member/details', [
-//        'middleware' => ['auth'],
-//        'uses' => 'MembersController@memberDetails'
-//    ]);
-//    Route::get('/member/details/{id}', [
-//        'middleware' => ['auth'],
-//        'uses' => 'MembersController@memberDetails'
-//    ]);
+    Route::get('/member/details', [
+        'middleware' => ['auth'],
+        'uses' => 'MembersController@show'
+    ]);
+    Route::get('/member/details/{id}', [
+        'middleware' => ['auth'],
+        'uses' => 'MembersController@show'
+    ]);
+    Route::post('member/{id}/update', [
+        'middleware' => ['auth'],
+        'as' => 'member.update',
+        'uses' => 'MembersController@update'
+    ]);
 //    Route::get('/member/missing', [
 //        'middleware' => ['auth'],
 //        'uses' => 'MembersController@missingDetails'
@@ -70,11 +71,6 @@ Route::group(['middlewareGroups' => 'web'], function () {
 //        'uses' => 'MembersController@memberSearch'
 //    ]);
 //    Route::get('/member/migrate', 'MembersController@migrate');
-//    Route::post('member/{id}/update', [
-//        'middleware' => ['auth'],
-//        'as' => 'member.update',
-//        'uses' => 'MembersController@update'
-//    ]);
 //
 //    Route::get('/guild/manage/{guild_id}', [
 //        'middleware' => ['auth'],

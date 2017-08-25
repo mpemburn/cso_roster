@@ -11,6 +11,8 @@ use App\Models;
 use App\Repositories;
 use App\Contracts\DuesRepositoryContract;
 use App\Contracts\MemberRepositoryContract;
+use App\Contracts\ContactRepositoryContract;
+use App\Contracts\MemberContactRepositoryContract;
 
 class RepositoryProvider extends ServiceProvider {
 
@@ -31,6 +33,20 @@ class RepositoryProvider extends ServiceProvider {
         $this->app->bind(DuesRepositoryContract::class, function () {
             return new Repositories\DuesRepository(
                 new Models\Dues(),
+                $this->app->make('log')
+            );
+        });
+        
+        $this->app->bind(ContactRepositoryContract::class, function () {
+            return new Repositories\ContactRepository(
+                new Models\Contact(),
+                $this->app->make('log')
+            );
+        });
+        
+        $this->app->bind(MemberContactRepositoryContract::class, function () {
+            return new Repositories\MemberContactRepository(
+                new Models\MemberContact(),
                 $this->app->make('log')
             );
         });

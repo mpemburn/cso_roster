@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Dues
+ * Class MemberContact
  */
-class Dues extends Model
+class MemberContact extends Model
 {
-    protected $table = 'dues';
+    protected $table = 'members_contacts';
 
     public $timestamps = true;
 
     protected $fillable = [
         'member_id',
-        'paid_date',
-        'paid_amount',
-        'calendar_year',
-        'helmet_fund'
+        'contact_id'
     ];
 
     protected $guarded = [

@@ -5,8 +5,15 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Contracts\MemberRepositoryContract;
 use App\Contracts\DuesRepositoryContract;
-use App\Models\Member;
+use App\Contracts\ContactRepositoryContract;
+use App\Contracts\MemberContactRepositoryContract;
 
+/*
+TRUNCATE TABLE `members`;
+TRUNCATE TABLE `dues`;
+TRUNCATE TABLE `contacts`;
+TRUNCATE TABLE `members_contacts`;
+ */
 class ImportMembersFromCSVCommand extends Command
 {
     /**
@@ -27,6 +34,16 @@ class ImportMembersFromCSVCommand extends Command
     protected $duesRepository;
 
     /**
+     * @var $contactRepository ContactRepositoryContract
+     */
+    protected $contactRepository;
+
+    /**
+     * @var $memberContactRepository MemberContactRepositoryContract
+     */
+    protected $memberContactRepository;
+
+    /**
      * @var array
      */
     protected $memberMap = [
@@ -41,7 +58,7 @@ class ImportMembersFromCSVCommand extends Command
         'ZIP' => 'zip',
         'GoogleGroups' => 'google_group_date',
         'Emergency Contact' => 'emergency_contact',
-        'Emergency Contact Phone ' => 'emergency_phone_1'
+        'Emergency Contact Phone ' => 'emergency_phone'
     ];
 
     protected $duesMap = [
@@ -62,10 +79,16 @@ class ImportMembersFromCSVCommand extends Command
      *
      * @return void
      */
-    public function __construct(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository)
+    public function __construct(
+        MemberRepositoryContract $memberRepository,
+        DuesRepositoryContract $duesRepository,
+        ContactRepositoryContract $contactRepository,
+        MemberContactRepositoryContract $memberContactRepository)
     {
         $this->memberRepository = $memberRepository;
         $this->duesRepository = $duesRepository;
+        $this->contactRepository = $contactRepository;
+        $this->memberContactRepository = $memberContactRepository;
         parent::__construct();
     }
 
@@ -133,7 +156,12 @@ class ImportMembersFromCSVCommand extends Command
         foreach ($csvData as $row) {
             $memberData = $this->getMemberDataFromRow($row);
             if (!empty($memberData)) {
+                $emergencyContact = $memberData['emergency_contact'];
+                $emergencyPhone = $memberData['emergency_phone'];
+                unset($memberData['emergency_contact']);
+                unset($memberData['emergency_phone']);
                 $member = $this->memberRepository->create($memberData);
+                $this->createEmergencyContacts($emergencyContact, $emergencyPhone, $member->id);
                 $duesData = $this->getDuesDataFromRow($row, $member->id);
                 $this->duesRepository->create($duesData);
             }
@@ -161,15 +189,6 @@ class ImportMembersFromCSVCommand extends Command
                         $value = date("Y-m-d H:i:s", $timestamp);
                     } else {
                         $value = null;
-                    }
-                }
-                if ($mappedField == 'emergency_phone_1') {
-                    $value = preg_replace('/[^0-9\/]+/', '', $value);
-                    if (strlen($value) > 10) {
-                        $value1 = substr($value, 0, 10);
-                        $value2 = substr($value, -10);
-                        $memberData['emergency_phone_2'] = $value2;
-                        $value = $value1;
                     }
                 }
                 $memberData[$mappedField] = $value;
@@ -223,5 +242,57 @@ class ImportMembersFromCSVCommand extends Command
         }
 
         return $duesData;
+    }
+
+    protected function createEmergencyContacts($contactField, $phoneField, $memberId)
+    {
+        $contactArray = $this->extractNamesFromContactField($contactField);
+        $phoneArray = $this->extractPhonesFromPhoneField($phoneField);
+        $multiContacts = (count($contactArray) == count($phoneArray));
+        foreach ($contactArray as $contact) {
+            if (!empty($contact)) {
+                $phone1 = (!empty($phoneArray)) ? current($phoneArray) : null;
+                // $phone2 will only have a value if there is one contact with two phone numbers
+                $phone2 = (isset($phoneArray[1]) && !$multiContacts) ? $phoneArray[1] : null;
+                // Create the contact
+                $newContact = $this->contactRepository->create([
+                    'name' => ucwords($contact),
+                    'relationship' => null,
+                    'phone_1' => $phone1,
+                    'phone_2' => $phone2
+                ]);
+                // Create the relationship
+                $this->memberContactRepository->create([
+                    'member_id' => $memberId,
+                    'contact_id' => $newContact->id
+                ]);
+                next($phoneArray);
+            }
+        }
+    }
+
+    protected function extractNamesFromContactField($contact)
+    {
+        $contact = str_replace([' and ', '/'], ';', $contact);
+        $found = explode(';', $contact);
+
+        return $found;
+    }
+
+    protected function extractPhonesFromPhoneField($phones)
+    {
+        preg_match_all('/([0-9]+)/', $phones, $matches);
+
+        $found = [];
+        $phone = '';
+        foreach ($matches[0] as $match) {
+            $phone .= $match;
+            if (strlen($phone) >= 10) {
+                $found[] = substr($phone, 0, 10);
+                $phone = '';
+            }
+        }
+
+        return $found;
     }
 }

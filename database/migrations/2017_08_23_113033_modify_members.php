@@ -22,9 +22,6 @@ class ModifyMembers extends Migration
 
             $table->char('home_phone', 10)->nullable();
             $table->char('cell_phone', 10)->nullable();
-            $table->string('emergency_contact', 50)->nullable();
-            $table->char('emergency_phone_1', 10)->nullable();
-            $table->char('emergency_phone_2', 10)->nullable();
             $table->date('member_since_date')->nullable();
             $table->date('google_group_date')->nullable();
             $table->integer('user_id')->nullable();
@@ -41,7 +38,8 @@ class ModifyMembers extends Migration
         Schema::table('members', function (Blueprint $table) {
             $table->dropColumn('home_phone');
             $table->dropColumn('cell_phone');
-            $table->dropColumn('emergency_contact');
+            $table->dropColumn('emergency_contact_1');
+            $table->dropColumn('emergency_contact_2');
             $table->dropColumn('emergency_phone_1');
             $table->dropColumn('emergency_phone_2');
             $table->dropColumn('member_since_date');
