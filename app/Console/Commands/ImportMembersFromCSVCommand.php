@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use App\Contracts\MemberRepositoryContract;
 use App\Contracts\DuesRepositoryContract;
 use App\Contracts\ContactRepositoryContract;
-use App\Contracts\MemberContactRepositoryContract;
 use App\Models\Member;
 
 /*
@@ -155,7 +154,7 @@ class ImportMembersFromCSVCommand extends Command
                 unset($memberData['emergency_contact']);
                 unset($memberData['emergency_phone']);
                 $member = $this->memberRepository->create($memberData);
-                $this->createEmergencyContacts($emergencyContact, $emergencyPhone, $member->id);
+                $this->createEmergencyContacts($emergencyContact, $emergencyPhone, $member);
                 $duesData = $this->getDuesDataFromRow($row, $member->id);
                 $this->duesRepository->create($duesData);
             }
@@ -238,7 +237,7 @@ class ImportMembersFromCSVCommand extends Command
         return $duesData;
     }
 
-    protected function createEmergencyContacts($contactField, $phoneField, $memberId)
+    protected function createEmergencyContacts($contactField, $phoneField, $member)
     {
         $contactArray = $this->extractNamesFromContactField($contactField);
         $phoneArray = $this->extractPhonesFromPhoneField($phoneField);
@@ -249,13 +248,13 @@ class ImportMembersFromCSVCommand extends Command
                 // $phone2 will only have a value if there is one contact with two phone numbers
                 $phone2 = (isset($phoneArray[1]) && !$multiContacts) ? $phoneArray[1] : null;
                 // Create the contact
+                $extract = $this->extractRelationFromContactField($contact);
                 $newContact = $this->contactRepository->create([
-                    'name' => ucwords($contact),
-                    'relationship' => null,
+                    'name' => ucwords($extract['contact']),
+                    'relationship' => $extract['relationship'],
                     'phone_1' => $phone1,
                     'phone_2' => $phone2
                 ]);
-                $member = Member::find($memberId);
                 // Create the relationship
                 $member->contacts()->save($newContact);
                 next($phoneArray);
@@ -269,6 +268,43 @@ class ImportMembersFromCSVCommand extends Command
         $found = explode(';', $contact);
 
         return $found;
+    }
+
+    protected function extractRelationFromContactField($contact)
+    {
+        $relationship = null;
+        $relationships = [
+            'spouse' => 'spouse',
+            'wife' => 'wife',
+            'husband' => 'husband',
+            'father' => 'father',
+            'dad' => 'father',
+            'mother' => 'mother',
+            'mom' => 'mother',
+            'brother' => 'brother',
+            'sister' => 'sister',
+            'daughter' => 'daughter',
+            'son' => 'son',
+            'aunt' => 'aunt',
+            'uncle' => 'uncle',
+            'cousin' => 'cousin',
+            'friend' => 'friend',
+        ];
+        foreach (array_keys($relationships) as $key) {
+            $variants = [
+                ' ' . $key,
+                '(' . $key . ')',
+                ' (' . $key . ')'
+            ];
+            foreach ($variants as $variant) {
+                if (stristr($contact, $variant) !== false) {
+                    $relationship = $relationships[$key];
+                    $contact = str_replace($variant, '', $contact);
+                }
+            }
+        }
+
+        return ['contact' => $contact, 'relationship' => $relationship];
     }
 
     protected function extractPhonesFromPhoneField($phones)
