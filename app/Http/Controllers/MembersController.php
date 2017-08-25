@@ -71,6 +71,7 @@ class MembersController extends Controller
             'prefix_list' => [],
             'suffix_list' => [],
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
+            'contacts' => $thisMember->contacts,
             'is_active' => true,
         ];
         return view('member_edit', $data);

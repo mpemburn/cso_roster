@@ -13,6 +13,8 @@ use App\Contracts\DuesRepositoryContract;
 use App\Contracts\MemberRepositoryContract;
 use App\Contracts\ContactRepositoryContract;
 use App\Contracts\MemberContactRepositoryContract;
+use App\Models\Member;
+use Illuminate\Database\Eloquent\Model;
 
 class RepositoryProvider extends ServiceProvider {
 
@@ -34,19 +36,12 @@ class RepositoryProvider extends ServiceProvider {
             return new Repositories\DuesRepository(
                 new Models\Dues(),
                 $this->app->make('log')
-            );
+            );/**/
         });
         
         $this->app->bind(ContactRepositoryContract::class, function () {
             return new Repositories\ContactRepository(
                 new Models\Contact(),
-                $this->app->make('log')
-            );
-        });
-        
-        $this->app->bind(MemberContactRepositoryContract::class, function () {
-            return new Repositories\MemberContactRepository(
-                new Models\MemberContact(),
                 $this->app->make('log')
             );
         });

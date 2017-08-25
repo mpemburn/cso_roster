@@ -14,7 +14,7 @@
                         Member ID: {{ $member->id }}
                     </div>
                     <div class="panel-body">
-                        <main class="main-column col-md-9">
+                        <main class="main-column col-md-12">
                             @if ($can_edit)
                                 <div class="form-group">
                                     <label for="active"
@@ -51,6 +51,52 @@
                                     <div class="col-md-11">
                                         {{ Form::text('Email_Address', $member->email, ['class' => 'col-md-10', 'placeholder' => 'Email']) }}
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phones" class="col-md-1 control-label">Phones</label>
+                                    <div class="col-md-3">
+                                        {{ Form::text('Cell Phone', $member->cell_phone, ['class' => 'col-md-12', 'placeholder' => 'Cell Phone']) }}
+                                    </div>
+                                    <div class="col-md-1 nopadding">
+                                        cell
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ Form::text('Home Phone', $member->home_phone, ['class' => 'col-md-12', 'placeholder' => 'Home Phone']) }}
+                                    </div>
+                                    <div class="col-md-1 nopadding">
+                                        home
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <?php $count = 0; ?>
+                                    @foreach($contacts as $contact)
+                                        <label for="contacts" class="col-md-1 control-label"><?php echo ($count == 0 ) ? 'Contacts' : ''; ?></label>
+                                        <div class="col-md-11">
+                                            <div class="col-md-3">
+                                                <strong>{{ $contact->name }}</strong>
+                                                @if (!empty($contact->relationship))
+                                                <strong> ({{ $contact->relationship }})</strong>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-2">
+                                                <strong>{{ $contact->phone_1 }}</strong>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @if (!empty($contact->phone_2))
+                                                <strong>{{ $contact->phone_2 }}</strong>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-4">
+                                                @if (!empty($contact->work_phone))
+                                                Work <strong>{{ $contact->work_phone }}</strong>
+                                                @endif
+                                                @if (!empty($contact->phone_ext))
+                                                Ext <strong>{{ $contact->phone_ext }}</strong>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <?php $count++; ?>
+                                    @endforeach
                                 </div>
                                 <div class="form-group">
                                     <label for="comments" class="control-label col-md-1">Comments</label>

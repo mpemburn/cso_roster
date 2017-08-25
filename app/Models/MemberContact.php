@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Class MemberContact
  */
-class MemberContact extends Model
+class MemberContact extends Pivot
 {
     protected $table = 'members_contacts';
 

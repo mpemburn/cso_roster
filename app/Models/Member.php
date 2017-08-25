@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Format;
 
 /**
  * Class Member
@@ -45,23 +46,20 @@ class Member extends Model
         'deleted_at'
     ];
 
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class, 'members_contacts')
+            ->using(MemberContact::class)
+            ->withTimestamps('created_at', 'updated_at');
+    }
+
     public function getHomePhoneAttribute($value)
     {
-        return $this->formatPhone($value);
+        return Format::formatPhone($value);
     }
 
     public function getCellPhoneAttribute($value)
     {
-        return $this->formatPhone($value);
-    }
-
-    protected function formatPhone($phone)
-    {
-        $result = null;
-        if (preg_match('/^(\d{3})(\d{3})(\d{4})$/', $phone, $matches)) {
-            $result = '(' . $matches[1] . ') ' . $matches[2] . '-' . $matches[3];
-        }
-
-        return $result;
+        return Format::formatPhone($value);
     }
 }

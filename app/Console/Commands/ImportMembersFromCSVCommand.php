@@ -7,6 +7,7 @@ use App\Contracts\MemberRepositoryContract;
 use App\Contracts\DuesRepositoryContract;
 use App\Contracts\ContactRepositoryContract;
 use App\Contracts\MemberContactRepositoryContract;
+use App\Models\Member;
 
 /*
 TRUNCATE TABLE `members`;
@@ -37,11 +38,6 @@ class ImportMembersFromCSVCommand extends Command
      * @var $contactRepository ContactRepositoryContract
      */
     protected $contactRepository;
-
-    /**
-     * @var $memberContactRepository MemberContactRepositoryContract
-     */
-    protected $memberContactRepository;
 
     /**
      * @var array
@@ -82,13 +78,11 @@ class ImportMembersFromCSVCommand extends Command
     public function __construct(
         MemberRepositoryContract $memberRepository,
         DuesRepositoryContract $duesRepository,
-        ContactRepositoryContract $contactRepository,
-        MemberContactRepositoryContract $memberContactRepository)
+        ContactRepositoryContract $contactRepository)
     {
         $this->memberRepository = $memberRepository;
         $this->duesRepository = $duesRepository;
         $this->contactRepository = $contactRepository;
-        $this->memberContactRepository = $memberContactRepository;
         parent::__construct();
     }
 
@@ -261,11 +255,9 @@ class ImportMembersFromCSVCommand extends Command
                     'phone_1' => $phone1,
                     'phone_2' => $phone2
                 ]);
+                $member = Member::find($memberId);
                 // Create the relationship
-                $this->memberContactRepository->create([
-                    'member_id' => $memberId,
-                    'contact_id' => $newContact->id
-                ]);
+                $member->contacts()->save($newContact);
                 next($phoneArray);
             }
         }
