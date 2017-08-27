@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Contracts\MemberRepositoryContract;
-use Illuminate\Support\Facades\Auth;
-use App\Models\State;
+use App\Contracts\Repositories\MemberRepositoryContract;
 
 class MembersController extends Controller
 {
@@ -13,6 +11,11 @@ class MembersController extends Controller
      * @var MemberRepositoryContract
      */
     protected $repository;
+
+    /**
+     * @var MemberServiceContract
+     */
+    protected $memberService;
 
     /**
      * MembersController constructor.
@@ -63,18 +66,8 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        $thisMember = $this->repository->find($id);
-        $data = [
-            'can_edit' => true,
-            'user_id' => Auth::user()->id,
-            'member' => $thisMember,
-            'prefix_list' => [],
-            'suffix_list' => [],
-            'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
-            'contacts' => $thisMember->contacts,
-            'is_active' => true,
-        ];
-        return view('member_edit', $data);
+        $memberDetails = $this->repository->getDetails($id);
+        return view('member_edit', $memberDetails);
     }
 
     /**

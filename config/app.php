@@ -182,6 +182,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryProvider::class,
+        App\Providers\ServiceServiceProvider::class,
         /*
          * Zizaco Entrust ACL Service Provider...
          */

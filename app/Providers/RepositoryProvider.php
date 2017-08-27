@@ -9,12 +9,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models;
 use App\Repositories;
-use App\Contracts\DuesRepositoryContract;
-use App\Contracts\MemberRepositoryContract;
-use App\Contracts\ContactRepositoryContract;
-use App\Contracts\MemberContactRepositoryContract;
-use App\Models\Member;
-use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Repositories\DuesRepositoryContract;
+use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Repositories\ContactRepositoryContract;
 
 class RepositoryProvider extends ServiceProvider {
 

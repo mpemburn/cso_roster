@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-use App\Contracts\DuesRepositoryContract;
+use App\Contracts\Repositories\DuesRepositoryContract;
 
 /**
  * Class DuesRepository

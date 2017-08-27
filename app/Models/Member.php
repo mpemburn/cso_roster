@@ -53,6 +53,11 @@ class Member extends Model
             ->withTimestamps('created_at', 'updated_at');
     }
 
+    public function dues()
+    {
+        return $this->hasMany(Dues::class);
+    }
+
     public function getHomePhoneAttribute($value)
     {
         return Format::formatPhone($value);

@@ -2,7 +2,7 @@
 /**
  * Base repository contract used by all repositories.
  */
-namespace App\Contracts;
+namespace App\Contracts\Repositories;
 
 /**
  * Interface RepositoryContract

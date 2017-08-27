@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-use App\Contracts\ContactRepositoryContract;
+use App\Contracts\Repositories\ContactRepositoryContract;
 
 /**
  * Class ContactRepository

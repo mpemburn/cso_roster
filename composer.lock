@@ -2199,6 +2199,7 @@
                 "model",
                 "schema"
             ],
+            "abandoned": "reliese/laravel",
             "time": "2017-04-06T09:29:06+00:00"
         },
         {

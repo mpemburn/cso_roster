@@ -3,10 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Contracts\MemberRepositoryContract;
-use App\Contracts\DuesRepositoryContract;
-use App\Contracts\ContactRepositoryContract;
-use App\Models\Member;
+use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Repositories\DuesRepositoryContract;
+use App\Contracts\Repositories\ContactRepositoryContract;
 
 /*
 TRUNCATE TABLE `members`;

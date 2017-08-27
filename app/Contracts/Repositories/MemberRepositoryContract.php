@@ -1,5 +1,6 @@
 <?php
-namespace App\Contracts;
+namespace App\Contracts\Repositories;
+
 
 /**
  * Interface MemberRepositoryContract
@@ -7,4 +8,5 @@ namespace App\Contracts;
  */
 interface MemberRepositoryContract extends RepositoryContract
 {
+    function getDetails($id);
 }
