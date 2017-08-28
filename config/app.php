@@ -183,6 +183,12 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryProvider::class,
         App\Providers\ServiceServiceProvider::class,
+
+        /*
+         * SimpleSoftwareIO SMS Service Provider
+         */
+        SimpleSoftwareIO\SMS\SMSServiceProvider::class,
+
         /*
          * Zizaco Entrust ACL Service Provider...
          */
@@ -238,6 +244,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'SMS' => SimpleSoftwareIO\SMS\Facades\SMS::class,
     ],
 
 ];

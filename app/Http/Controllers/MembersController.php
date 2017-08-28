@@ -26,6 +26,7 @@ class MembersController extends Controller
         $this->repository = $repository;
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +36,21 @@ class MembersController extends Controller
     {
         $activeMembers = $this->repository->findAll([],[], 200, []);
         return view('members_list', ['members' => $activeMembers]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function details($id)
+    {
+        $memberDetails = $this->repository->getDetails($id);
+        return view('member_edit', $memberDetails);
+    }
+
+    public function reactMain()
+    {
+        return view('react.main');
     }
 
     /**
@@ -66,8 +82,7 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        $memberDetails = $this->repository->getDetails($id);
-        return view('member_edit', $memberDetails);
+        //
     }
 
     /**

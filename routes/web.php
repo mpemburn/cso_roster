@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('react.main');
+});
+
+Route::get('/main', function () {
+    return view('react.main');
 });
 
 Auth::routes();
@@ -51,17 +55,19 @@ Route::group(['middlewareGroups' => 'web'], function () {
     ]);
     Route::get('/member/details', [
         'middleware' => ['auth'],
-        'uses' => 'MembersController@show'
+        'uses' => 'MembersController@details'
     ]);
     Route::get('/member/details/{id}', [
         'middleware' => ['auth'],
-        'uses' => 'MembersController@show'
+        'uses' => 'MembersController@details'
     ]);
     Route::post('member/{id}/update', [
         'middleware' => ['auth'],
         'as' => 'member.update',
         'uses' => 'MembersController@update'
     ]);
+
+
 //    Route::get('/member/missing', [
 //        'middleware' => ['auth'],
 //        'uses' => 'MembersController@missingDetails'
