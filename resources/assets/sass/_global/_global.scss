@@ -115,6 +115,17 @@ tbody td {
   select {
     height: 27px;
   }
+
+  &.top-line {
+    border-top: 1px solid black;
+  }
+  &.bottom-line {
+    border-bottom: 1px solid black;
+  }
+}
+
+.bg-light-gray {
+  background-color: #ddd;
 }
 
 .title {

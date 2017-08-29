@@ -1,6 +1,20 @@
-<?php $count = 0; ?>
+<label for="contacts" class="col-md-1 control-label bg-light-gray">&nbsp;Contacts</label>
+<div class="col-md-11 bg-light-gray">
+    <div class="col-md-3">
+        Name (relationship)
+    </div>
+    <div class="col-md-2">
+        Phone 1
+    </div>
+    <div class="col-md-2">
+        Phone 2
+    </div>
+    <div class="col-md-4">
+        Work Phone
+    </div>
+</div>
 @foreach($contacts as $contact)
-    <label for="contacts" class="col-md-1 control-label"><?php echo ($count == 0 ) ? 'Contacts' : ''; ?></label>
+    <div class="col-md-1"></div>
     <div class="col-md-11">
         <div class="col-md-3">
             <strong>{{ $contact->name }}</strong>
@@ -25,5 +39,4 @@
             @endif
         </div>
     </div>
-    <?php $count++; ?>
 @endforeach

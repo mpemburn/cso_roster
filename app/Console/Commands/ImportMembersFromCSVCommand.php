@@ -292,6 +292,7 @@ class ImportMembersFromCSVCommand extends Command
         foreach (array_keys($relationships) as $key) {
             $variants = [
                 ' ' . $key,
+                $key . ' ',
                 '(' . $key . ')',
                 ' (' . $key . ')'
             ];

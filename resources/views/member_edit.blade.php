@@ -67,8 +67,11 @@
                                         home
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group top-line">
                                     @include('partials.member_contacts')
+                                </div>
+                                <div class="form-group top-line bottom-line">
+                                    @include('partials.member_dues')
                                 </div>
                                 <div class="form-group">
                                     <label for="comments" class="control-label col-md-1">Comments</label>
@@ -82,9 +85,6 @@
                                         <i id="member_saving" class="member-saving fa fa-spinner fa-spin hidden"></i>
                                         <span class="saved hidden">SAVED</span>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    @include('partials.member_dues')
                                 </div>
                             @else
                                 @include('partials.member_static_main')

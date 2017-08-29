@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@charset "UTF-8";
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -5816,6 +5815,15 @@ tbody td {
 
 .form-group select {
   height: 27px; }
+
+.form-group.top-line {
+  border-top: 1px solid black; }
+
+.form-group.bottom-line {
+  border-bottom: 1px solid black; }
+
+.bg-light-gray {
+  background-color: #ddd; }
 
 .title {
   font-size: 12px; }
