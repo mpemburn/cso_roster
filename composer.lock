@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3028000277afd3b11436a859af92ad00",
+    "content-hash": "954a192e43d564796b09a9df72a01c2a",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1020,6 +1020,54 @@
             "time": "2017-03-13T16:27:32+00:00"
         },
         {
+            "name": "plivo/plivo-php",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plivo/plivo-php.git",
+                "reference": "5d3417f654d8b59b64707661f2c202f32a554783"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plivo/plivo-php/zipball/5d3417f654d8b59b64707661f2c202f32a554783",
+                "reference": "5d3417f654d8b59b64707661f2c202f32a554783",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "plivo.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Radu Topala",
+                    "email": "radu.topala@trisoft.ro"
+                },
+                {
+                    "name": "Adam Homsi",
+                    "email": "adam.homsi@gmail.com"
+                },
+                {
+                    "name": "Plivo Team",
+                    "email": "hello@plivo.com"
+                },
+                {
+                    "name": "Ben McInturff",
+                    "email": "benmcinturff@gmail.com"
+                }
+            ],
+            "description": "Plivo PHP helper library to access PlivoCloud API and generate Plivo XML",
+            "time": "2017-04-25T07:35:31+00:00"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -1273,16 +1321,16 @@
         },
         {
             "name": "simplesoftwareio/simple-sms",
-            "version": "2.1.2",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SimpleSoftwareIO/simple-sms.git",
-                "reference": "0e370319d83cdc692eef7238e6a8ad922f744d95"
+                "reference": "93e7feb7a1f76634b49247bb5849f06a879a3fb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-sms/zipball/0e370319d83cdc692eef7238e6a8ad922f744d95",
-                "reference": "0e370319d83cdc692eef7238e6a8ad922f744d95",
+                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-sms/zipball/93e7feb7a1f76634b49247bb5849f06a879a3fb4",
+                "reference": "93e7feb7a1f76634b49247bb5849f06a879a3fb4",
                 "shasum": ""
             },
             "require": {
@@ -1292,16 +1340,17 @@
                 "illuminate/queue": ">=5.0.0",
                 "illuminate/support": ">=5.0.0",
                 "illuminate/view": ">=5.0.0",
-                "php": ">=5.5.0",
+                "php": ">=7.0.0",
+                "plivo/plivo-php": "^1.0",
                 "twilio/sdk": "~4"
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "4.7.*"
+                "phpunit/phpunit": "~5"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "SimpleSoftwareIO\\SMS\\": "src/"
                 }
             },
@@ -1315,23 +1364,26 @@
                     "email": "support@simplesoftware.io"
                 }
             ],
-            "description": "Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.  Currently supports CallFire, EZTexting, Email Gateways, Mozeo, and Twilio.",
+            "description": "Simple-SMS is a package made for Laravel to send/receive (polling/pushing) text messages.  Currently supports CalLFire, EZTexting, Email Gateways, FlowRoute, LabsMobile, Mozeo, Nexmo, Plivo, Twilio, and Zenvia",
             "homepage": "http://www.simplesoftware.io",
             "keywords": [
-                "Simple",
+                "FlowRoute",
+                "SMS Email Gateways",
                 "callfire",
                 "eztexting",
                 "labsmobile",
                 "laravel",
                 "mozeo",
                 "nexmo",
+                "plivo",
                 "receive",
                 "send",
                 "sms",
                 "text messages",
-                "twilio"
+                "twilio",
+                "zenvia"
             ],
-            "time": "2016-04-24T01:45:21+00:00"
+            "time": "2017-03-19T22:12:45+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2500,50 +2552,6 @@
                 "test"
             ],
             "time": "2015-05-11T14:41:42+00:00"
-        },
-        {
-            "name": "ignasbernotas/laravel-model-generator",
-            "version": "1.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ignasbernotas/laravel-model-generator.git",
-                "reference": "d92d0181c763868e378b9dcd75bf8a746d45b3d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ignasbernotas/laravel-model-generator/zipball/d92d0181c763868e378b9dcd75bf8a746d45b3d9",
-                "reference": "d92d0181c763868e378b9dcd75bf8a746d45b3d9",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Iber\\Generator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ignas Bernotas",
-                    "email": "ignas@iber.lt"
-                }
-            ],
-            "description": "Laravel 5 model generator from existing schema",
-            "keywords": [
-                "generator",
-                "laravel",
-                "model",
-                "schema"
-            ],
-            "abandoned": "reliese/laravel",
-            "time": "2017-04-06T09:29:06+00:00"
         },
         {
             "name": "mockery/mockery",

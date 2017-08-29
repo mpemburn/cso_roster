@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Repositories\MemberRepository;
-
 class HomeController extends Controller
 {
     /**

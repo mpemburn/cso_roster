@@ -9,7 +9,7 @@
         "laravel/framework": "5.4.*",
         "laravelcollective/html": "^5.2.0",
         "laravel/tinker": "~1.0",
-        "simplesoftwareio/simple-sms": "~2",
+        "simplesoftwareio/simple-sms": "~3.1.1",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {

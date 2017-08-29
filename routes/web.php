@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('react.main');
 });
 
-Route::get('/main', function () {
+Route::get('main', function () {
     return view('react.main');
 });
 
