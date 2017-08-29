@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('react.main');
+    return view('welcome');
 });
 
 Route::get('main', function () {
