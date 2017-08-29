@@ -1,5 +1,5 @@
 <?php $count = 0; ?>
-<label for="dues" class="col-md-1 control-label bg-light-gray">&nbsp;Dues</label>
+<label for="dues" class="col-md-1 control-label bg-light-gray">&nbsp;Dues <i id="add_dues" class="fa fa-plus-circle text-success"></i></label>
 <div class="col-md-11 bg-light-gray">
     <div class="col-md-1">
         Year

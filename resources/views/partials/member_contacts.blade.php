@@ -1,4 +1,4 @@
-<label for="contacts" class="col-md-1 control-label bg-light-gray">&nbsp;Contacts</label>
+<label for="contacts" class="col-md-1 control-label bg-light-gray">&nbsp;Contacts <i id="add_contact" class="fa fa-plus-circle text-success"></i></label>
 <div class="col-md-11 bg-light-gray">
     <div class="col-md-3">
         Name (relationship)
