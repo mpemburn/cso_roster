@@ -46,8 +46,6 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $data['cell_phone'] = Format::rawPhone($data['cell_phone']);
         $data['home_phone'] = Format::rawPhone($data['home_phone']);
 
-        $result = $thisMember->fill($data)->save();
-
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -62,6 +60,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
         } else {
+            $result = $thisMember->fill($data)->save();
             $response = [
                 'status' => $result,
                 'member_id' => $thisMember->id,
