@@ -42,7 +42,7 @@ class MembersController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function details($id)
+    public function details($id = 0)
     {
         $memberDetails = $this->repository->getDetails($id);
         return view('member_edit', $memberDetails);
@@ -71,7 +71,7 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $foo = 'bar';
     }
 
     /**
@@ -80,7 +80,7 @@ class MembersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = 0)
     {
         //
     }
@@ -105,7 +105,7 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->repository->save($request, $id);
     }
 
     /**

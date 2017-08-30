@@ -66,6 +66,11 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'member.update',
         'uses' => 'MembersController@update'
     ]);
+    Route::post('member/{id}/store', [
+        'middleware' => ['auth'],
+        'as' => 'member.store',
+        'uses' => 'MembersController@store'
+    ]);
 
 
 //    Route::get('/member/missing', [

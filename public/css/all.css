@@ -5816,11 +5816,26 @@ tbody td {
 .form-group select {
   height: 27px; }
 
+.form-group div.odd,
+.form-group div.even {
+  cursor: pointer; }
+
+.form-group div.even {
+  background-color: #ddd; }
+
+.form-group.boxed {
+  border: 1px solid black; }
+
 .form-group.top-line {
   border-top: 1px solid black; }
 
 .form-group.bottom-line {
   border-bottom: 1px solid black; }
+
+.add-circle {
+  padding: 0 3px;
+  color: darkgreen;
+  cursor: pointer; }
 
 .bg-light-gray {
   background-color: #ddd; }

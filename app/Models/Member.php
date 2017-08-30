@@ -67,4 +67,9 @@ class Member extends Model
     {
         return Format::formatPhone($value);
     }
+
+    public function getSinceAttribute()
+    {
+        return Format::formatDate(Format::LONG_DATE, $this->member_since_date);
+    }
 }

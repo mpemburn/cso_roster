@@ -116,12 +116,31 @@ tbody td {
     height: 27px;
   }
 
+  div.odd,
+  div.even {
+    cursor: pointer;
+  }
+
+  div.even {
+    background-color: #ddd;
+  }
+
+  &.boxed {
+    border: 1px solid black;
+  }
   &.top-line {
     border-top: 1px solid black;
   }
   &.bottom-line {
     border-bottom: 1px solid black;
   }
+}
+
+
+.add-circle {
+  padding: 0 3px;
+  color: darkgreen;
+  cursor: pointer;
 }
 
 .bg-light-gray {

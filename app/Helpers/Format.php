@@ -4,6 +4,9 @@ namespace App\Helpers;
 
 class Format {
 
+    const LONG_DATE = 'F j, Y';
+    const SHORT_DATE = 'm/d/Y';
+
     public static function formatDate($mask, $date)
     {
         return (empty($date)) ? $date : date($mask, strtotime($date));
@@ -24,4 +27,8 @@ class Format {
         return $phone;
     }
 
+    public static function rawPhone($phone)
+    {
+        return preg_replace('/[^0-9\/]+/', '', $phone);
+    }
 }
