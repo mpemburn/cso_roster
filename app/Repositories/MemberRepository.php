@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 use App\Models\State;
 use App\Models\Prefix;
 use App\Models\Suffix;
@@ -47,14 +48,29 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
 
         $result = $thisMember->fill($data)->save();
 
-        $response = [
-            'status' => $result,
-            'member_id' => $thisMember->id,
+        $rules = [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'email' => 'required',
+        ];
+        // Validate user input.  Send them errors and let them try again if they fail
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $response = [
+                'status' => $result,
+                'member_id' => $thisMember->id,
 //            'is_new' => $is_new,
 //            'changed' => $changed,
 //            'count' => $count,
-            'data' => $data
-        ];
+                'data' => $data
+            ];
+        }
 
         return response()->json(['response' => $response]);
     }
