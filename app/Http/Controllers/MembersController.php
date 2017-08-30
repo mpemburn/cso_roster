@@ -105,7 +105,7 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->repository->save($request, $id);
+        return $this->repository->save($request, $id);
     }
 
     /**
