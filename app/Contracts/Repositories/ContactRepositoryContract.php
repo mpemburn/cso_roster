@@ -7,4 +7,5 @@ namespace App\Contracts\Repositories;
  */
 interface ContactRepositoryContract extends RepositoryContract
 {
+    public function show($id);
 }

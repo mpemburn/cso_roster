@@ -251,8 +251,8 @@ class ImportMembersFromCSVCommand extends Command
                 $newContact = $this->contactRepository->create([
                     'name' => ucwords($extract['contact']),
                     'relationship' => $extract['relationship'],
-                    'phone_1' => $phone1,
-                    'phone_2' => $phone2
+                    'phone_one' => $phone1,
+                    'phone_two' => $phone2
                 ]);
                 // Create the relationship
                 $member->contacts()->save($newContact);

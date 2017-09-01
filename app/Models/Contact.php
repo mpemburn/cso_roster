@@ -17,8 +17,8 @@ class Contact extends Model
     protected $fillable = [
         'name',
         'relationship',
-        'phone_1',
-        'phone_2',
+        'phone_one',
+        'phone_two',
         'work_phone',
         'phone_ext'
     ];
@@ -31,12 +31,12 @@ class Contact extends Model
         'deleted_at'
     ];
 
-    public function getPhone1Attribute($value)
+    public function getPhoneOneAttribute($value)
     {
         return Format::formatPhone($value);
     }
 
-    public function getPhone2Attribute($value)
+    public function getPhoneTwoAttribute($value)
     {
         return Format::formatPhone($value);
     }

@@ -25,11 +25,11 @@
                 @endif
             </div>
             <div class="col-md-2">
-                <strong>{{ $contact->phone_1 }}</strong>
+                <strong>{{ $contact->phone_one }}</strong>
             </div>
             <div class="col-md-2">
-                @if (!empty($contact->phone_2))
-                    <strong>{{ $contact->phone_2 }}</strong>
+                @if (!empty($contact->phone_two))
+                    <strong>{{ $contact->phone_two }}</strong>
                 @endif
             </div>
             <div class="col-md-4">

@@ -59,6 +59,7 @@ Route::group(['middlewareGroups' => 'web'], function () {
     ]);
     Route::get('/member/details/{id}', [
         'middleware' => ['auth'],
+        'as' => 'member.details',
         'uses' => 'MembersController@details'
     ]);
     Route::post('member/{id}/update', [
@@ -72,6 +73,28 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'uses' => 'MembersController@store'
     ]);
 
+
+    Route::get('/contact/show/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'contact.show',
+        'uses' => 'ContactsController@show'
+    ]);
+    Route::get('/contact/update/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'contact.update',
+        'uses' => 'ContactsController@update'
+    ]);
+
+    Route::get('/dues/show/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'dues.show',
+        'uses' => 'DuesController@show'
+    ]);
+    Route::get('/dues/update/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'dues.update',
+        'uses' => 'DuesController@update'
+    ]);
 
 //    Route::get('/member/missing', [
 //        'middleware' => ['auth'],

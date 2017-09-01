@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contracts\Repositories\DuesRepositoryContract;
 
 class DuesController extends Controller
 {
+    /**
+     * @var $repository DuesRepositoryContract
+     */
+    protected $repository;
+
+    public function __construct(DuesRepositoryContract $duesRepository)
+    {
+        $this->repository = $duesRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -43,9 +54,9 @@ class DuesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = 0)
     {
-        //
+        return $this->repository->show($id);
     }
 
     /**

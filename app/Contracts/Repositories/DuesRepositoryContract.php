@@ -7,4 +7,5 @@ namespace App\Contracts\Repositories;
  */
 interface DuesRepositoryContract extends RepositoryContract
 {
+    public function show($id);
 }

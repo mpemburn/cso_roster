@@ -99,12 +99,10 @@ var AddColumnFilters = {
     }
 }
 /**
- * AddRemove.js
- *
- * AjaxCall.js -- Simple wrapper for jQuery AJAX with callback
+ * AjaxGet.js -- Simple wrapper for jQuery AJAX with callback
  *
  * Usage:
- * var mySelect = Object.create(AddRemove);
+ * var mySelect = Object.create(AjaxGet);
  * mySelect.init([options]);
  *
  * options:
@@ -115,20 +113,25 @@ var AddColumnFilters = {
     }
  */
 
-var AjaxCall = {
+var AjaxGet = {
     ajaxUrl: '',
+    urlWithParams: '',
     params: '',
     callback: function(){},
     init: function(options) {
         $.extend(this, options);
-        this.params = this._serialize(this.params);
+    },
+    action: function(arg) {
+        this.params = this._serialize(arg.params);
+        this.urlWithParams = this.ajaxUrl + this.params;
+        this.callback = arg.callback;
         this._doAjax();
     },
     _doAjax: function() {
         var self = this;
         $.ajax({
             type: "GET",
-            url: this.ajaxUrl + '?' + this.params,
+            url: this.urlWithParams,
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
@@ -148,6 +151,79 @@ var AjaxCall = {
         } else {
             return params;
         }
+    }
+};
+/**
+ * AjaxPost.js -- Simple wrapper for jQuery AJAX with callback
+ *
+ * Usage:
+ * var myPost = Object.create(AjaxPost);
+ * myPost.init([options]);
+ *
+ * options:
+ * @type {
+        ajaxUrl: string,    // Endpoint URL
+        formSelector: string,     // Selector of form object
+        callback: function  // Function called on success. Passes returned data
+    }
+*/
+
+var AjaxPost = {
+    formSelector: '',
+    setupAction: function(){},
+    cleanupAction: function(){},
+    newAction: function(){},
+    successAction: function(){},
+    init: function(options) {
+        $.extend(this, options);
+        this._setListener();
+    },
+    _setListener: function() {
+        var self = this;
+        $(this.formSelector).on('submit', function (e) {
+            var formAction = this.action;
+            $.ajaxSetup({
+                header: $('meta[name="_token"]').attr('content')
+            });
+            e.preventDefault(e);
+
+            self.setupAction();
+
+            $.ajax({
+                type: "POST",
+                url: formAction,
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    var response = data.response;
+                    self.cleanupAction();
+                    if (response.errors) {
+                        var formErrors = Object.create(FormErrors);
+                        formErrors.show({
+                            dialog: '#error_dialog',
+                            messages: '#error_messages',
+                            errors: response.errors
+                        });
+                        return;
+                    }
+                    if (response.is_new) {
+                        self.newAction();
+                    }
+                    if (response.status) {
+                        self.successAction();
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.cleanupAction();
+                    // Warn user that the session has timed out, then reload to go to login page
+                    if (response.status == '401') {
+                        alert(appSpace.authTimeout)
+                        location.reload();
+                    }
+                }
+            })
+        });
     }
 };
 /* FieldToggle provides support for toggling visibility of one to several fields
@@ -236,6 +312,68 @@ var FormErrors = {
     }
 };
 
+/**
+ * ModalForm.js
+ *
+ * Retrieves value from endpoint (ajaxUrl) and uses them to refresh dropdown. Useful for dataTable.js filters
+ *
+ * Usage:
+ * var myForm = Object.create(ModalForm);
+ * myForm.init([options]);
+ *
+ * options:
+ * @type {
+        ajaxUrl: string,    // Endpoint URL
+        selector: string,   // Selector for dropdown
+        isChild: boolean,   // If dropdown is child of selector (above), use .find('select')
+        prepend: Object,    // <option> to prepend to dropdown (e.g., {value: '0', text: 'Select'}
+        useOriginalValues: boolean, // Use only the values that were originally in the dropdown
+        width: string       // Set width of dropdown
+    }
+ */
+
+var ModalForm = {
+    ajaxUrl: '',
+    editSelector: null,
+    formSelector: null,
+    action: {},
+    useOriginalValues: false,
+    selectedItemId: 0,
+    width: null,
+    dd: null,
+    originalValues: [],
+    params: null,
+    init: function(options) {
+        $.extend(this, options);
+        this._setListeners();
+    },
+    _retrieveItem: function (itemId) {
+        var self = this;
+        this.getAjax.action({
+            params: '/' + itemId,
+            callback: self._populate
+        })
+    },
+    _populate: function(data) {
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                var value = (data[key] != null) ? data[key] : '';
+                var $field = $('#' + key);
+                if ($field.length > 0) {
+                    $field.val(value);
+                }
+            }
+        }
+    },
+    _setListeners: function() {
+        var self = this;
+        var $rows = $(this.editSelector).find('[data-id]');
+        $rows.on('click', function() {
+            var id = $(this).attr('data-id');
+            self._retrieveItem(id);
+        });
+    }
+};
 /**
  * ReviseSelect.js
  *
@@ -585,67 +723,66 @@ $(document).ready(function ($) {
             orientation: 'bottom'
         });
 
-        /* Detect any changes to the form data */
-        $('#member_store, #member_update').dirtyForms()
-            .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
-                var $submitButton = $('#submit_update');
-                if (ev.type === 'dirty') {
-                    $submitButton.removeAttr('disabled');
-                } else {
-                    $submitButton.attr('disabled', 'disabled');
-                }
-            });
-        /* Submit form via AJAX */
-        $('#member_store, #member_update').on('submit', function (e) {
-            var formAction = this.action;
-            $.ajaxSetup({
-                header: $('meta[name="_token"]').attr('content')
-            });
-            e.preventDefault(e);
+         /* Detect any changes to the form data */
+         $('#member_store, #member_update').dirtyForms()
+             .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
+                 var $submitButton = $('#submit_update');
+                 if (ev.type === 'dirty') {
+                     $submitButton.removeAttr('disabled');
+                 } else {
+                     $submitButton.attr('disabled', 'disabled');
+                 }
+             });
 
-            $('#member_saving').removeClass('hidden');
-            $('.saved').addClass('hidden');
+         var memberSave = Object.create(AjaxPost);
+         memberSave.init({
+            formSelector: '#member_store, #member_update',
+            setupAction: function(){
+                $('#member_saving').removeClass('hidden');
+                $('.saved').addClass('hidden');
+            },
+            cleanupAction: function(){
+                $('#member_store, #member_update').dirtyForms('setClean');
+                $('#submit_update').attr('disabled', 'disabled');
+                $('#member_saving').addClass('hidden');
+                $('input, select, textarea').removeClass('error');
+            },
+            newAction: function(){
+                document.location = appSpace.baseUrl + '/member/details/' + response.member_id;
+            },
+            successAction: function(){
+                $('.saved').removeClass('hidden')
+                    .show()
+                    .fadeOut(3000);
+            }
+         });
 
-            $.ajax({
-                type: "POST",
-                url: formAction,
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function (data) {
-                    var response = data.response;
-                    $('#member_store, #member_update').dirtyForms('setClean');
-                    $('#submit_update').attr('disabled', 'disabled');
-                    $('#member_saving').addClass('hidden');
-                    $('input, select, textarea').removeClass('error');
-                    if (response.errors) {
-                        var formErrors = Object.create(FormErrors);
-                        formErrors.show({
-                            dialog: '#error_dialog',
-                            messages: '#error_messages',
-                            errors: response.errors
-                        });
-                        return;
-                    }
-                    if (response.is_new) {
-                        document.location = appSpace.baseUrl + '/member/details/' + response.member_id;
-                    }
-                    if (response.status) {
-                        $('.saved').removeClass('hidden')
-                            .show()
-                            .fadeOut(3000);
-                    }
-                },
-                error: function (response) {
-                    console.log(response);
-                    $('#member_store, #member_update').dirtyForms('setClean');
-                    // Warn user that the session has timed out, then reload to go to login page
-                    if (response.status == '401') {
-                        alert(appSpace.authTimeout)
-                        location.reload();
-                    }
-                }
-            })
+        var contactGet = Object.create(AjaxGet);
+        contactGet.init({
+            ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
+        var contactSave = Object.create(AjaxPost);
+
+        var contactForm = Object.create(ModalForm);
+        contactForm.init({
+            editSelector: '#contacts',
+            getAjax: contactGet,
+            postAjax: contactSave,
+        });
+
+        var duesGet = Object.create(AjaxGet);
+        duesGet.init({
+            ajaxUrl: appSpace.baseUrl + '/dues/show'
+        });
+        var duesSave = Object.create(AjaxPost);
+
+        var duesForm = Object.create(ModalForm);
+        duesForm.init({
+            editSelector: '#dues',
+            getAjax: duesGet,
+            postAjax: duesSave,
+        });
+
     }
 });
 

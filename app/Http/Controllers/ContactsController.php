@@ -3,28 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Repositories\ContactRepositoryContract;
 
-class MembersController extends Controller
+class ContactsController extends Controller
 {
+
     /**
-     * @var MemberRepositoryContract
+     * @var $repository ContactRepositoryContract
      */
     protected $repository;
 
-    /**
-     * @var MemberServiceContract
-     */
-    protected $memberService;
-
-    /**
-     * MembersController constructor.
-     * @param MemberRepositoryContract $repository
-     */
-    public function __construct(MemberRepositoryContract $memberRepository)
+    public function __construct(ContactRepositoryContract $contactRepository)
     {
-        $this->repository = $memberRepository;
-        $this->middleware('auth');
+        $this->repository = $contactRepository;
     }
 
     /**
@@ -34,23 +25,7 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $activeMembers = $this->repository->findAll([],[], 200, []);
-        return view('members_list', ['members' => $activeMembers]);
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function details($id = 0)
-    {
-        $memberDetails = $this->repository->getDetails($id);
-        return view('member_edit', $memberDetails);
-    }
-
-    public function reactMain()
-    {
-        return view('react.main');
+        //
     }
 
     /**
@@ -71,7 +46,7 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        $foo = 'bar';
+        //
     }
 
     /**
@@ -82,7 +57,7 @@ class MembersController extends Controller
      */
     public function show($id = 0)
     {
-        //
+        return $this->repository->show($id);
     }
 
     /**
@@ -105,7 +80,7 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->repository->save($request, $id);
+        //
     }
 
     /**
@@ -118,15 +93,4 @@ class MembersController extends Controller
     {
         //
     }
-
-    public function resetProfilePassword(Request $request)
-    {
-        return view('auth/passwords/profile_reset', ['token' => csrf_token()]);
-    }
-
-    public function setNewPassword(Request $request)
-    {
-        return 'Reset password, now?';
-    }
-
 }

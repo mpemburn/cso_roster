@@ -4,9 +4,11 @@ namespace App\Repositories;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Models\Contact;
 use App\Models\State;
 use App\Models\Prefix;
 use App\Models\Suffix;
+use App\Models\Relationship;
 use App\Helpers\Format;
 
 /**
@@ -30,7 +32,9 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'prefix_list' => Prefix::pluck('prefix', 'prefix')->prepend('Select', ''),
             'suffix_list' => Suffix::pluck('suffix', 'suffix')->prepend('Select', ''),
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
+            'relationship_list' => Relationship::pluck('relationship', 'relationship')->prepend('Select', ''),
             'contacts' => $thisMember->contacts,
+            'contact' => new Contact(),
             'dues' => $thisMember->dues,
             'is_active' => true,
         ];

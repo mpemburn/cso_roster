@@ -115,6 +115,10 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div>
+        @include('partials.contact_modal')
+    </div>
     @endsection
             <!-- Push any scripts needed for this page onto the stack -->
     @push('scripts')

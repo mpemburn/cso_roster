@@ -1,10 +1,8 @@
 /**
- * AddRemove.js
- *
- * AjaxCall.js -- Simple wrapper for jQuery AJAX with callback
+ * AjaxGet.js -- Simple wrapper for jQuery AJAX with callback
  *
  * Usage:
- * var mySelect = Object.create(AddRemove);
+ * var mySelect = Object.create(AjaxGet);
  * mySelect.init([options]);
  *
  * options:
@@ -15,20 +13,25 @@
     }
  */
 
-var AjaxCall = {
+var AjaxGet = {
     ajaxUrl: '',
+    urlWithParams: '',
     params: '',
     callback: function(){},
     init: function(options) {
         $.extend(this, options);
-        this.params = this._serialize(this.params);
+    },
+    action: function(arg) {
+        this.params = this._serialize(arg.params);
+        this.urlWithParams = this.ajaxUrl + this.params;
+        this.callback = arg.callback;
         this._doAjax();
     },
     _doAjax: function() {
         var self = this;
         $.ajax({
             type: "GET",
-            url: this.ajaxUrl + '?' + this.params,
+            url: this.urlWithParams,
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
