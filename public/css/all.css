@@ -6067,6 +6067,12 @@ table.dataTable tbody tr:hover {
     margin: 0;
     padding: 0; }
 
+.member-comments {
+  height: 100px; }
+
+.member-save-button {
+  padding-top: 65px; }
+
 .member-saving {
   position: relative;
   top: 5px;

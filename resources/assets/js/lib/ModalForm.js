@@ -20,8 +20,15 @@
 
 var ModalForm = {
     ajaxUrl: '',
+    getAjax: null,
+    postAjax: null,
     editSelector: null,
     formSelector: null,
+    modalSelector: null,
+    saveSelector: null,
+    itemId: null,
+    form: null,
+    modal: null,
     action: {},
     useOriginalValues: false,
     selectedItemId: 0,
@@ -31,14 +38,12 @@ var ModalForm = {
     params: null,
     init: function(options) {
         $.extend(this, options);
+        this.form = $(this.formSelector);
         this._setListeners();
     },
-    _retrieveItem: function (itemId) {
-        var self = this;
-        this.getAjax.action({
-            params: '/' + itemId,
-            callback: self._populate
-        })
+    _initModal: function() {
+        this.modal = $(this.modalSelector);
+        this.modal.modal();
     },
     _populate: function(data) {
         for (var key in data) {
@@ -51,6 +56,20 @@ var ModalForm = {
             }
         }
     },
+    _retrieveItem: function (itemId) {
+        var self = this;
+        this.itemId = itemId;
+        this.getAjax.action({
+            params: '/' + itemId,
+            callback: self._populate
+        });
+        this._initModal();
+    },
+    _saveItem: function() {
+        this.postAjax.action({
+            params: '/' + this.itemId
+        });
+    },
     _setListeners: function() {
         var self = this;
         var $rows = $(this.editSelector).find('[data-id]');
@@ -58,5 +77,12 @@ var ModalForm = {
             var id = $(this).attr('data-id');
             self._retrieveItem(id);
         });
+
+        $(this.saveSelector).on('click', function () {
+            if (self.itemId != null) {
+                self._saveItem();
+            }
+        });
+
     }
 };

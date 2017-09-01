@@ -34,6 +34,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
             'relationship_list' => Relationship::pluck('relationship', 'relationship')->prepend('Select', ''),
             'contacts' => $thisMember->contacts,
+            'dues' => $thisMember->dues,
             'contact' => new Contact(),
             'dues' => $thisMember->dues,
             'is_active' => true,

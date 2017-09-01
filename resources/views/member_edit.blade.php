@@ -69,24 +69,22 @@
                                         home
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="comments" class="control-label col-md-1">Comments</label>
+                                    <div class="col-md-7">
+                                        {{ Form::textarea('comments', $member->comments, ['class' => 'col-md-12 member-comments']) }}
+                                    </div>
+                                    <div class="col-md-4 member-save-button">
+                                        {{ Form::submit(($member_id == 0) ? 'Submit' : 'Update', ['id' => 'submit_update', 'class' => 'btn btn-primary', 'disabled' => 'disabled']) }}
+                                        <i id="member_saving" class="member-saving fa fa-spinner fa-spin hidden"></i>
+                                        <span class="saved hidden">SAVED</span>
+                                    </div>
+                                </div>
                                 <div id="contacts" class="form-group boxed">
                                     @include('partials.member_contacts')
                                 </div>
                                 <div id="dues" class="form-group boxed">
                                     @include('partials.member_dues')
-                                </div>
-                                <div class="form-group">
-                                    <label for="comments" class="control-label col-md-1">Comments</label>
-                                    <div class="col-md-11">
-                                        {{ Form::textarea('comments', $member->comments, ['class' => 'col-md-8']) }}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-11 col-md-offset-1">
-                                        {{ Form::submit(($member_id == 0) ? 'Submit' : 'Update', ['id' => 'submit_update', 'class' => 'btn btn-primary', 'disabled' => 'disabled']) }}
-                                        <i id="member_saving" class="member-saving fa fa-spinner fa-spin hidden"></i>
-                                        <span class="saved hidden">SAVED</span>
-                                    </div>
                                 </div>
                             @else
                                 @include('partials.member_static_main')
@@ -116,8 +114,9 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div>
+    <div id="modals">
         @include('partials.contact_modal')
+        @include('partials.dues_modal')
     </div>
     @endsection
             <!-- Push any scripts needed for this page onto the stack -->

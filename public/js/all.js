@@ -170,18 +170,23 @@ var AjaxGet = {
 
 var AjaxPost = {
     formSelector: '',
+    params: null,
     setupAction: function(){},
     cleanupAction: function(){},
     newAction: function(){},
     successAction: function(){},
     init: function(options) {
         $.extend(this, options);
-        this._setListener();
+        this._setEvents();
     },
-    _setListener: function() {
+    action: function(arg) {
+        this.params = this._serialize(arg.params);
+        $(this.formSelector).submit();
+    },
+    _setEvents: function() {
         var self = this;
         $(this.formSelector).on('submit', function (e) {
-            var formAction = this.action;
+            var formAction = this.action + self.params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
             });
@@ -224,6 +229,13 @@ var AjaxPost = {
                 }
             })
         });
+    },
+    _serialize: function(params) {
+        if (typeof(params) == 'object') {
+            return $.param(params);
+        } else {
+            return params;
+        }
     }
 };
 /* FieldToggle provides support for toggling visibility of one to several fields
@@ -334,8 +346,15 @@ var FormErrors = {
 
 var ModalForm = {
     ajaxUrl: '',
+    getAjax: null,
+    postAjax: null,
     editSelector: null,
     formSelector: null,
+    modalSelector: null,
+    saveSelector: null,
+    itemId: null,
+    form: null,
+    modal: null,
     action: {},
     useOriginalValues: false,
     selectedItemId: 0,
@@ -345,14 +364,12 @@ var ModalForm = {
     params: null,
     init: function(options) {
         $.extend(this, options);
+        this.form = $(this.formSelector);
         this._setListeners();
     },
-    _retrieveItem: function (itemId) {
-        var self = this;
-        this.getAjax.action({
-            params: '/' + itemId,
-            callback: self._populate
-        })
+    _initModal: function() {
+        this.modal = $(this.modalSelector);
+        this.modal.modal();
     },
     _populate: function(data) {
         for (var key in data) {
@@ -365,6 +382,20 @@ var ModalForm = {
             }
         }
     },
+    _retrieveItem: function (itemId) {
+        var self = this;
+        this.itemId = itemId;
+        this.getAjax.action({
+            params: '/' + itemId,
+            callback: self._populate
+        });
+        this._initModal();
+    },
+    _saveItem: function() {
+        this.postAjax.action({
+            params: '/' + this.itemId
+        });
+    },
     _setListeners: function() {
         var self = this;
         var $rows = $(this.editSelector).find('[data-id]');
@@ -372,6 +403,13 @@ var ModalForm = {
             var id = $(this).attr('data-id');
             self._retrieveItem(id);
         });
+
+        $(this.saveSelector).on('click', function () {
+            if (self.itemId != null) {
+                self._saveItem();
+            }
+        });
+
     }
 };
 /**
@@ -762,10 +800,15 @@ $(document).ready(function ($) {
             ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
         var contactSave = Object.create(AjaxPost);
+        contactSave.init({
+            formSelector: '#update_contact'
+        });
 
         var contactForm = Object.create(ModalForm);
         contactForm.init({
             editSelector: '#contacts',
+            modalSelector: '#contact_modal',
+            saveSelector: '#contact_save',
             getAjax: contactGet,
             postAjax: contactSave,
         });
@@ -779,6 +822,9 @@ $(document).ready(function ($) {
         var duesForm = Object.create(ModalForm);
         duesForm.init({
             editSelector: '#dues',
+            formSelector: '#update_dues',
+            modalSelector: '#dues_modal',
+            saveSelector: '#dues_save',
             getAjax: duesGet,
             postAjax: duesSave,
         });

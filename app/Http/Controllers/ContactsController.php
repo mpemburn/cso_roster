@@ -80,7 +80,7 @@ class ContactsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->repository->save($request, $id);
     }
 
     /**

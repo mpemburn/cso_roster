@@ -79,7 +79,7 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'contact.show',
         'uses' => 'ContactsController@show'
     ]);
-    Route::get('/contact/update/{id}', [
+    Route::post('/contact/update/{id}', [
         'middleware' => ['auth'],
         'as' => 'contact.update',
         'uses' => 'ContactsController@update'
@@ -90,7 +90,7 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'dues.show',
         'uses' => 'DuesController@show'
     ]);
-    Route::get('/dues/update/{id}', [
+    Route::post('/dues/update/{id}', [
         'middleware' => ['auth'],
         'as' => 'dues.update',
         'uses' => 'DuesController@update'

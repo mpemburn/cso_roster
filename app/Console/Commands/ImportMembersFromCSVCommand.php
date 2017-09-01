@@ -6,13 +6,10 @@ use Illuminate\Console\Command;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use App\Contracts\Repositories\DuesRepositoryContract;
 use App\Contracts\Repositories\ContactRepositoryContract;
+use App\Models\Member;
+use App\Models\Dues;
+use App\Models\Contact;
 
-/*
-TRUNCATE TABLE `members`;
-TRUNCATE TABLE `dues`;
-TRUNCATE TABLE `contacts`;
-TRUNCATE TABLE `members_contacts`;
- */
 class ImportMembersFromCSVCommand extends Command
 {
     /**
@@ -91,10 +88,24 @@ class ImportMembersFromCSVCommand extends Command
      */
     public function handle()
     {
+        $this->truncateAll();
         $csvData = $this->importCSV();
         if (is_array($csvData)) {
             $this->processImport($csvData);
         }
+    }
+
+    protected function truncateAll()
+    {
+        // Detach all contacts from Members.
+        // This deletes the records in the members_contacts table
+        $members = Member::all();
+        foreach ($members as $member) {
+            $member->contacts()->detach();
+        }
+        Member::truncate();
+        Dues::truncate();
+        Contact::truncate();
     }
 
     protected function importCSV()

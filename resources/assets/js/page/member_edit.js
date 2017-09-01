@@ -47,10 +47,15 @@ $(document).ready(function ($) {
             ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
         var contactSave = Object.create(AjaxPost);
+        contactSave.init({
+            formSelector: '#update_contact'
+        });
 
         var contactForm = Object.create(ModalForm);
         contactForm.init({
             editSelector: '#contacts',
+            modalSelector: '#contact_modal',
+            saveSelector: '#contact_save',
             getAjax: contactGet,
             postAjax: contactSave,
         });
@@ -64,6 +69,9 @@ $(document).ready(function ($) {
         var duesForm = Object.create(ModalForm);
         duesForm.init({
             editSelector: '#dues',
+            formSelector: '#update_dues',
+            modalSelector: '#dues_modal',
+            saveSelector: '#dues_save',
             getAjax: duesGet,
             postAjax: duesSave,
         });

@@ -15,18 +15,23 @@
 
 var AjaxPost = {
     formSelector: '',
+    params: null,
     setupAction: function(){},
     cleanupAction: function(){},
     newAction: function(){},
     successAction: function(){},
     init: function(options) {
         $.extend(this, options);
-        this._setListener();
+        this._setEvents();
     },
-    _setListener: function() {
+    action: function(arg) {
+        this.params = this._serialize(arg.params);
+        $(this.formSelector).submit();
+    },
+    _setEvents: function() {
         var self = this;
         $(this.formSelector).on('submit', function (e) {
-            var formAction = this.action;
+            var formAction = this.action + self.params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
             });
@@ -69,5 +74,12 @@ var AjaxPost = {
                 }
             })
         });
+    },
+    _serialize: function(params) {
+        if (typeof(params) == 'object') {
+            return $.param(params);
+        } else {
+            return params;
+        }
     }
 };
