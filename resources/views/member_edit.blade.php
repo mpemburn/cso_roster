@@ -60,13 +60,13 @@
                                         {{ Form::text('cell_phone', $member->cell_phone, ['class' => 'col-md-12', 'placeholder' => 'Cell Phone']) }}
                                     </div>
                                     <div class="col-md-1 nopadding">
-                                        cell
+                                        (cell)
                                     </div>
                                     <div class="col-md-3">
                                         {{ Form::text('home_phone', $member->home_phone, ['class' => 'col-md-12', 'placeholder' => 'Home Phone']) }}
                                     </div>
                                     <div class="col-md-1 nopadding">
-                                        home
+                                        (home)
                                     </div>
                                 </div>
                                 <div class="form-group">

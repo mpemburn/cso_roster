@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-4">
                 @if (!empty($contact->work_phone))
-                    Work <strong>{{ $contact->work_phone }}</strong>
+                    <strong>{{ $contact->work_phone }}</strong>
                 @endif
                 @if (!empty($contact->phone_ext))
                     Ext <strong>{{ $contact->phone_ext }}</strong>

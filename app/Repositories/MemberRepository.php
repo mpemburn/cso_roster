@@ -10,6 +10,7 @@ use App\Models\Prefix;
 use App\Models\Suffix;
 use App\Models\Relationship;
 use App\Helpers\Format;
+use App\Helpers\Date;
 
 /**
  * Class MemberRepository
@@ -24,6 +25,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
     public function getDetails($id = 0)
     {
         $thisMember = $this->model->findOrNew($id);
+        $fiveYearsAgo = date('Y', strtotime("-5 year", time()));
         $data = [
             'can_edit' => true,
             'user_id' => Auth::user()->id,
@@ -33,6 +35,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'suffix_list' => Suffix::pluck('suffix', 'suffix')->prepend('Select', ''),
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
             'relationship_list' => Relationship::pluck('relationship', 'relationship')->prepend('Select', ''),
+            'calendar_year_list' => Date::calendarYearList($fiveYearsAgo, 20),
+            'helmet_fund_list' => [0 => 'No', '1' => 'Yes'],
             'contacts' => $thisMember->contacts,
             'dues' => $thisMember->dues,
             'contact' => new Contact(),

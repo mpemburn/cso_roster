@@ -16,7 +16,8 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
         $thisContact = $this->model->findOrNew($id);
 
         $contact = $thisContact->toArray();
-        $contact['member_id'] = $thisContact->members[0]->id;
+        $contact['contact_member_id'] = $thisContact->members[0]->id;
+        $contact['contact_id'] = $contact['id'];
 
         $response = [
             'success' => $thisContact->exists,

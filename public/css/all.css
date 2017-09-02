@@ -5823,6 +5823,10 @@ tbody td {
 .form-group div.even {
   background-color: #ddd; }
 
+.form-group label.control-label {
+  padding-right: 5px;
+  text-align: right; }
+
 .form-group.boxed {
   border: 1px solid black; }
 

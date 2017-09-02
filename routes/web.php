@@ -53,21 +53,17 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'uses' => 'MembersController@index'
     ]);
-    Route::get('/member/details', [
-        'middleware' => ['auth'],
-        'uses' => 'MembersController@details'
-    ]);
     Route::get('/member/details/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.details',
         'uses' => 'MembersController@details'
     ]);
-    Route::post('member/{id}/update', [
+    Route::post('member/update/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.update',
         'uses' => 'MembersController@update'
     ]);
-    Route::post('member/{id}/store', [
+    Route::post('member/store/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.store',
         'uses' => 'MembersController@store'

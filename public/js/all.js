@@ -818,11 +818,13 @@ $(document).ready(function ($) {
             ajaxUrl: appSpace.baseUrl + '/dues/show'
         });
         var duesSave = Object.create(AjaxPost);
+        duesSave.init({
+            formSelector: '#update_dues'
+        });
 
         var duesForm = Object.create(ModalForm);
         duesForm.init({
             editSelector: '#dues',
-            formSelector: '#update_dues',
             modalSelector: '#dues_modal',
             saveSelector: '#dues_save',
             getAjax: duesGet,

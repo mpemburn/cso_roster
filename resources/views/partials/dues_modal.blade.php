@@ -8,28 +8,22 @@
                 </button>
             </div>
             <div class="modal-body dues-modal col-md-12">
-                {{ Form::model($dues, array('route' => array('dues.update', null, 0), 'name' => 'update_dues', 'id' => 'update_dues')) }}
+                {{ Form::model($dues, array('route' => array('dues.update', null), 'name' => 'update_dues', 'id' => 'update_dues')) }}
                 <header id="dues_header">
-                    {{ Form::hidden('member_id', 0, ['id' => 'member_id'])}}
-                    {{ Form::hidden('id', 0, ['id' => 'id'])}}
+                    {{ Form::hidden('member_id', 0, ['id' => 'dues_member_id'])}}
+                    {{ Form::hidden('id', 0, ['id' => 'dues_id'])}}
                 </header>
-                <div class="form-group">
-                    <label for="name" class="col-md-2 control-label">Year</label>
-                    {{ Form::text('name', '', ['id' => 'name', 'class' => 'col-md-3 required', 'placeholder' => 'Name *']) }}
-                    <label for="relationship" class="col-md-3 control-label">Relationship</label>
-                    {{ Form::select('relationship', $relationship_list, null, ['id' => 'relationship', 'class' => 'col-md-2']) }}
+                <div class="form-group col-md-12">
+                    <label for="calendar_year" class="col-md-2 control-label">Year</label>
+                    {{ Form::select('calendar_year', $calendar_year_list, null, ['id' => 'calendar_year', 'class' => 'col-md-2']) }}
+                    <label for="phone_one" class="col-md-3 control-label">Paid Date</label>
+                    {{ Form::text('paid_date', '', ['id' => 'paid_date', 'class' => 'col-md-3 required', 'placeholder' => 'Paid Date *']) }}
                 </div>
-                <div class="form-group">
-                    <label for="phone_one" class="col-md-2 control-label">Phone 1</label>
-                    {{ Form::text('phone_one', '', ['id' => 'phone_one', 'class' => 'col-md-3 required', 'placeholder' => 'Phone 1 *']) }}
-                    <label for="phone_two" class="col-md-3 control-label">Phone 2</label>
-                    {{ Form::text('phone_two', '', ['id' => 'phone_two', 'class' => 'col-md-3', 'placeholder' => 'Phone 2']) }}
-                </div>
-                <div class="form-group">
-                    <label for="work_phone" class="col-md-2 control-label">Work</label>
-                    {{ Form::text('work_phone', '', ['id' => 'work_phone', 'class' => 'col-md-3', 'placeholder' => 'Work Phone']) }}
-                    <label for="phone_ext" class="col-md-3 control-label">Extension</label>
-                    {{ Form::text('phone_ext', '', ['id' => 'phone_ext', 'class' => 'col-md-3', 'placeholder' => 'Extension']) }}
+                <div class="form-group col-md-12">
+                    <label for="paid_amount" class="col-md-2 control-label">Amount $</label>
+                    {{ Form::text('paid_amount', '', ['id' => 'paid_amount', 'class' => 'col-md-2', 'placeholder' => 'Amount *']) }}
+                    <label for="helmet_fund" class="col-md-3 control-label">Helmet Fund</label>
+                    {{ Form::select('helmet_fund', $helmet_fund_list, null, ['id' => 'helmet_fund', 'class' => 'col-md-2']) }}
                 </div>
 
                 {{ Form::close()}}

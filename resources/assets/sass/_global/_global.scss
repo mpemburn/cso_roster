@@ -125,6 +125,10 @@ tbody td {
     background-color: #ddd;
   }
 
+  label.control-label {
+    padding-right: 5px;
+    text-align: right;
+  }
   &.boxed {
     border: 1px solid black;
   }

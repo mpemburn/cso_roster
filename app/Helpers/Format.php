@@ -17,6 +17,11 @@ class Format {
         return self::formatDate('M j, Y', $date);
     }
 
+    public static function formatDateForMySql($dateString)
+    {
+        return date("Y-m-d H:i:s", strtotime($dateString));
+    }
+
     public static function formatPhone($phone_number)
     {
         $phone = null;

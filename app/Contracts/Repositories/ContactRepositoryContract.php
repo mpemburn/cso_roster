@@ -7,5 +7,16 @@ namespace App\Contracts\Repositories;
  */
 interface ContactRepositoryContract extends RepositoryContract
 {
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function show($id);
+
+    /**
+     * @param $request
+     * @param $id
+     * @return mixed
+     */
+    public function save($request, $id);
 }
