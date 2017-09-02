@@ -48,6 +48,27 @@ class MembersController extends Controller
         return view('member_edit', $memberDetails);
     }
 
+    public function retrieveContacts($memberId)
+    {
+        $contacts = $this->repository->retrieveContacts($memberId);
+
+        $contactsHtml = view('partials.member_contacts', ['contacts' => $contacts]);
+//        $response = [
+//            'success' => true,
+//            'data' => $contactsHtml
+//        ];
+        return $contactsHtml;
+//        return response()->json($response);
+
+    }
+
+    public function retrieveDues($memberId)
+    {
+        $dues = $this->repository->retrieveDues($memberId);
+
+        return view('partials.member_dues', ['dues' => $dues]);
+    }
+
     public function reactMain()
     {
         return view('react.main');

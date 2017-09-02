@@ -42,16 +42,32 @@ $(document).ready(function ($) {
             }
          });
 
+        var contactForm = Object.create(ModalForm);
         var contactGet = Object.create(AjaxGet);
         contactGet.init({
             ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
         var contactSave = Object.create(AjaxPost);
         contactSave.init({
-            formSelector: '#update_contact'
+            formSelector: '#update_contact',
+            successAction: function(data) {
+                var retrieve = Object.create(AjaxGet);
+                retrieve.init({
+                    ajaxUrl: appSpace.baseUrl + '/member/contacts',
+                    dataType: 'html'
+                });
+                retrieve.action({
+                    params: '/' + data.member_id,
+                    callback: function(data) {
+                        var $contactList = $('#contacts');
+                        $contactList.empty();
+                        $contactList.append(data);
+                        contactForm._setListeners();
+                    }
+                });
+            }
         });
 
-        var contactForm = Object.create(ModalForm);
         contactForm.init({
             editSelector: '#contacts',
             modalSelector: '#contact_modal',
@@ -60,16 +76,32 @@ $(document).ready(function ($) {
             postAjax: contactSave,
         });
 
+        var duesForm = Object.create(ModalForm);
         var duesGet = Object.create(AjaxGet);
         duesGet.init({
             ajaxUrl: appSpace.baseUrl + '/dues/show'
         });
         var duesSave = Object.create(AjaxPost);
         duesSave.init({
-            formSelector: '#update_dues'
+            formSelector: '#update_dues',
+            successAction: function(data) {
+                var retrieve = Object.create(AjaxGet);
+                retrieve.init({
+                    ajaxUrl: appSpace.baseUrl + '/member/dues',
+                    dataType: 'html'
+                });
+                retrieve.action({
+                    params: '/' + data.member_id,
+                    callback: function(data) {
+                        var $duesList = $('#dues');
+                        $duesList.empty();
+                        $duesList.append(data);
+                        duesForm._setListeners();
+                    }
+                });
+            }
         });
 
-        var duesForm = Object.create(ModalForm);
         duesForm.init({
             editSelector: '#dues',
             modalSelector: '#dues_modal',

@@ -58,6 +58,16 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'member.details',
         'uses' => 'MembersController@details'
     ]);
+    Route::get('/member/contacts/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'member.contacts',
+        'uses' => 'MembersController@retrieveContacts'
+    ]);
+    Route::get('/member/dues/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'member.dues',
+        'uses' => 'MembersController@retrieveDues'
+    ]);
     Route::post('member/update/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.update',
@@ -68,7 +78,6 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'member.store',
         'uses' => 'MembersController@store'
     ]);
-
 
     Route::get('/contact/show/{id}', [
         'middleware' => ['auth'],

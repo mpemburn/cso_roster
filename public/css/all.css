@@ -5826,6 +5826,8 @@ tbody td {
 .form-group label.control-label {
   padding-right: 5px;
   text-align: right; }
+  .form-group label.control-label.left {
+    text-align: left; }
 
 .form-group.boxed {
   border: 1px solid black; }

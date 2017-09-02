@@ -29,6 +29,11 @@ class Dues extends Model
         'deleted_at'
     ];
 
+    public function getHelmetFundYNAttribute()
+    {
+        return ($this->helmet_fund == 1) ? 'Yes' : 'No';
+    }
+
     public function getPaidDateAttribute($value)
     {
         return Format::formatDate(Format::SHORT_DATE, $value);

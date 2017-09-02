@@ -31,7 +31,7 @@
                                         {{ Form::text('first_name', $member->first_name, ['class' => 'col-md-3 required', 'placeholder' => 'First Name *']) }}
                                         {{ Form::text('middle_name', $member->middle_name, ['class' => 'col-md-2', 'placeholder' => 'Middle Name']) }}
                                         {{ Form::text('last_name', $member->last_name, ['class' => 'col-md-3 required', 'placeholder' => 'Last Name *']) }}
-                                        {{ Form::select('suffix', $suffix_list, null, ['class' => 'col-md-2']) }}
+                                        {{ Form::select('suffix', $suffix_list, null, ['class' => 'col-md-1']) }}
                                     </div>
                                 </div>
                                 <div class="form-group">

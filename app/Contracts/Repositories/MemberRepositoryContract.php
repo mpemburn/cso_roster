@@ -8,5 +8,28 @@ namespace App\Contracts\Repositories;
  */
 interface MemberRepositoryContract extends RepositoryContract
 {
+    /**
+     * @param $id
+     * @return mixed
+     */
     function getDetails($id);
+
+    /**
+     * @param $request
+     * @param $id
+     * @return mixed
+     */
+    function save($request, $id);
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    function retrieveContacts($memberId);
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    function retrieveDues($memberId);
 }

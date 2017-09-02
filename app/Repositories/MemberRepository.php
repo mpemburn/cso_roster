@@ -82,4 +82,19 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
 
         return response()->json(['response' => $response]);
     }
+
+    public function retrieveContacts($memberId)
+    {
+        $thisMember = $this->model->findOrNew($memberId);
+
+        return $thisMember->contacts;
+    }
+
+    public function retrieveDues($memberId)
+    {
+        $thisMember = $this->model->findOrNew($memberId);
+
+        return $thisMember->dues;
+    }
+
 }

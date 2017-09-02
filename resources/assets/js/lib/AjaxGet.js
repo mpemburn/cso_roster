@@ -15,6 +15,7 @@
 
 var AjaxGet = {
     ajaxUrl: '',
+    dataType: 'json',
     urlWithParams: '',
     params: '',
     callback: function(){},
@@ -32,8 +33,12 @@ var AjaxGet = {
         $.ajax({
             type: "GET",
             url: this.urlWithParams,
-            dataType: 'json',
+            dataType: this.dataType,
             success: function (response) {
+                if (self.dataType == 'html') {
+                    self.callback(response);
+                    return;
+                }
                 if (response.success) {
                     if (response.data) {
                         self.callback(response.data);

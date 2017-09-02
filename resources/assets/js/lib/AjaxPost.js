@@ -60,7 +60,7 @@ var AjaxPost = {
                         self.newAction();
                     }
                     if (response.status) {
-                        self.successAction();
+                        self.successAction(response.data);
                     }
                 },
                 error: function (response) {
