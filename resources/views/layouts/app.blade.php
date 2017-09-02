@@ -67,13 +67,14 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{-- TODO: Get user name --}}
-                            My Name <span class="caret"></span>
+                            {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/member/details') }}/{{ Auth::user()->member_id }}"><i class="fa fa-btn fa-user-circle"></i> My Profile</a></li>
-                            <li><a href="{{ url('/profile/password') }}"><i class="fa fa-btn fa-user-secret"></i> Reset Password</a></li>
+                            @if (Auth::user()->member)
+                                <li><a href="{{ url('/member/details') }}/{{ Auth::user()->member->id }}"><i class="fa fa-btn fa-user-circle"></i> My Profile</a></li>
+                                <li><a href="{{ url('/profile/password') }}"><i class="fa fa-btn fa-user-secret"></i> Reset Password</a></li>
+                            @endif
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </li>

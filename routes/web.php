@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('main', function () {
@@ -23,21 +23,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/', function () {
-//    return view('home');
-//});
-//
-//Route::get('/home', 'HomeController@index');
-//Route::auth();
+// Password Reset Routes...
+Route::post('password/email', [
+    'as' => 'auth.password.email',
+    'uses' => 'Auth\PasswordController@sendResetLinkEmail'
+]);
 
-//// Password Reset Routes...
-//Route::post('password/email', [
-//    'as' => 'auth.password.email',
-//    'uses' => 'Auth\PasswordController@sendResetLinkEmail'
-//]);
-//
 // All Auth protected routes
 Route::group(['middlewareGroups' => 'web'], function () {
+
+    Route::get('logout', [
+        'middleware' => ['auth'],
+        'uses' => 'Auth\LoginController@logout'
+    ]);
 
     Route::get('profile/password', [
         'middleware' => ['auth'],
@@ -109,21 +107,6 @@ Route::group(['middlewareGroups' => 'web'], function () {
 //        'middleware' => ['auth'],
 //        'uses' => 'MembersController@memberSearch'
 //    ]);
-//    Route::get('/member/migrate', 'MembersController@migrate');
-//
-//    Route::get('/guild/manage/{guild_id}', [
-//        'middleware' => ['auth'],
-//        'uses' => 'GuildsController@manage'
-//    ]);
-//    Route::get('/guild/add', [
-//        'middleware' => ['auth'],
-//        'uses' => 'GuildsController@add'
-//    ]);
-//    Route::get('/guild/remove', [
-//        'middleware' => ['auth'],
-//        'uses' => 'GuildsController@remove'
-//    ]);
-//
 //    /* Roles, Permissions, and Users */
 //    Route::group(['prefix' => 'admin'], function () {
 //        Route::controller('roles', 'RolesController');

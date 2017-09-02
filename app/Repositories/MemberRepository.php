@@ -47,6 +47,11 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         return $data;
     }
 
+    /**
+     * @param $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function save($request, $id)
     {
         $data = $request->all();
@@ -73,9 +78,6 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             $response = [
                 'status' => $result,
                 'member_id' => $thisMember->id,
-//            'is_new' => $is_new,
-//            'changed' => $changed,
-//            'count' => $count,
                 'data' => $data
             ];
         }
@@ -83,6 +85,10 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         return response()->json(['response' => $response]);
     }
 
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function retrieveContacts($memberId)
     {
         $thisMember = $this->model->findOrNew($memberId);
@@ -90,6 +96,10 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         return $thisMember->contacts;
     }
 
+    /**
+     * @param $memberId
+     * @return mixed
+     */
     public function retrieveDues($memberId)
     {
         $thisMember = $this->model->findOrNew($memberId);

@@ -48,20 +48,25 @@ class MembersController extends Controller
         return view('member_edit', $memberDetails);
     }
 
+    /**
+     * Retrieve list of Contacts associated with this member in HTML format
+     *
+     * @param $memberId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function retrieveContacts($memberId)
     {
         $contacts = $this->repository->retrieveContacts($memberId);
 
-        $contactsHtml = view('partials.member_contacts', ['contacts' => $contacts]);
-//        $response = [
-//            'success' => true,
-//            'data' => $contactsHtml
-//        ];
-        return $contactsHtml;
-//        return response()->json($response);
-
+        return view('partials.member_contacts', ['contacts' => $contacts]);
     }
 
+    /**
+     * Retrieve list of Dues payments associated with this member in HTML format
+     *
+     * @param $memberId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function retrieveDues($memberId)
     {
         $dues = $this->repository->retrieveDues($memberId);

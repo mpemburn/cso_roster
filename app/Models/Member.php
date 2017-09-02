@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Format;
+use App\User;
 
 /**
  * Class Member
@@ -56,6 +57,11 @@ class Member extends Model
     public function dues()
     {
         return $this->hasMany(Dues::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getHomePhoneAttribute($value)
