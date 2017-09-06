@@ -95,6 +95,8 @@ class ContactsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $contacts = $this->repository->delete($id);
+
+        return view('partials.member_contacts', ['contacts' => $contacts]);
     }
 }

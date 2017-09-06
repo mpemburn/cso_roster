@@ -91,6 +91,11 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'contact.update',
         'uses' => 'ContactsController@update'
     ]);
+    Route::get('/contact/delete/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'contact.delete',
+        'uses' => 'ContactsController@destroy'
+    ]);
 
     Route::get('/dues/show/{id}', [
         'middleware' => ['auth'],

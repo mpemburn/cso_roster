@@ -19,4 +19,10 @@ interface ContactRepositoryContract extends RepositoryContract
      * @return mixed
      */
     public function save($request, $id);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id);
 }

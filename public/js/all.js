@@ -125,8 +125,13 @@ var AjaxGet = {
     action: function(arg) {
         this.params = this._serialize(arg.params);
         this.urlWithParams = this.ajaxUrl + this.params;
-        this.callback = arg.callback;
+        if (typeof(arg.callback) == 'function') {
+            this.callback = arg.callback;
+        }
         this._doAjax();
+    },
+    setCallback: function(callback) {
+        this.callback = callback;
     },
     _doAjax: function() {
         var self = this;
@@ -190,7 +195,7 @@ var AjaxPost = {
     },
     _setEvents: function() {
         var self = this;
-        $(this.formSelector).on('submit', function (e) {
+        $(this.formSelector).off().on('submit', function (e) {
             var formAction = this.action + self.params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
@@ -351,11 +356,14 @@ var FormErrors = {
 var ModalForm = {
     ajaxUrl: '',
     getAjax: null,
-    postAjax: null,
+    saveAjax: null,
+    deleteAjax: null,
     editSelector: null,
     formSelector: null,
+    idSelector: null,
     modalSelector: null,
     saveSelector: null,
+    deleteSelector: null,
     itemId: null,
     form: null,
     modal: null,
@@ -369,7 +377,35 @@ var ModalForm = {
     init: function(options) {
         $.extend(this, options);
         this.form = $(this.formSelector);
-        this._setListeners();
+        this._setEvents();
+    },
+    refresh: function() {
+        this._setEvents();
+    },
+    show: function(itemId) {
+        this.itemId = itemId;
+        this._setAction(this.saveSelector)
+        this._clearForm(itemId);
+        this._setEvents()
+        this._initModal();
+    },
+    _clearForm: function(itemId) {
+        this.form[0].reset();
+        if (typeof(itemId) != 'undefined' && this.idSelector != null) {
+            $(this.idSelector).val(itemId);
+        }
+    },
+    _deleteItem: function() {
+        this.deleteAjax.action({
+            params: '/' + this.itemId
+        });
+    },
+    _disableForm: function(shouldDisable) {
+        if (shouldDisable) {
+           this.form.find(':input:not(:disabled)').prop('disabled',true)
+        } else {
+           this.form.find(':input(:disabled)').prop('disabled',false)
+        }
     },
     _initModal: function() {
         this.modal = $(this.modalSelector);
@@ -396,21 +432,42 @@ var ModalForm = {
         this._initModal();
     },
     _saveItem: function() {
-        this.postAjax.action({
+        this.saveAjax.action({
             params: '/' + this.itemId
         });
     },
-    _setListeners: function() {
+    _setAction: function(action) {
+        $(this.saveSelector + ', ' + this.deleteSelector).hide();
+        $(action).show();
+    },
+    _setEvents: function() {
         var self = this;
         var $rows = $(this.editSelector).find('[data-id]');
-        $rows.on('click', function() {
+        var $deletes = $(this.editSelector).find('[data-delete]');
+        $rows.off().on('click', function() {
             var id = $(this).attr('data-id');
+            self._disableForm(false);
+            self._setAction(self.saveSelector)
             self._retrieveItem(id);
         });
+        $deletes.off().on('click', function(evt) {
+            var id = $(this).attr('data-delete');
+            evt.stopPropagation();
+            self._disableForm(true);
+            self._setAction(self.deleteSelector)
+            self._retrieveItem(id);
+            return;
+        });
 
-        $(this.saveSelector).on('click', function () {
+        $(this.saveSelector).off().on('click', function () {
             if (self.itemId != null) {
                 self._saveItem();
+            }
+        });
+
+        $(this.deleteSelector).off().on('click', function () {
+            if (self.itemId != null) {
+                self._deleteItem();
             }
         });
 
@@ -805,6 +862,7 @@ $(document).ready(function ($) {
             ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
         var contactSave = Object.create(AjaxPost);
+        var contactDelete = Object.create(AjaxGet);
         contactSave.init({
             formSelector: '#update_contact',
             successAction: function(data) {
@@ -819,18 +877,36 @@ $(document).ready(function ($) {
                         var $contactList = $('#contacts');
                         $contactList.empty();
                         $contactList.append(data);
-                        contactForm._setListeners();
+                        contactForm.refresh();
                     }
                 });
             }
         });
+        contactDelete.init({
+            ajaxUrl: appSpace.baseUrl + '/contact/delete',
+            dataType: 'html'
+        });
+        contactDelete.setCallback(function(data) {
+            var $contactList = $('#contacts');
+            $contactList.empty();
+            $contactList.append(data);
+            contactForm.refresh();
+        });
 
         contactForm.init({
             editSelector: '#contacts',
+            formSelector: '#update_contact',
+            idSelector: '#contact_id',
             modalSelector: '#contact_modal',
             saveSelector: '#contact_save',
+            deleteSelector: '#contact_delete',
             getAjax: contactGet,
-            postAjax: contactSave,
+            saveAjax: contactSave,
+            deleteAjax: contactDelete,
+        });
+
+        $('#add_contact').on('click', function() {
+            contactForm.show(0);
         });
 
         var duesForm = Object.create(ModalForm);
@@ -853,7 +929,7 @@ $(document).ready(function ($) {
                         var $duesList = $('#dues');
                         $duesList.empty();
                         $duesList.append(data);
-                        duesForm._setListeners();
+                        duesForm.refresh();
                     }
                 });
             }
@@ -861,12 +937,18 @@ $(document).ready(function ($) {
 
         duesForm.init({
             editSelector: '#dues',
+            formSelector: '#update_dues',
+            idSelector: '#dues_id',
             modalSelector: '#dues_modal',
+            deleteSelector: '#dues_delete',
             saveSelector: '#dues_save',
             getAjax: duesGet,
-            postAjax: duesSave,
+            saveAjax: duesSave,
         });
 
+        $('#add_dues').on('click', function() {
+            duesForm.show(0);
+        });
     }
 });
 

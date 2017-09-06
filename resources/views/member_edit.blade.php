@@ -90,12 +90,14 @@
                                         <span class="saved hidden">SAVED</span>
                                     </div>
                                 </div>
+                                @if($member_id != 0)
                                 <div id="contacts" class="form-group boxed">
                                     @include('partials.member_contacts')
                                 </div>
                                 <div id="dues" class="form-group boxed">
                                     @include('partials.member_dues')
                                 </div>
+                                @endif
                             @else
                                 @include('partials.member_static_main')
                             @endif
@@ -132,5 +134,6 @@
             <!-- Push any scripts needed for this page onto the stack -->
     @push('scripts')
     <script src="{{ URL::to('/js/lib') }}/jquery.dirtyforms.js"></script>
+    <script src="{{ URL::to('/js/lib') }}/bootstrap-confirmation.js"></script>
     <script>appSpace.authTimeout = '{!! trans('auth.timeout') !!}';</script>
     @endpush

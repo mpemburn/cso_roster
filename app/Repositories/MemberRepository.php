@@ -35,7 +35,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'suffix_list' => Suffix::pluck('suffix', 'suffix')->prepend('Select', ''),
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
             'relationship_list' => Relationship::pluck('relationship', 'relationship')->prepend('Select', ''),
-            'calendar_year_list' => Date::calendarYearList($fiveYearsAgo, 20),
+            'calendar_year_list' => Date::calendarYearList($fiveYearsAgo, 20, ['Select', '']),
             'helmet_fund_list' => [0 => 'No', '1' => 'Yes'],
             'contacts' => $thisMember->contacts,
             'dues' => $thisMember->dues,

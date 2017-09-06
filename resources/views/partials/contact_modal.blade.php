@@ -10,7 +10,7 @@
             <div class="modal-body contact-modal col-md-12">
                 {{ Form::model($contact, array('route' => array('contact.update', null), 'name' => 'update_contact', 'id' => 'update_contact')) }}
                 <header id="contact_header">
-                    {{ Form::hidden('member_id', 0, ['id' => 'contact_member_id'])}}
+                    {{ Form::hidden('member_id', $member_id, ['id' => 'contact_member_id'])}}
                     {{ Form::hidden('id', 0, ['id' => 'contact_id'])}}
                 </header>
                 <div class="form-group col-md-12">
@@ -35,6 +35,7 @@
                 {{ Form::close()}}
             </div>
             <div class="modal-footer">
+                <button id="contact_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
                 <button id="contact_save" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>

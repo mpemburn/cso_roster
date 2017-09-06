@@ -25,8 +25,13 @@ var AjaxGet = {
     action: function(arg) {
         this.params = this._serialize(arg.params);
         this.urlWithParams = this.ajaxUrl + this.params;
-        this.callback = arg.callback;
+        if (typeof(arg.callback) == 'function') {
+            this.callback = arg.callback;
+        }
         this._doAjax();
+    },
+    setCallback: function(callback) {
+        this.callback = callback;
     },
     _doAjax: function() {
         var self = this;

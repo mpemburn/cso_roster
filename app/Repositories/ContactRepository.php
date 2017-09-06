@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\ContactRepositoryContract;
+use App\Models\Member;
 use Validator;
 use App\Helpers\Format;
 
@@ -46,6 +47,11 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
             $response = ['errors' => $validator->errors()];
         } else {
             $result = $thisContact->fill($data)->save();
+            // If this is a new contact, we also have to create a record in the pivot table
+            if ($data['id'] == 0) {
+                $thisMember = Member::find($data['member_id']);
+                $thisMember->contacts()->save($thisContact);
+            }
             $response = [
                 'status' => $result,
                 'data' => $data
@@ -53,5 +59,24 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
         }
 
         return $response;
+    }
+
+    public function delete($id)
+    {
+        $remainingContacts = null;
+        $memberId = null;
+
+        $thisContact = $this->model->find($id);
+        // Get all members associated with this contact (generally just one)
+        $members = $thisContact->members;
+        foreach ($members as $member) {
+            // Detach this contact from the member (i.e., delete the pivot record)
+            $member->contacts()->detach($thisContact);
+            $remainingContacts = $member->contacts;
+        }
+        // Delete the contact
+        $thisContact->delete($id);
+
+        return $remainingContacts;
     }
 }

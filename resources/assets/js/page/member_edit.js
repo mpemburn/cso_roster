@@ -48,6 +48,7 @@ $(document).ready(function ($) {
             ajaxUrl: appSpace.baseUrl + '/contact/show'
         });
         var contactSave = Object.create(AjaxPost);
+        var contactDelete = Object.create(AjaxGet);
         contactSave.init({
             formSelector: '#update_contact',
             successAction: function(data) {
@@ -62,18 +63,36 @@ $(document).ready(function ($) {
                         var $contactList = $('#contacts');
                         $contactList.empty();
                         $contactList.append(data);
-                        contactForm._setListeners();
+                        contactForm.refresh();
                     }
                 });
             }
         });
+        contactDelete.init({
+            ajaxUrl: appSpace.baseUrl + '/contact/delete',
+            dataType: 'html'
+        });
+        contactDelete.setCallback(function(data) {
+            var $contactList = $('#contacts');
+            $contactList.empty();
+            $contactList.append(data);
+            contactForm.refresh();
+        });
 
         contactForm.init({
             editSelector: '#contacts',
+            formSelector: '#update_contact',
+            idSelector: '#contact_id',
             modalSelector: '#contact_modal',
             saveSelector: '#contact_save',
+            deleteSelector: '#contact_delete',
             getAjax: contactGet,
-            postAjax: contactSave,
+            saveAjax: contactSave,
+            deleteAjax: contactDelete,
+        });
+
+        $('#add_contact').on('click', function() {
+            contactForm.show(0);
         });
 
         var duesForm = Object.create(ModalForm);
@@ -96,7 +115,7 @@ $(document).ready(function ($) {
                         var $duesList = $('#dues');
                         $duesList.empty();
                         $duesList.append(data);
-                        duesForm._setListeners();
+                        duesForm.refresh();
                     }
                 });
             }
@@ -104,11 +123,17 @@ $(document).ready(function ($) {
 
         duesForm.init({
             editSelector: '#dues',
+            formSelector: '#update_dues',
+            idSelector: '#dues_id',
             modalSelector: '#dues_modal',
+            deleteSelector: '#dues_delete',
             saveSelector: '#dues_save',
             getAjax: duesGet,
-            postAjax: duesSave,
+            saveAjax: duesSave,
         });
 
+        $('#add_dues').on('click', function() {
+            duesForm.show(0);
+        });
     }
 });

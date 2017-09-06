@@ -21,11 +21,14 @@
 var ModalForm = {
     ajaxUrl: '',
     getAjax: null,
-    postAjax: null,
+    saveAjax: null,
+    deleteAjax: null,
     editSelector: null,
     formSelector: null,
+    idSelector: null,
     modalSelector: null,
     saveSelector: null,
+    deleteSelector: null,
     itemId: null,
     form: null,
     modal: null,
@@ -39,7 +42,35 @@ var ModalForm = {
     init: function(options) {
         $.extend(this, options);
         this.form = $(this.formSelector);
-        this._setListeners();
+        this._setEvents();
+    },
+    refresh: function() {
+        this._setEvents();
+    },
+    show: function(itemId) {
+        this.itemId = itemId;
+        this._setAction(this.saveSelector)
+        this._clearForm(itemId);
+        this._setEvents()
+        this._initModal();
+    },
+    _clearForm: function(itemId) {
+        this.form[0].reset();
+        if (typeof(itemId) != 'undefined' && this.idSelector != null) {
+            $(this.idSelector).val(itemId);
+        }
+    },
+    _deleteItem: function() {
+        this.deleteAjax.action({
+            params: '/' + this.itemId
+        });
+    },
+    _disableForm: function(shouldDisable) {
+        if (shouldDisable) {
+           this.form.find(':input:not(:disabled)').prop('disabled',true)
+        } else {
+           this.form.find(':input(:disabled)').prop('disabled',false)
+        }
     },
     _initModal: function() {
         this.modal = $(this.modalSelector);
@@ -66,21 +97,42 @@ var ModalForm = {
         this._initModal();
     },
     _saveItem: function() {
-        this.postAjax.action({
+        this.saveAjax.action({
             params: '/' + this.itemId
         });
     },
-    _setListeners: function() {
+    _setAction: function(action) {
+        $(this.saveSelector + ', ' + this.deleteSelector).hide();
+        $(action).show();
+    },
+    _setEvents: function() {
         var self = this;
         var $rows = $(this.editSelector).find('[data-id]');
-        $rows.on('click', function() {
+        var $deletes = $(this.editSelector).find('[data-delete]');
+        $rows.off().on('click', function() {
             var id = $(this).attr('data-id');
+            self._disableForm(false);
+            self._setAction(self.saveSelector)
             self._retrieveItem(id);
         });
+        $deletes.off().on('click', function(evt) {
+            var id = $(this).attr('data-delete');
+            evt.stopPropagation();
+            self._disableForm(true);
+            self._setAction(self.deleteSelector)
+            self._retrieveItem(id);
+            return;
+        });
 
-        $(this.saveSelector).on('click', function () {
+        $(this.saveSelector).off().on('click', function () {
             if (self.itemId != null) {
                 self._saveItem();
+            }
+        });
+
+        $(this.deleteSelector).off().on('click', function () {
+            if (self.itemId != null) {
+                self._deleteItem();
             }
         });
 

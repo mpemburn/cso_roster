@@ -10,7 +10,7 @@
             <div class="modal-body dues-modal col-md-12">
                 {{ Form::model($dues, array('route' => array('dues.update', null), 'name' => 'update_dues', 'id' => 'update_dues')) }}
                 <header id="dues_header">
-                    {{ Form::hidden('member_id', 0, ['id' => 'dues_member_id'])}}
+                    {{ Form::hidden('member_id', $member_id, ['id' => 'dues_member_id'])}}
                     {{ Form::hidden('id', 0, ['id' => 'dues_id'])}}
                 </header>
                 <div class="form-group col-md-12">

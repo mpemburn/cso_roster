@@ -31,14 +31,19 @@
                 @if (!empty($contact->phone_two))
                     <strong>{{ $contact->phone_two }}</strong>
                 @endif
+                &nbsp;
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @if (!empty($contact->work_phone))
                     <strong>{{ $contact->work_phone }}</strong>
                 @endif
                 @if (!empty($contact->phone_ext))
                     Ext <strong>{{ $contact->phone_ext }}</strong>
                 @endif
+                &nbsp;
+            </div>
+            <div class="col-md-2 text-right">
+                <i class="fa fa-close text-danger" data-delete="{{ $contact->id }}" data-toggle="confirmation"></i>
             </div>
         </div>
     </div>

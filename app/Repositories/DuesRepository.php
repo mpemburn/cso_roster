@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Contracts\Repositories\DuesRepositoryContract;
 use App\Helpers\Format;
 use Validator;
+use App\Models\Member;
 
 /**
  * Class DuesRepository
@@ -43,6 +44,11 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         } else {
             $data['paid_date'] = Format::formatDateForMySql($data['paid_date']);
             $result = $thisDuesPayment->fill($data)->save();
+            // If this is a new dues payment, we also have to create a record in the pivot table
+            if ($data['id'] == 0) {
+                $thisMember = Member::find($data['member_id']);
+                $thisMember->dues()->save($thisDuesPayment);
+            }
             $response = [
                 'status' => $result,
                 'data' => $data
