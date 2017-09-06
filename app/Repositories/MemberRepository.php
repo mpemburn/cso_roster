@@ -82,8 +82,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $timeNow = Format::formatDateForMySql(time());
         $data['cell_phone'] = Format::rawPhone($data['cell_phone']);
         $data['home_phone'] = Format::rawPhone($data['home_phone']);
-        $data['member_since_date'] = (is_null($data['member_since_date'])) ? $timeNow : $data['member_since_date'];
-        $data['google_group_date'] = (is_null($data['google_group_date'])) ? $timeNow : $data['google_group_date'];
+        $data['member_since_date'] = (is_null($data['member_since_date'])) ? $timeNow : Format::formatDateForMySql($data['member_since_date']);
+        $data['google_group_date'] = (is_null($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
         $data['active'] = ($id == 0) ? 1 : $data['active'];
 
         $rules = [

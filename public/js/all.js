@@ -195,7 +195,7 @@ var AjaxPost = {
     },
     _setEvents: function() {
         var self = this;
-        $(this.formSelector).off().on('submit', function (e) {
+        $(this.formSelector).on('submit', function (e) {
             var formAction = this.action + self.params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
