@@ -35,6 +35,7 @@ class MembersController extends Controller
     public function index()
     {
         $activeMembers = $this->repository->findAll([],[], 200, []);
+
         return view('members_list', ['members' => $activeMembers]);
     }
 
@@ -45,6 +46,7 @@ class MembersController extends Controller
     public function details($id = 0)
     {
         $memberDetails = $this->repository->getDetails($id);
+
         return view('member_edit', $memberDetails);
     }
 
@@ -97,7 +99,9 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        $foo = 'bar';
+        $response = $this->repository->store($request);
+
+        return response()->json($response);
     }
 
     /**
@@ -131,7 +135,9 @@ class MembersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->repository->save($request, $id);
+        $response = $this->repository->save($request, $id);
+
+        return response()->json($response);
     }
 
     /**

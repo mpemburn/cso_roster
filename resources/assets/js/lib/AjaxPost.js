@@ -44,8 +44,7 @@ var AjaxPost = {
                 url: formAction,
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function (data) {
-                    var response = data.response;
+                success: function (response) {
                     self.cleanupAction();
                     if (response.errors) {
                         var formErrors = Object.create(FormErrors);
@@ -57,7 +56,7 @@ var AjaxPost = {
                         return;
                     }
                     if (response.is_new) {
-                        self.newAction();
+                        self.newAction(response.data);
                     }
                     if (response.status) {
                         self.successAction(response.data);

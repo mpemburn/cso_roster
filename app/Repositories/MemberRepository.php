@@ -48,44 +48,6 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
     }
 
     /**
-     * @param $request
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function save($request, $id)
-    {
-        $data = $request->all();
-        $thisMember = $this->model->findOrNew($id);
-
-        $data['cell_phone'] = Format::rawPhone($data['cell_phone']);
-        $data['home_phone'] = Format::rawPhone($data['home_phone']);
-
-        $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'address_1' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'zip' => 'required',
-            'email' => 'required',
-        ];
-        // Validate user input.  Send them errors and let them try again if they fail
-        $validator = Validator::make($data, $rules);
-        if ($validator->fails()) {
-            $response = ['errors' => $validator->errors()];
-        } else {
-            $result = $thisMember->fill($data)->save();
-            $response = [
-                'status' => $result,
-                'member_id' => $thisMember->id,
-                'data' => $data
-            ];
-        }
-
-        return response()->json(['response' => $response]);
-    }
-
-    /**
      * @param $memberId
      * @return mixed
      */
@@ -107,4 +69,57 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         return $thisMember->dues;
     }
 
+    /**
+     * @param $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function save($request, $id)
+    {
+        $data = $request->all();
+        $thisMember = $this->model->findOrNew($id);
+
+        $timeNow = Format::formatDateForMySql(time());
+        $data['cell_phone'] = Format::rawPhone($data['cell_phone']);
+        $data['home_phone'] = Format::rawPhone($data['home_phone']);
+        $data['member_since_date'] = (is_null($data['member_since_date'])) ? $timeNow : $data['member_since_date'];
+        $data['google_group_date'] = (is_null($data['google_group_date'])) ? $timeNow : $data['google_group_date'];
+        $data['active'] = ($id == 0) ? 1 : $data['active'];
+
+        $rules = [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'email' => 'required',
+        ];
+        // Validate user input.  Send them errors and let them try again if they fail
+        $validator = Validator::make($data, $rules);
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $result = $thisMember->fill($data)->save();
+            $data['member_id'] = $thisMember->id;
+            $response = [
+                'status' => $result,
+                'member_id' => $thisMember->id,
+                'is_new' => ($id == 0),
+                'data' => $data
+            ];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $request
+     */
+    public function store($request)
+    {
+        $response = $this->save($request, 0);
+
+        return $response;
+    }
 }

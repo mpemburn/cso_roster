@@ -32,8 +32,8 @@ $(document).ready(function ($) {
                 $('#member_saving').addClass('hidden');
                 $('input, select, textarea').removeClass('error');
             },
-            newAction: function(){
-                document.location = appSpace.baseUrl + '/member/details/' + response.member_id;
+            newAction: function(data){
+                document.location = appSpace.baseUrl + '/member/details/' + data.member_id;
             },
             successAction: function(){
                 $('.saved').removeClass('hidden')

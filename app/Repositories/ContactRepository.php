@@ -24,7 +24,7 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
             'data' => $contact
         ];
 
-        return response()->json($response);
+        return $response;
     }
 
     public function save($request, $id)
@@ -52,6 +52,6 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
             ];
         }
 
-        return response()->json(['response' => $response]);
+        return $response;
     }
 }

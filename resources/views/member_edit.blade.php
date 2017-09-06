@@ -8,21 +8,24 @@
                         <?php $action = (!empty($member_id)) ? 'update' : 'store'; ?>
                         {{ Form::model($member, array('route' => array('member.' . $action, $member_id), 'id' => 'member_' . $action)) }}
                         {{ Form::hidden('user_id', $user_id)}}
-                        {{ Form::hidden('MemberID', $member_id)}}
+                        {{ Form::hidden('member_id', $member_id)}}
                     @endif
                     <div class="panel-heading">
                         <h4>{{ $member->first_name }} {{ $member->last_name }}</h4>
                         <div>Member ID: {{ $member_id }}</div>
-                        <div>Member Since: {{ $member->since }}</div>
                     </div>
                     <div class="panel-body">
                         <main class="main-column col-md-12">
                             @if ($can_edit)
                                 <div class="form-group">
-                                    <label for="active"
-                                           class="control-label">{{ Form::checkbox('Active', $member->is_active, $is_active) }}
-                                        Active</label>
+                                    <label for="active" class="control-label">{{ Form::checkbox('active', $member->is_active, $is_active) }} Active</label>
                                     <span class="saved hidden">SAVED</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="member_since_date" class="col-md-1 control-label">Since </label>
+                                    <div class="col-md-11">
+                                        <div>{{ Form::text('member_since_date', $member->since, ['id' => 'member_since_date', 'class' => 'col-md-2 required', 'placeholder' => 'Member Since *']) }}</div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name" class="col-md-1 control-label">Name</label>
@@ -67,6 +70,13 @@
                                     </div>
                                     <div class="col-md-1 nopadding">
                                         (home)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11">
+                                        <div>{{ Form::text('google_group_date', $member->since, ['id' => 'google_group_date', 'class' => 'col-md-2', 'placeholder' => 'Added to group']) }}</div>
+                                        <label for="google_group_date" class="col-md-3 control-label left">&nbsp;Added to Google group</label>
                                     </div>
                                 </div>
                                 <div class="form-group">

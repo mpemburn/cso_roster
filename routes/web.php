@@ -51,6 +51,10 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'uses' => 'MembersController@index'
     ]);
+    Route::get('/member/details', [
+        'middleware' => ['auth'],
+        'uses' => 'MembersController@details'
+    ]);
     Route::get('/member/details/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.details',

@@ -23,7 +23,7 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
             'data' => $payment
         ];
 
-        return response()->json($response);
+        return $response;
     }
 
     public function save($request, $id)
@@ -49,6 +49,6 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
             ];
         }
 
-        return response()->json(['response' => $response]);
+        return $response;
     }
 }

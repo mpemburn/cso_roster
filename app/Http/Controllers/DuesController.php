@@ -56,7 +56,9 @@ class DuesController extends Controller
      */
     public function show($id = 0)
     {
-        return $this->repository->show($id);
+        $response = $this->repository->show($id);
+
+        return response()->json($response);
     }
 
     /**
@@ -79,7 +81,9 @@ class DuesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->repository->save($request, $id);
+        $response = $this->repository->save($request, $id);
+
+        return response()->json($response);
     }
 
     /**

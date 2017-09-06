@@ -204,8 +204,7 @@ var AjaxPost = {
                 url: formAction,
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function (data) {
-                    var response = data.response;
+                success: function (response) {
                     self.cleanupAction();
                     if (response.errors) {
                         var formErrors = Object.create(FormErrors);
@@ -217,7 +216,7 @@ var AjaxPost = {
                         return;
                     }
                     if (response.is_new) {
-                        self.newAction();
+                        self.newAction(response.data);
                     }
                     if (response.status) {
                         self.successAction(response.data);
@@ -790,8 +789,8 @@ $(document).ready(function ($) {
                 $('#member_saving').addClass('hidden');
                 $('input, select, textarea').removeClass('error');
             },
-            newAction: function(){
-                document.location = appSpace.baseUrl + '/member/details/' + response.member_id;
+            newAction: function(data){
+                document.location = appSpace.baseUrl + '/member/details/' + data.member_id;
             },
             successAction: function(){
                 $('.saved').removeClass('hidden')
