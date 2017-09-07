@@ -29,6 +29,7 @@
                 {{ Form::close()}}
             </div>
             <div class="modal-footer">
+                <button id="dues_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
                 <button id="dues_save" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>

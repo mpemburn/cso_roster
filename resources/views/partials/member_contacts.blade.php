@@ -43,7 +43,7 @@
                 &nbsp;
             </div>
             <div class="col-md-2 text-right">
-                <i class="fa fa-close text-danger" data-delete="{{ $contact->id }}" data-toggle="confirmation"></i>
+                <i class="fa fa-close text-danger" data-delete="{{ $contact->id }}"></i>
             </div>
         </div>
     </div>

@@ -94,6 +94,8 @@ class DuesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dues = $this->repository->delete($id);
+
+        return view('partials.member_dues', ['dues' => $dues]);
     }
 }

@@ -23,6 +23,7 @@ var ModalForm = {
     getAjax: null,
     saveAjax: null,
     deleteAjax: null,
+    addSelector: null,
     editSelector: null,
     formSelector: null,
     idSelector: null,
@@ -122,6 +123,11 @@ var ModalForm = {
             self._setAction(self.deleteSelector)
             self._retrieveItem(id);
             return;
+        });
+
+        $(this.addSelector).off().on('click', function() {
+            self._disableForm(false);
+            self.show(0);
         });
 
         $(this.saveSelector).off().on('click', function () {

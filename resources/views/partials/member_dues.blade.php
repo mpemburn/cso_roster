@@ -31,6 +31,9 @@
             <div class="col-md-2">
                 <strong>{{ $payment->helmet_fund_yn }}</strong>
             </div>
+            <div class="col-md-5 text-right">
+                <i class="fa fa-close text-danger" data-delete="{{ $payment->id }}"></i>
+            </div>
         </div>
     </div>
     <?php $count++; ?>

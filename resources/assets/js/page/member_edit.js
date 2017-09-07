@@ -42,6 +42,7 @@ $(document).ready(function ($) {
             }
          });
 
+        // CRUD for Contacts
         var contactForm = Object.create(ModalForm);
         var contactGet = Object.create(AjaxGet);
         contactGet.init({
@@ -81,6 +82,7 @@ $(document).ready(function ($) {
 
         contactForm.init({
             editSelector: '#contacts',
+            addSelector: '#add_contact',
             formSelector: '#update_contact',
             idSelector: '#contact_id',
             modalSelector: '#contact_modal',
@@ -91,16 +93,14 @@ $(document).ready(function ($) {
             deleteAjax: contactDelete,
         });
 
-        $('#add_contact').on('click', function() {
-            contactForm.show(0);
-        });
-
+        // CRUD for Dues payments
         var duesForm = Object.create(ModalForm);
         var duesGet = Object.create(AjaxGet);
         duesGet.init({
             ajaxUrl: appSpace.baseUrl + '/dues/show'
         });
         var duesSave = Object.create(AjaxPost);
+        var duesDelete = Object.create(AjaxGet);
         duesSave.init({
             formSelector: '#update_dues',
             successAction: function(data) {
@@ -123,6 +123,7 @@ $(document).ready(function ($) {
 
         duesForm.init({
             editSelector: '#dues',
+            addSelector: '#add_dues',
             formSelector: '#update_dues',
             idSelector: '#dues_id',
             modalSelector: '#dues_modal',
@@ -130,10 +131,17 @@ $(document).ready(function ($) {
             saveSelector: '#dues_save',
             getAjax: duesGet,
             saveAjax: duesSave,
+            deleteAjax: duesDelete,
         });
-
-        $('#add_dues').on('click', function() {
-            duesForm.show(0);
+        duesDelete.init({
+            ajaxUrl: appSpace.baseUrl + '/dues/delete',
+            dataType: 'html'
+        });
+        duesDelete.setCallback(function(data) {
+            var $duesList = $('#dues');
+            $duesList.empty();
+            $duesList.append(data);
+            duesForm.refresh();
         });
     }
 });

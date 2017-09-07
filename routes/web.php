@@ -107,6 +107,11 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'dues.update',
         'uses' => 'DuesController@update'
     ]);
+    Route::get('/dues/delete/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'dues.delete',
+        'uses' => 'DuesController@destroy'
+    ]);
 
 //    Route::get('/member/missing', [
 //        'middleware' => ['auth'],

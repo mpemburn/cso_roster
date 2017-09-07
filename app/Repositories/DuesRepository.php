@@ -58,4 +58,16 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
 
         return $response;
     }
+    
+    public function delete($id)
+    {
+        $thisDuesPayment = $this->model->find($id);
+
+        $thisMember = Member::find($thisDuesPayment->member_id);
+
+        $thisDuesPayment->delete($id);
+
+        $remainingPayments = $thisMember->dues;
+        return $remainingPayments;
+    }
 }
