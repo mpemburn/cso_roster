@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <label for="member_since_date" class="col-md-1 control-label">Since </label>
                                     <div class="col-md-11">
-                                        <div>{{ Form::text('member_since_date', $member->since, ['id' => 'member_since_date', 'class' => 'col-md-2 required', 'placeholder' => 'Member Since *']) }}</div>
+                                        <div>{{ Form::text('member_since_date', $member->since, ['id' => 'member_since_date', 'class' => 'col-md-2 required date-pick', 'placeholder' => 'Member Since *']) }}</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -59,13 +59,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="phones" class="col-md-1 control-label">Phones</label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         {{ Form::text('cell_phone', $member->cell_phone, ['class' => 'col-md-12', 'placeholder' => 'Cell Phone']) }}
                                     </div>
                                     <div class="col-md-1 nopadding">
                                         (cell)
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         {{ Form::text('home_phone', $member->home_phone, ['class' => 'col-md-12', 'placeholder' => 'Home Phone']) }}
                                     </div>
                                     <div class="col-md-1 nopadding">
@@ -75,7 +75,7 @@
                                 <div class="form-group">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11">
-                                        <div>{{ Form::text('google_group_date', $member->since, ['id' => 'google_group_date', 'class' => 'col-md-2', 'placeholder' => 'Added to group']) }}</div>
+                                        <div>{{ Form::text('google_group_date', $member->since, ['id' => 'google_group_date', 'class' => 'col-md-2 date-pick', 'placeholder' => 'Added to group']) }}</div>
                                         <label for="google_group_date" class="col-md-3 control-label left">&nbsp;Added to Google group</label>
                                     </div>
                                 </div>

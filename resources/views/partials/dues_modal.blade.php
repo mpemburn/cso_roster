@@ -17,7 +17,7 @@
                     <label for="calendar_year" class="col-md-2 control-label">Year</label>
                     {{ Form::select('calendar_year', $calendar_year_list, null, ['id' => 'calendar_year', 'class' => 'col-md-2']) }}
                     <label for="phone_one" class="col-md-3 control-label">Paid Date</label>
-                    {{ Form::text('paid_date', '', ['id' => 'paid_date', 'class' => 'col-md-3 required', 'placeholder' => 'Paid Date *']) }}
+                    {{ Form::text('paid_date', '', ['id' => 'paid_date', 'class' => 'col-md-4 required', 'placeholder' => 'mm/dd/yyyy *']) }}
                 </div>
                 <div class="form-group col-md-12">
                     <label for="paid_amount" class="col-md-2 control-label">Amount $</label>

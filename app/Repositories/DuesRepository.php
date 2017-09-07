@@ -18,6 +18,7 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         $payment = $thisDuesPayment->toArray();
         $payment['dues_id'] = $payment['id'];
         $payment['dues_member_id'] = $payment['member_id'];
+        //$payment['paid_date'] = Format::formatDate(Format::LONG_DATE, $payment['paid_date']);
 
         $response = [
             'success' => $thisDuesPayment->exists,

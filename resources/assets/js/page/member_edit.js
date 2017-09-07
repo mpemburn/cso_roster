@@ -4,7 +4,7 @@ $(document).ready(function ($) {
 
     if ($('#member_store').is('*') || $('#member_update').is('*')) {
         $('.date-pick').datepicker({
-            format: 'M d, yyyy',
+            format: 'MM d, yyyy',
             orientation: 'bottom'
         });
 
