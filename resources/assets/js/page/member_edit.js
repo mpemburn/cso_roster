@@ -43,56 +43,38 @@ $(document).ready(function ($) {
          });
 
         // CRUD for Contacts
-        var contactForm = Object.create(ModalForm);
-        var contactGet = Object.create(AjaxGet);
-        contactGet.init({
-            ajaxUrl: appSpace.baseUrl + '/contact/show'
-        });
-        var contactSave = Object.create(AjaxPost);
-        var contactDelete = Object.create(AjaxGet);
-        contactSave.init({
+        var contactsCRUD = Object.create(AjaxCRUD);
+        contactsCRUD.init({
             formSelector: '#update_contact',
-            successAction: function(data) {
-                var retrieve = Object.create(AjaxGet);
-                retrieve.init({
-                    ajaxUrl: appSpace.baseUrl + '/member/contacts',
-                    dataType: 'html'
-                });
-                retrieve.action({
-                    params: '/' + data.member_id,
-                    callback: function(data) {
-                        var $contactList = $('#contacts');
-                        $contactList.empty();
-                        $contactList.append(data);
-                        contactForm.refresh();
-                    }
-                });
-            }
-        });
-        contactDelete.init({
-            ajaxUrl: appSpace.baseUrl + '/contact/delete',
-            dataType: 'html'
-        });
-        contactDelete.setCallback(function(data) {
-            var $contactList = $('#contacts');
-            $contactList.empty();
-            $contactList.append(data);
-            contactForm.refresh();
-        });
-
-        contactForm.init({
-            editSelector: '#contacts',
             addSelector: '#add_contact',
-            formSelector: '#update_contact',
+            editSelector: '#contacts',
             idSelector: '#contact_id',
+            listSelector: '#contacts',
             modalSelector: '#contact_modal',
             saveSelector: '#contact_save',
             deleteSelector: '#contact_delete',
-            getAjax: contactGet,
-            saveAjax: contactSave,
-            deleteAjax: contactDelete,
+            retrieveFormUrl: appSpace.baseUrl + '/contact/show',
+            retrieveListUrl: appSpace.baseUrl + '/member/contacts',
+            deleteDataUrl: appSpace.baseUrl + '/contact/delete',
+        });
+        
+         // CRUD for Dues payments
+        var duesCRUD = Object.create(AjaxCRUD);
+        duesCRUD.init({
+            formSelector: '#update_dues',
+            addSelector: '#add_dues',
+            editSelector: '#dues',
+            idSelector: '#dues_id',
+            listSelector: '#dues',
+            modalSelector: '#dues_modal',
+            saveSelector: '#dues_save',
+            deleteSelector: '#dues_delete',
+            retrieveFormUrl: appSpace.baseUrl + '/dues/show',
+            retrieveListUrl: appSpace.baseUrl + '/member/dues',
+            deleteDataUrl: appSpace.baseUrl + '/dues/delete',
         });
 
+/*
         // CRUD for Dues payments
         var duesForm = Object.create(ModalForm);
         var duesGet = Object.create(AjaxGet);
@@ -143,5 +125,6 @@ $(document).ready(function ($) {
             $duesList.append(data);
             duesForm.refresh();
         });
+*/
     }
 });
