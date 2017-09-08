@@ -125,6 +125,11 @@ tbody td {
     background-color: #ddd;
   }
 
+  div.field-wrapper {
+    padding: 0 3px;
+  }
+
+
   label.control-label {
     padding-right: 5px;
     text-align: right;
@@ -144,6 +149,10 @@ tbody td {
   }
 }
 
+div.form-error {
+  font-size: 9pt;
+  color: red;
+}
 
 .add-circle {
   padding: 0 3px;

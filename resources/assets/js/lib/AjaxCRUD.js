@@ -40,6 +40,7 @@ var AjaxCRUD = {
             formSelector: this.formSelector,
             successAction: function(data) {
                 var retrieve = Object.create(AjaxGet);
+                self.modalForm.dismiss();
                 retrieve.init({
                     ajaxUrl: self.retrieveListUrl,
                     dataType: 'html'
@@ -49,6 +50,14 @@ var AjaxCRUD = {
                     callback: function(data) {
                         self._refreshList(data);
                     }
+                });
+            },
+            errorAction: function(errors) {
+                var formErrors = Object.create(FormErrors);
+                formErrors.show({
+                    append: true,
+                    messages: '#error_messages',
+                    errors: errors
                 });
             }
         });

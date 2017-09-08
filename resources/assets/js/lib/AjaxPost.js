@@ -20,6 +20,7 @@ var AjaxPost = {
     cleanupAction: function(){},
     newAction: function(){},
     successAction: function(){},
+    errorAction: function(){},
     init: function(options) {
         $.extend(this, options);
         this._setEvents();
@@ -45,20 +46,15 @@ var AjaxPost = {
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (response) {
-                    self.cleanupAction();
                     if (response.errors) {
-                        var formErrors = Object.create(FormErrors);
-                        formErrors.show({
-                            dialog: '#error_dialog',
-                            messages: '#error_messages',
-                            errors: response.errors
-                        });
+                        self.errorAction(response.errors);
                         return;
                     }
                     if (response.is_new) {
                         self.newAction(response.data);
                     }
                     if (response.status) {
+                        self.cleanupAction();
                         self.successAction(response.data);
                     }
                 },

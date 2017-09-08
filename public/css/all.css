@@ -5823,6 +5823,9 @@ tbody td {
 .form-group div.even {
   background-color: #ddd; }
 
+.form-group div.field-wrapper {
+  padding: 0 3px; }
+
 .form-group label.control-label {
   padding-right: 5px;
   text-align: right; }
@@ -5837,6 +5840,10 @@ tbody td {
 
 .form-group.bottom-line {
   border-bottom: 1px solid black; }
+
+div.form-error {
+  font-size: 9pt;
+  color: red; }
 
 .add-circle {
   padding: 0 3px;

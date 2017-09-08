@@ -18,43 +18,69 @@
                         <main class="main-column col-md-12">
                             @if ($can_edit)
                                 <div class="form-group">
-                                    <label for="active" class="control-label">{{ Form::checkbox('active', $member->is_active, $is_active) }} Active</label>
+                                    <label for="active"
+                                           class="control-label">{{ Form::checkbox('active', $member->is_active, $is_active) }}
+                                        Active</label>
                                     <span class="saved hidden">SAVED</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="member_since_date" class="col-md-1 control-label">Since </label>
                                     <div class="col-md-11">
-                                        <div>{{ Form::text('member_since_date', $member->since, ['id' => 'member_since_date', 'class' => 'col-md-2 required date-pick', 'placeholder' => 'Member Since *']) }}</div>
+                                        <div class="col-md-2 field-wrapper">
+                                            <div>{{ Form::text('member_since_date', $member->since, ['id' => 'member_since_date', 'class' => 'col-md-12 date-pick', 'placeholder' => 'Member Since']) }}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name" class="col-md-1 control-label">Name</label>
                                     <div class="col-md-11">
-                                        {{ Form::select('prefix', $prefix_list, null, ['class' => 'col-md-1'])}}
-                                        {{ Form::text('first_name', $member->first_name, ['class' => 'col-md-3 required', 'placeholder' => 'First Name *']) }}
-                                        {{ Form::text('middle_name', $member->middle_name, ['class' => 'col-md-2', 'placeholder' => 'Middle Name']) }}
-                                        {{ Form::text('last_name', $member->last_name, ['class' => 'col-md-3 required', 'placeholder' => 'Last Name *']) }}
-                                        {{ Form::select('suffix', $suffix_list, null, ['class' => 'col-md-1']) }}
+                                        <div class="col-md-1 field-wrapper">
+                                            {{ Form::select('prefix', $prefix_list, null, ['class' => 'col-md-12'])}}
+                                        </div>
+                                        <div class="col-md-3 field-wrapper">
+                                            {{ Form::text('first_name', $member->first_name, ['class' => 'col-md-12 required', 'placeholder' => 'First Name *']) }}
+                                        </div>
+                                        <div class="col-md-2 field-wrapper">
+                                            {{ Form::text('middle_name', $member->middle_name, ['class' => 'col-md-12', 'placeholder' => 'Middle Name']) }}
+                                        </div>
+                                        <div class="col-md-3 field-wrapper">
+                                            {{ Form::text('last_name', $member->last_name, ['class' => 'col-md-12 required', 'placeholder' => 'Last Name *']) }}
+                                        </div>
+                                        <div class="col-md-1 field-wrapper">
+                                            {{ Form::select('suffix', $suffix_list, null, ['class' => 'col-md-12 field-wrapper']) }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="address" class="col-md-1 control-label">Address</label>
                                     <div class="col-md-11">
-                                        {{ Form::text('address_1', $member->address_1, ['class' => 'col-md-10 required', 'placeholder' => 'Address 1 *']) }}
+                                        <div class="col-md-10 field-wrapper">
+                                            {{ Form::text('address_1', $member->address_1, ['class' => 'col-md-12 required', 'placeholder' => 'Address 1 *']) }}
+                                        </div>
                                     </div>
                                     <div class="col-md-11 col-md-offset-1">
-                                        {{ Form::text('address_2', $member->address_2, ['class' => 'col-md-10', 'placeholder' => 'Address 2']) }}
+                                        <div class="col-md-10 field-wrapper">
+                                            {{ Form::text('address_2', $member->address_2, ['class' => 'col-md-12', 'placeholder' => 'Address 2']) }}
+                                        </div>
                                     </div>
                                     <div class="col-md-11 col-md-offset-1">
-                                        {{ Form::text('city', $member->city, ['class' => 'col-md-4 required', 'placeholder' => 'City *']) }}
-                                        {{ Form::select('state', $state_list, $member->state, ['class' => 'col-md-3 required']) }}
-                                        {{ Form::text('zip', $member->zip, ['class' => 'col-md-2 required', 'placeholder' => 'Zip *']) }}
+                                        <div class="col-md-4 field-wrapper">
+                                            {{ Form::text('city', $member->city, ['class' => 'col-md-12 required', 'placeholder' => 'City *']) }}
+                                        </div>
+                                        <div class="col-md-3 field-wrapper">
+                                            {{ Form::select('state', $state_list, $member->state, ['class' => 'col-md-12 required']) }}
+                                        </div>
+                                        <div class="col-md-2 field-wrapper">
+                                            {{ Form::text('zip', $member->zip, ['class' => 'col-md-12 required', 'placeholder' => 'Zip *']) }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-md-1 control-label">Email</label>
                                     <div class="col-md-11">
-                                        {{ Form::text('email', $member->email, ['class' => 'col-md-10', 'placeholder' => 'Email']) }}
+                                        <div class="col-md-10 field-wrapper">
+                                            {{ Form::text('email', $member->email, ['class' => 'col-md-12 required', 'placeholder' => 'Email *']) }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -76,7 +102,8 @@
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11">
                                         <div>{{ Form::text('google_group_date', $member->since, ['id' => 'google_group_date', 'class' => 'col-md-2 date-pick', 'placeholder' => 'Added to group']) }}</div>
-                                        <label for="google_group_date" class="col-md-3 control-label left">&nbsp;Added to Google group</label>
+                                        <label for="google_group_date" class="col-md-3 control-label left">&nbsp;Added
+                                            to Google group</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -91,12 +118,12 @@
                                     </div>
                                 </div>
                                 @if($member_id != 0)
-                                <div id="contacts" class="form-group boxed">
-                                    @include('partials.member_contacts')
-                                </div>
-                                <div id="dues" class="form-group boxed">
-                                    @include('partials.member_dues')
-                                </div>
+                                    <div id="contacts" class="form-group boxed">
+                                        @include('partials.member_contacts')
+                                    </div>
+                                    <div id="dues" class="form-group boxed">
+                                        @include('partials.member_dues')
+                                    </div>
                                 @endif
                             @else
                                 @include('partials.member_static_main')

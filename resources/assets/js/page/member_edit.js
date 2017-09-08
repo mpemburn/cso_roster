@@ -3,12 +3,13 @@
 $(document).ready(function ($) {
 
     if ($('#member_store').is('*') || $('#member_update').is('*')) {
+        // Set date pickers
         $('.date-pick').datepicker({
             format: 'MM d, yyyy',
             orientation: 'bottom'
         });
 
-         /* Detect any changes to the form data */
+         // Detect any changes to the form data
          $('#member_store, #member_update').dirtyForms()
              .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
                  var $submitButton = $('#submit_update');
@@ -19,8 +20,9 @@ $(document).ready(function ($) {
                  }
              });
 
-         var memberSave = Object.create(AjaxPost);
-         memberSave.init({
+        // Create/Save for Member form
+        var memberSave = Object.create(AjaxPost);
+        memberSave.init({
             formSelector: '#member_store, #member_update',
             setupAction: function(){
                 $('#member_saving').removeClass('hidden');
@@ -39,6 +41,15 @@ $(document).ready(function ($) {
                 $('.saved').removeClass('hidden')
                     .show()
                     .fadeOut(3000);
+            },
+            errorAction: function(errors){
+                $('#member_saving').addClass('hidden');
+                var formErrors = Object.create(FormErrors);
+                formErrors.show({
+                    append: true,
+                    messages: '#error_messages',
+                    errors: errors
+                });
             }
          });
 
@@ -73,58 +84,5 @@ $(document).ready(function ($) {
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
         });
-
-/*
-        // CRUD for Dues payments
-        var duesForm = Object.create(ModalForm);
-        var duesGet = Object.create(AjaxGet);
-        duesGet.init({
-            ajaxUrl: appSpace.baseUrl + '/dues/show'
-        });
-        var duesSave = Object.create(AjaxPost);
-        var duesDelete = Object.create(AjaxGet);
-        duesSave.init({
-            formSelector: '#update_dues',
-            successAction: function(data) {
-                var retrieve = Object.create(AjaxGet);
-                retrieve.init({
-                    ajaxUrl: appSpace.baseUrl + '/member/dues',
-                    dataType: 'html'
-                });
-                retrieve.action({
-                    params: '/' + data.member_id,
-                    callback: function(data) {
-                        var $duesList = $('#dues');
-                        $duesList.empty();
-                        $duesList.append(data);
-                        duesForm.refresh();
-                    }
-                });
-            }
-        });
-
-        duesForm.init({
-            editSelector: '#dues',
-            addSelector: '#add_dues',
-            formSelector: '#update_dues',
-            idSelector: '#dues_id',
-            modalSelector: '#dues_modal',
-            deleteSelector: '#dues_delete',
-            saveSelector: '#dues_save',
-            getAjax: duesGet,
-            saveAjax: duesSave,
-            deleteAjax: duesDelete,
-        });
-        duesDelete.init({
-            ajaxUrl: appSpace.baseUrl + '/dues/delete',
-            dataType: 'html'
-        });
-        duesDelete.setCallback(function(data) {
-            var $duesList = $('#dues');
-            $duesList.empty();
-            $duesList.append(data);
-            duesForm.refresh();
-        });
-*/
     }
 });

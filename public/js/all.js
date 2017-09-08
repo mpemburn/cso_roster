@@ -140,6 +140,7 @@ var AjaxCRUD = {
             formSelector: this.formSelector,
             successAction: function(data) {
                 var retrieve = Object.create(AjaxGet);
+                self.modalForm.dismiss();
                 retrieve.init({
                     ajaxUrl: self.retrieveListUrl,
                     dataType: 'html'
@@ -149,6 +150,14 @@ var AjaxCRUD = {
                     callback: function(data) {
                         self._refreshList(data);
                     }
+                });
+            },
+            errorAction: function(errors) {
+                var formErrors = Object.create(FormErrors);
+                formErrors.show({
+                    append: true,
+                    messages: '#error_messages',
+                    errors: errors
                 });
             }
         });
@@ -268,6 +277,7 @@ var AjaxPost = {
     cleanupAction: function(){},
     newAction: function(){},
     successAction: function(){},
+    errorAction: function(){},
     init: function(options) {
         $.extend(this, options);
         this._setEvents();
@@ -293,20 +303,15 @@ var AjaxPost = {
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function (response) {
-                    self.cleanupAction();
                     if (response.errors) {
-                        var formErrors = Object.create(FormErrors);
-                        formErrors.show({
-                            dialog: '#error_dialog',
-                            messages: '#error_messages',
-                            errors: response.errors
-                        });
+                        self.errorAction(response.errors);
                         return;
                     }
                     if (response.is_new) {
                         self.newAction(response.data);
                     }
                     if (response.status) {
+                        self.cleanupAction();
                         self.successAction(response.data);
                     }
                 },
@@ -395,22 +400,39 @@ var FieldToggle = {
 var FormErrors = {
     dialog: null,
     messages: null,
+    append: false,
     errors: null,
     show: function(options) {
         $.extend(this, options);
         this._clear();
-        this._listMessages();
-        $(this.dialog).modal();
+        if (this.dialog != null) {
+            this._listMessages();
+            $(this.dialog).modal();
+        }
+        if (this.append) {
+            this._appendMessages();
+        }
     },
     _clear: function() {
         $('input, select, textarea').removeClass('error');
+        $('.form-error').remove();
         $(this.messages).empty();
     },
     _listMessages: function() {
         for (var field in this.errors) {
             if (this.errors.hasOwnProperty(field)) {
-                $('input[name=' + field + ']').addClass('error');
+                $('input[name=' + field + '], select[name=' + field + ']').addClass('error');
                 $(this.messages).append('<li class="dialog-error">' + this.errors[field] + '</li>');
+            }
+        }
+    },
+    _appendMessages: function() {
+        for (var field in this.errors) {
+            if (this.errors.hasOwnProperty(field)) {
+                var $field = $('input[name=' + field + '], select[name=' + field + ']');
+                var $parent = $field.parent();
+                $field.addClass('error');
+                $parent.append('<div class="form-error">' + this.errors[field] + '</div>');
             }
         }
     }
@@ -472,6 +494,9 @@ var ModalForm = {
         this._clearForm(itemId);
         this._setEvents()
         this._initModal();
+    },
+    dismiss: function() {
+        this.modal.modal('hide');
     },
     _clearForm: function(itemId) {
         this.form[0].reset();
@@ -906,12 +931,13 @@ var UrlQuery = {
 $(document).ready(function ($) {
 
     if ($('#member_store').is('*') || $('#member_update').is('*')) {
+        // Set date pickers
         $('.date-pick').datepicker({
             format: 'MM d, yyyy',
             orientation: 'bottom'
         });
 
-         /* Detect any changes to the form data */
+         // Detect any changes to the form data
          $('#member_store, #member_update').dirtyForms()
              .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
                  var $submitButton = $('#submit_update');
@@ -922,8 +948,9 @@ $(document).ready(function ($) {
                  }
              });
 
-         var memberSave = Object.create(AjaxPost);
-         memberSave.init({
+        // Create/Save for Member form
+        var memberSave = Object.create(AjaxPost);
+        memberSave.init({
             formSelector: '#member_store, #member_update',
             setupAction: function(){
                 $('#member_saving').removeClass('hidden');
@@ -942,6 +969,15 @@ $(document).ready(function ($) {
                 $('.saved').removeClass('hidden')
                     .show()
                     .fadeOut(3000);
+            },
+            errorAction: function(errors){
+                $('#member_saving').addClass('hidden');
+                var formErrors = Object.create(FormErrors);
+                formErrors.show({
+                    append: true,
+                    messages: '#error_messages',
+                    errors: errors
+                });
             }
          });
 
@@ -976,59 +1012,6 @@ $(document).ready(function ($) {
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
         });
-
-/*
-        // CRUD for Dues payments
-        var duesForm = Object.create(ModalForm);
-        var duesGet = Object.create(AjaxGet);
-        duesGet.init({
-            ajaxUrl: appSpace.baseUrl + '/dues/show'
-        });
-        var duesSave = Object.create(AjaxPost);
-        var duesDelete = Object.create(AjaxGet);
-        duesSave.init({
-            formSelector: '#update_dues',
-            successAction: function(data) {
-                var retrieve = Object.create(AjaxGet);
-                retrieve.init({
-                    ajaxUrl: appSpace.baseUrl + '/member/dues',
-                    dataType: 'html'
-                });
-                retrieve.action({
-                    params: '/' + data.member_id,
-                    callback: function(data) {
-                        var $duesList = $('#dues');
-                        $duesList.empty();
-                        $duesList.append(data);
-                        duesForm.refresh();
-                    }
-                });
-            }
-        });
-
-        duesForm.init({
-            editSelector: '#dues',
-            addSelector: '#add_dues',
-            formSelector: '#update_dues',
-            idSelector: '#dues_id',
-            modalSelector: '#dues_modal',
-            deleteSelector: '#dues_delete',
-            saveSelector: '#dues_save',
-            getAjax: duesGet,
-            saveAjax: duesSave,
-            deleteAjax: duesDelete,
-        });
-        duesDelete.init({
-            ajaxUrl: appSpace.baseUrl + '/dues/delete',
-            dataType: 'html'
-        });
-        duesDelete.setCallback(function(data) {
-            var $duesList = $('#dues');
-            $duesList.empty();
-            $duesList.append(data);
-            duesForm.refresh();
-        });
-*/
     }
 });
 

@@ -55,6 +55,9 @@ var ModalForm = {
         this._setEvents()
         this._initModal();
     },
+    dismiss: function() {
+        this.modal.modal('hide');
+    },
     _clearForm: function(itemId) {
         this.form[0].reset();
         if (typeof(itemId) != 'undefined' && this.idSelector != null) {
