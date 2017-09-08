@@ -15,21 +15,33 @@
                 </header>
                 <div class="form-group col-md-12">
                     <label for="name" class="col-md-2 control-label">Name</label>
-                    {{ Form::text('name', '', ['id' => 'name', 'class' => 'col-md-4 required', 'placeholder' => 'Name *']) }}
+                    <div class="col-md-4 field-wrapper">
+                        {{ Form::text('name', '', ['id' => 'name', 'class' => 'col-md-12 required', 'placeholder' => 'Name *']) }}
+                    </div>
                     <label for="relationship" class="col-md-3 control-label">Relationship</label>
-                    {{ Form::select('relationship', $relationship_list, null, ['id' => 'relationship', 'class' => 'col-md-2']) }}
+                    <div class="col-md-2 field-wrapper">
+                        {{ Form::select('relationship', $relationship_list, null, ['id' => 'relationship', 'class' => 'col-md-12']) }}
+                    </div>
                 </div>
                 <div class="form-group col-md-12">
                     <label for="phone_one" class="col-md-2 control-label">Phone 1</label>
-                    {{ Form::text('phone_one', '', ['id' => 'phone_one', 'class' => 'col-md-3 required', 'placeholder' => 'Phone 1 *']) }}
+                    <div class="col-md-3 field-wrapper">
+                        {{ Form::text('phone_one', '', ['id' => 'phone_one', 'class' => 'col-md-12 required', 'placeholder' => 'Phone 1 *']) }}
+                    </div>
                     <label for="phone_two" class="col-md-3 control-label">Phone 2</label>
-                    {{ Form::text('phone_two', '', ['id' => 'phone_two', 'class' => 'col-md-3', 'placeholder' => 'Phone 2']) }}
+                    <div class="col-md-3 field-wrapper">
+                        {{ Form::text('phone_two', '', ['id' => 'phone_two', 'class' => 'col-md-12', 'placeholder' => 'Phone 2']) }}
+                    </div>
                 </div>
                 <div class="form-group col-md-12">
                     <label for="work_phone" class="col-md-2 control-label">Work</label>
-                    {{ Form::text('work_phone', '', ['id' => 'work_phone', 'class' => 'col-md-3', 'placeholder' => 'Work Phone']) }}
+                    <div class="col-md-3 field-wrapper">
+                        {{ Form::text('work_phone', '', ['id' => 'work_phone', 'class' => 'col-md-12', 'placeholder' => 'Work Phone']) }}
+                    </div>
                     <label for="phone_ext" class="col-md-3 control-label">Extension</label>
-                    {{ Form::text('phone_ext', '', ['id' => 'phone_ext', 'class' => 'col-md-3', 'placeholder' => 'Extension']) }}
+                    <div class="col-md-3 field-wrapper">
+                        {{ Form::text('phone_ext', '', ['id' => 'phone_ext', 'class' => 'col-md-12', 'placeholder' => 'Extension']) }}
+                    </div>
                 </div>
 
                 {{ Form::close()}}
