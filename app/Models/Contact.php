@@ -52,4 +52,12 @@ class Contact extends Model
             ->using(MemberContact::class)
             ->withTimestamps('created_at', 'updated_at');
     }
+
+    public function getRulesAttribute()
+    {
+        return [
+            'name' => 'required',
+            'phone_one' => 'required',
+        ];
+    }
 }

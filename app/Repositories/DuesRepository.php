@@ -33,12 +33,8 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         $data = $request->all();
         $thisDuesPayment = $this->model->findOrNew($id);
 
-        $rules = [
-            'calendar_year' => 'required',
-            'paid_date' => 'required',
-            'paid_amount' => 'required',
-        ];
         // Validate user input.  Send them errors and let them try again if they fail
+        $rules = $thisDuesPayment->rules;
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];

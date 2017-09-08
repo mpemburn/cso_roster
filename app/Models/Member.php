@@ -78,4 +78,17 @@ class Member extends Model
     {
         return Format::formatDate(Format::LONG_DATE, $this->member_since_date);
     }
+
+    public function getRulesAttribute()
+    {
+        return [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'email' => 'required',
+        ];
+    }
 }

@@ -37,11 +37,8 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
         $data['phone_two'] = Format::rawPhone($data['phone_two']);
         $data['work_phone'] = Format::rawPhone($data['work_phone']);
 
-        $rules = [
-            'name' => 'required',
-            'phone_one' => 'required',
-        ];
         // Validate user input.  Send them errors and let them try again if they fail
+        $rules = $thisContact->rules;
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];

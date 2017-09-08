@@ -43,4 +43,13 @@ class Dues extends Model
     {
         return number_format($value, 2, '.', ',');
     }
+
+    public function getRulesAttribute()
+    {
+        return [
+            'calendar_year' => 'required',
+            'paid_date' => 'required',
+            'paid_amount' => 'required',
+        ];
+    }
 }

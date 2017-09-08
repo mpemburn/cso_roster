@@ -86,16 +86,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $data['google_group_date'] = (is_null($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
         $data['active'] = ($id == 0) ? 1 : $data['active'];
 
-        $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'address_1' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'zip' => 'required',
-            'email' => 'required',
-        ];
         // Validate user input.  Send them errors and let them try again if they fail
+        $rules = $thisMember->rules;
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
