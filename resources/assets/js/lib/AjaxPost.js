@@ -32,7 +32,8 @@ var AjaxPost = {
     _setEvents: function() {
         var self = this;
         $(this.formSelector).on('submit', function (e) {
-            var formAction = this.action + self.params;
+            var params = (self.params == null) ? '' : self.params;
+            var formAction = this.action + params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
             });

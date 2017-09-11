@@ -93,7 +93,7 @@ class Member extends Model
             'city' => 'required',
             'state' => 'required',
             'zip' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
         ];
     }
 }

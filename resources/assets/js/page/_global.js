@@ -1,7 +1,6 @@
 
 $(document).ready(function ($) {
     if ($('[name="_token"]').is('*')) {
-
         function refreshToken(){
             $.get(appSpace.baseUrl + '/refresh-csrf').done(function(data){
                 // 'data' contains the new token. Add to appSpace

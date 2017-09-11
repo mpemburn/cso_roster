@@ -293,7 +293,8 @@ var AjaxPost = {
     _setEvents: function() {
         var self = this;
         $(this.formSelector).on('submit', function (e) {
-            var formAction = this.action + self.params;
+            var params = (self.params == null) ? '' : self.params;
+            var formAction = this.action + params;
             $.ajaxSetup({
                 header: $('meta[name="_token"]').attr('content')
             });
@@ -968,7 +969,6 @@ var UrlQuery = {
 
 $(document).ready(function ($) {
     if ($('[name="_token"]').is('*')) {
-
         function refreshToken(){
             $.get(appSpace.baseUrl + '/refresh-csrf').done(function(data){
                 // 'data' contains the new token. Add to appSpace
