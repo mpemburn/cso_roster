@@ -19,6 +19,10 @@ Route::get('main', function () {
     return view('react.main');
 });
 
+Route::get('refresh-csrf', function(){
+    return csrf_token();
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
