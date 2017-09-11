@@ -68,7 +68,7 @@ return [
     'numeric'              => 'The :attribute must be a number.',
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
-    'required'             => 'The :attribute field is required.',
+    'required'             => ':attribute is required.',
     'required_if'          => 'The :attribute field is required when :other is :value.',
     'required_unless'      => 'The :attribute field is required unless :other is in :values.',
     'required_with'        => 'The :attribute field is required when :values is present.',
@@ -116,6 +116,22 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Name',
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'address_1' => 'Address',
+        'city' => 'City',
+        'state' => 'State',
+        'zip' => 'Zip',
+        'email' => 'Email',
+        'phone_one' => 'Phone 1',
+        'calendar_year' => 'Year',
+        'paid_amount' => 'Amount',
+        'paid_date' => 'Paid Date',
+        'board_role_id' => 'Title',
+        'start_date' => 'Start Date',
+        'end_date' => 'End Date',
+    ],
 
 ];

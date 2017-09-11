@@ -64,11 +64,12 @@ $(document).ready(function ($) {
             modalSelector: '#contact_modal',
             saveSelector: '#contact_save',
             deleteSelector: '#contact_delete',
+            submitSelector: '#contact_save',
             retrieveFormUrl: appSpace.baseUrl + '/contact/show',
             retrieveListUrl: appSpace.baseUrl + '/member/contacts',
             deleteDataUrl: appSpace.baseUrl + '/contact/delete',
         });
-        
+
          // CRUD for Dues payments
         var duesCRUD = Object.create(AjaxCRUD);
         duesCRUD.init({
@@ -80,9 +81,27 @@ $(document).ready(function ($) {
             modalSelector: '#dues_modal',
             saveSelector: '#dues_save',
             deleteSelector: '#dues_delete',
+            submitSelector: '#dues_save',
             retrieveFormUrl: appSpace.baseUrl + '/dues/show',
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
+        });
+
+        // CRUD for Board Roles
+        var rolesCRUD = Object.create(AjaxCRUD);
+        rolesCRUD.init({
+            formSelector: '#update_role',
+            addSelector: '#add_role',
+            editSelector: '#board_roles',
+            idSelector: '#roles_id',
+            listSelector: '#board_roles',
+            modalSelector: '#role_modal',
+            saveSelector: '#role_save',
+            deleteSelector: '#role_delete',
+            submitSelector: '#role_save',
+            retrieveFormUrl: appSpace.baseUrl + '/role/show',
+            retrieveListUrl: appSpace.baseUrl + '/member/roles',
+            deleteDataUrl: appSpace.baseUrl + '/role/delete',
         });
     }
 });

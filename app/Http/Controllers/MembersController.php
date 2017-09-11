@@ -76,6 +76,19 @@ class MembersController extends Controller
         return view('partials.member_dues', ['dues' => $dues]);
     }
 
+    /**
+     * Retrieve list of Dues payments associated with this member in HTML format
+     *
+     * @param $memberId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function retrieveRoles($memberId)
+    {
+        $roles = $this->repository->retrieveRoles($memberId);
+
+        return view('partials.board_roles', ['roles' => $roles]);
+    }
+
     public function reactMain()
     {
         return view('react.main');

@@ -70,6 +70,11 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'as' => 'member.dues',
         'uses' => 'MembersController@retrieveDues'
     ]);
+    Route::get('/member/roles/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'member.roles',
+        'uses' => 'MembersController@retrieveRoles'
+    ]);
     Route::post('member/update/{id}', [
         'middleware' => ['auth'],
         'as' => 'member.update',
@@ -111,6 +116,22 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'as' => 'dues.delete',
         'uses' => 'DuesController@destroy'
+    ]);
+
+    Route::get('/role/show/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'role.show',
+        'uses' => 'BoardRolesController@show'
+    ]);
+    Route::post('/role/update/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'role.update',
+        'uses' => 'BoardRolesController@update'
+    ]);
+    Route::get('/role/delete/{id}', [
+        'middleware' => ['auth'],
+        'as' => 'role.delete',
+        'uses' => 'BoardRolesController@destroy'
     ]);
 
 //    Route::get('/member/missing', [

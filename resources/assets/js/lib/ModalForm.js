@@ -30,6 +30,7 @@ var ModalForm = {
     modalSelector: null,
     saveSelector: null,
     deleteSelector: null,
+    submitSelector: null,
     itemId: null,
     form: null,
     modal: null,
@@ -111,9 +112,9 @@ var ModalForm = {
     },
     _setEvents: function() {
         var self = this;
-        var $rows = $(this.editSelector).find('[data-id]');
+        var $edits = $(this.editSelector).find('[data-id]');
         var $deletes = $(this.editSelector).find('[data-delete]');
-        $rows.off().on('click', function() {
+        $edits.off().on('click', function() {
             var id = $(this).attr('data-id');
             self._disableForm(false);
             self._setAction(self.saveSelector)
@@ -144,6 +145,17 @@ var ModalForm = {
                 self._deleteItem();
             }
         });
+         // Detect any changes to the form data
+        $(this.formSelector).dirtyForms()
+         .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
+             var $submitButton = $(self.submitSelector);
+             if (ev.type === 'dirty') {
+                 $submitButton.removeAttr('disabled');
+             } else {
+                 $submitButton.attr('disabled', 'disabled');
+             }
+         });
+
 
     }
 };

@@ -15,18 +15,18 @@
                 </header>
                 <div class="form-group col-md-12">
                     <label for="calendar_year" class="col-md-2 control-label">Year</label>
-                    <div class="col-md-2 field-wrapper">
+                    <div class="col-md-3 field-wrapper">
                         {{ Form::select('calendar_year', $calendar_year_list, null, ['id' => 'calendar_year', 'class' => 'col-md-12']) }}
                     </div>
                     <label for="phone_one" class="col-md-3 control-label">Paid Date</label>
-                    <div class="col-md-4 field-wrapper">
+                    <div class="col-md-3 field-wrapper">
                         {{ Form::text('paid_date', '', ['id' => 'paid_date', 'class' => 'col-md-12 required', 'placeholder' => 'mm/dd/yyyy *']) }}
                     </div>
                 </div>
                 <div class="form-group col-md-12">
                     <label for="paid_amount" class="col-md-2 control-label">Amount $</label>
-                    <div class="col-md-2 field-wrapper">
-                        {{ Form::text('paid_amount', '', ['id' => 'paid_amount', 'class' => 'col-md-12', 'placeholder' => 'Amount *']) }}
+                    <div class="col-md-3 field-wrapper">
+                        {{ Form::text('paid_amount', '', ['id' => 'paid_amount', 'class' => 'col-md-12 required', 'placeholder' => 'Amount *']) }}
                     </div>
                     <label for="helmet_fund" class="col-md-3 control-label">Helmet Fund</label>
                     <div class="col-md-2 field-wrapper">
@@ -38,7 +38,7 @@
             </div>
             <div class="modal-footer">
                 <button id="dues_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                <button id="dues_save" type="button" class="btn btn-primary">Save</button>
+                <button id="dues_save" type="button" class="btn btn-primary" disabled="disabled">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>

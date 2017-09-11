@@ -5,6 +5,8 @@ use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Models\Contact;
+use App\Models\BoardRole;
+use App\Models\BoardRoleTitle;
 use App\Models\State;
 use App\Models\Prefix;
 use App\Models\Suffix;
@@ -35,11 +37,14 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'suffix_list' => Suffix::pluck('suffix', 'suffix')->prepend('Select', ''),
             'state_list' => State::where('local', 1)->pluck('name', 'code')->prepend('Select', ''),
             'relationship_list' => Relationship::pluck('relationship', 'relationship')->prepend('Select', ''),
+            'title_list' => BoardRoleTitle::pluck('title', 'id')->prepend('Select', ''),
             'calendar_year_list' => Date::calendarYearList($fiveYearsAgo, 20, ['Select', '']),
             'helmet_fund_list' => [0 => 'No', '1' => 'Yes'],
             'contacts' => $thisMember->contacts,
             'dues' => $thisMember->dues,
+            'roles' => $thisMember->roles,
             'contact' => new Contact(),
+            'role' => new BoardRole(),
             'dues' => $thisMember->dues,
             'is_active' => true,
         ];
@@ -67,6 +72,17 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $thisMember = $this->model->findOrNew($memberId);
 
         return $thisMember->dues;
+    }
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function retrieveRoles($memberId)
+    {
+        $thisMember = $this->model->findOrNew($memberId);
+
+        return $thisMember->roles;
     }
 
     /**

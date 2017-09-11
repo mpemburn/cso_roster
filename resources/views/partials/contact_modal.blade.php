@@ -48,7 +48,7 @@
             </div>
             <div class="modal-footer">
                 <button id="contact_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
-                <button id="contact_save" type="button" class="btn btn-primary">Save</button>
+                <button id="contact_save" type="button" class="btn btn-primary" disabled="disabled">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>

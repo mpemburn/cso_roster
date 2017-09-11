@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contracts\Repositories\BoardRoleRepositoryContract;
 
 class BoardRolesController extends Controller
 {
+    /**
+     * @var $repository BoardRoleRepositoryContract
+     */
+    protected $repository;
+
+    public function __construct(BoardRoleRepositoryContract $boardRoleRepository)
+    {
+        $this->repository = $boardRoleRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +56,9 @@ class BoardRolesController extends Controller
      */
     public function show($id)
     {
-        //
+        $response = $this->repository->show($id);
+
+        return response()->json($response);
     }
 
     /**
@@ -68,7 +81,9 @@ class BoardRolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response = $this->repository->save($request, $id);
+
+        return response()->json($response);
     }
 
     /**
@@ -79,6 +94,8 @@ class BoardRolesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $roles = $this->repository->delete($id);
+
+        return view('partials.board_roles', ['roles' => $roles]);
     }
 }

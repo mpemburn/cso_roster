@@ -32,4 +32,11 @@ interface MemberRepositoryContract extends RepositoryContract
      * @return mixed
      */
     function retrieveDues($memberId);
+
+    /**
+     * @param $memberId
+     * @return mixed
+     */
+    public function retrieveRoles($memberId);
+
 }

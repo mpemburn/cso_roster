@@ -59,6 +59,11 @@ class Member extends Model
         return $this->hasMany(Dues::class);
     }
 
+    public function roles()
+    {
+        return $this->hasMany(BoardRole::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

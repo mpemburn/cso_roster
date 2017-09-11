@@ -121,6 +121,7 @@ var AjaxCRUD = {
     modalSelector: null,
     saveSelector: null,
     deleteSelector: null,
+    submitSelector: null,
     retrieveFormUrl: null,
     retrieveListUrl: null,
     deleteDataUrl: null,
@@ -178,6 +179,7 @@ var AjaxCRUD = {
             modalSelector: this.modalSelector,
             saveSelector: this.saveSelector,
             deleteSelector: this.deleteSelector,
+            submitSelector: this.submitSelector,
             getAjax: this.ajaxGet,
             saveAjax: this.ajaxSave,
             deleteAjax: this.ajaxDelete,
@@ -470,6 +472,7 @@ var ModalForm = {
     modalSelector: null,
     saveSelector: null,
     deleteSelector: null,
+    submitSelector: null,
     itemId: null,
     form: null,
     modal: null,
@@ -551,9 +554,9 @@ var ModalForm = {
     },
     _setEvents: function() {
         var self = this;
-        var $rows = $(this.editSelector).find('[data-id]');
+        var $edits = $(this.editSelector).find('[data-id]');
         var $deletes = $(this.editSelector).find('[data-delete]');
-        $rows.off().on('click', function() {
+        $edits.off().on('click', function() {
             var id = $(this).attr('data-id');
             self._disableForm(false);
             self._setAction(self.saveSelector)
@@ -584,6 +587,17 @@ var ModalForm = {
                 self._deleteItem();
             }
         });
+         // Detect any changes to the form data
+        $(this.formSelector).dirtyForms()
+         .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
+             var $submitButton = $(self.submitSelector);
+             if (ev.type === 'dirty') {
+                 $submitButton.removeAttr('disabled');
+             } else {
+                 $submitButton.attr('disabled', 'disabled');
+             }
+         });
+
 
     }
 };
@@ -992,11 +1006,12 @@ $(document).ready(function ($) {
             modalSelector: '#contact_modal',
             saveSelector: '#contact_save',
             deleteSelector: '#contact_delete',
+            submitSelector: '#contact_save',
             retrieveFormUrl: appSpace.baseUrl + '/contact/show',
             retrieveListUrl: appSpace.baseUrl + '/member/contacts',
             deleteDataUrl: appSpace.baseUrl + '/contact/delete',
         });
-        
+
          // CRUD for Dues payments
         var duesCRUD = Object.create(AjaxCRUD);
         duesCRUD.init({
@@ -1008,9 +1023,27 @@ $(document).ready(function ($) {
             modalSelector: '#dues_modal',
             saveSelector: '#dues_save',
             deleteSelector: '#dues_delete',
+            submitSelector: '#dues_save',
             retrieveFormUrl: appSpace.baseUrl + '/dues/show',
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
+        });
+
+        // CRUD for Board Roles
+        var rolesCRUD = Object.create(AjaxCRUD);
+        rolesCRUD.init({
+            formSelector: '#update_role',
+            addSelector: '#add_role',
+            editSelector: '#board_roles',
+            idSelector: '#roles_id',
+            listSelector: '#board_roles',
+            modalSelector: '#role_modal',
+            saveSelector: '#role_save',
+            deleteSelector: '#role_delete',
+            submitSelector: '#role_save',
+            retrieveFormUrl: appSpace.baseUrl + '/role/show',
+            retrieveListUrl: appSpace.baseUrl + '/member/roles',
+            deleteDataUrl: appSpace.baseUrl + '/role/delete',
         });
     }
 });

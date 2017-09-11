@@ -124,6 +124,9 @@
                                     <div id="dues" class="form-group boxed">
                                         @include('partials.member_dues')
                                     </div>
+                                    <div id="board_roles" class="form-group boxed">
+                                        @include('partials.board_roles')
+                                    </div>
                                 @endif
                             @else
                                 @include('partials.member_static_main')
@@ -156,6 +159,7 @@
     <div id="modals">
         @include('partials.contact_modal')
         @include('partials.dues_modal')
+        @include('partials.role_modal')
     </div>
     @endsection
             <!-- Push any scripts needed for this page onto the stack -->
