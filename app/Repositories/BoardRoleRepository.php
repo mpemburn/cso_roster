@@ -45,7 +45,7 @@ class BoardRoleRepository extends AbstractRepository implements BoardRoleReposit
             $result = $thisBoardRole->fill($data)->save();
             if ($data['id'] == 0) {
                 $thisMember = Member::find($data['member_id']);
-                $thisMember->role()->save($thisBoardRole);
+                $thisMember->roles()->save($thisBoardRole);
             }
             $response = [
                 'status' => $result,
