@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Board Role</h3>
+                <h3 class="modal-title"><span class="modal_action"></span>Board Role</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -22,11 +22,11 @@
                 <div class="form-group col-md-12">
                     <label for="start_date" class="col-md-2 control-label">Start Date</label>
                     <div class="col-md-3 field-wrapper">
-                        {{ Form::text('start_date', '', ['id' => 'start_date', 'class' => 'col-md-12 required', 'placeholder' => 'mm/dd/yyyy *']) }}
+                        {{ Form::text('start_date', '', ['id' => 'start_date', 'class' => 'col-md-12 date-pick-short required', 'placeholder' => 'mm/dd/yyyy *']) }}
                     </div>
                     <label for="end_date" class="col-md-3 control-label">End Date</label>
                     <div class="col-md-3 field-wrapper">
-                        {{ Form::text('end_date', '', ['id' => 'end_date', 'class' => 'col-md-12 required', 'placeholder' => 'mm/dd/yyyy *']) }}
+                        {{ Form::text('end_date', '', ['id' => 'end_date', 'class' => 'col-md-12 date-pick-short required', 'placeholder' => 'mm/dd/yyyy *']) }}
                     </div>
                 </div>
 
@@ -35,7 +35,7 @@
             <div class="modal-footer">
                 <button id="role_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
                 <button id="role_save" type="button" class="btn btn-primary" disabled="disabled">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="role_cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

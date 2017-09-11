@@ -8,6 +8,12 @@ $(document).ready(function ($) {
             format: 'MM d, yyyy',
             orientation: 'bottom'
         });
+        $('.date-pick-short').datepicker({
+            format: 'mm/dd/yyyy',
+            orientation: 'bottom'
+        }).on('show', function(evt) {
+            $(this).datepicker('update');
+        });
 
          // Detect any changes to the form data
          $('#member_store, #member_update').dirtyForms()
@@ -65,6 +71,7 @@ $(document).ready(function ($) {
             saveSelector: '#contact_save',
             deleteSelector: '#contact_delete',
             submitSelector: '#contact_save',
+            cancelSelector: '#contact_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/contact/show',
             retrieveListUrl: appSpace.baseUrl + '/member/contacts',
             deleteDataUrl: appSpace.baseUrl + '/contact/delete',
@@ -82,6 +89,7 @@ $(document).ready(function ($) {
             saveSelector: '#dues_save',
             deleteSelector: '#dues_delete',
             submitSelector: '#dues_save',
+            cancelSelector: '#dues_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/dues/show',
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
@@ -99,6 +107,7 @@ $(document).ready(function ($) {
             saveSelector: '#role_save',
             deleteSelector: '#role_delete',
             submitSelector: '#role_save',
+            cancelSelector: '#role_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/role/show',
             retrieveListUrl: appSpace.baseUrl + '/member/roles',
             deleteDataUrl: appSpace.baseUrl + '/role/delete',

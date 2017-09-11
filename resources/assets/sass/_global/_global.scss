@@ -235,6 +235,12 @@ table.dataTable {
   background-color: #ffffff;
 }
 
+div.modal-body {
+  &.grayed {
+    opacity: 0.5;
+  }
+}
+
 .nopadding {
   padding-left: 0 !important;
   padding-right: 0 !important;

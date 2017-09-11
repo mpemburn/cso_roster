@@ -159,7 +159,7 @@
     <div id="modals">
         @include('partials.contact_modal')
         @include('partials.dues_modal')
-        @include('partials.role_modal')
+        @include('partials.board_role_modal')
     </div>
     @endsection
             <!-- Push any scripts needed for this page onto the stack -->

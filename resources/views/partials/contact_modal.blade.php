@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Contact</h3>
+                <h3 class="modal-title"><span class="modal_action"></span>Contact</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -49,7 +49,7 @@
             <div class="modal-footer">
                 <button id="contact_delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
                 <button id="contact_save" type="button" class="btn btn-primary" disabled="disabled">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="contact_cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

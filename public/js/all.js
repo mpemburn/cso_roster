@@ -122,6 +122,7 @@ var AjaxCRUD = {
     saveSelector: null,
     deleteSelector: null,
     submitSelector: null,
+    cancelSelector: null,
     retrieveFormUrl: null,
     retrieveListUrl: null,
     deleteDataUrl: null,
@@ -180,6 +181,7 @@ var AjaxCRUD = {
             saveSelector: this.saveSelector,
             deleteSelector: this.deleteSelector,
             submitSelector: this.submitSelector,
+            cancelSelector: this.cancelSelector,
             getAjax: this.ajaxGet,
             saveAjax: this.ajaxSave,
             deleteAjax: this.ajaxDelete,
@@ -473,6 +475,7 @@ var ModalForm = {
     saveSelector: null,
     deleteSelector: null,
     submitSelector: null,
+    cancelSelector: null,
     itemId: null,
     form: null,
     modal: null,
@@ -513,10 +516,13 @@ var ModalForm = {
         });
     },
     _disableForm: function(shouldDisable) {
+        var $body = $('.modal-body');
         if (shouldDisable) {
            this.form.find(':input:not(:disabled)').prop('disabled',true)
+           $body.addClass('grayed');
         } else {
            this.form.find(':input(:disabled)').prop('disabled',false)
+           $body.removeClass('grayed');
         }
     },
     _initModal: function() {
@@ -552,41 +558,62 @@ var ModalForm = {
         $(this.saveSelector + ', ' + this.deleteSelector).hide();
         $(action).show();
     },
+    _setTitle: function(verb) {
+        if ($('.modal_action').is('*')) {
+            var $titleAction = $('.modal_action');
+            $titleAction.empty();
+            $titleAction.html(verb + " ");
+        }
+    },
     _setEvents: function() {
         var self = this;
         var $edits = $(this.editSelector).find('[data-id]');
         var $deletes = $(this.editSelector).find('[data-delete]');
+        // When pencil is clicked, retrieve form data and present modal for editing
         $edits.off().on('click', function() {
             var id = $(this).attr('data-id');
+            self._setTitle('Edit');
             self._disableForm(false);
             self._setAction(self.saveSelector)
             self._retrieveItem(id);
         });
+        // When 'x' is clicked, retrieve form data and present modal for deleting
         $deletes.off().on('click', function(evt) {
             var id = $(this).attr('data-delete');
             evt.stopPropagation();
+            self._setTitle('Delete');
             self._disableForm(true);
             self._setAction(self.deleteSelector)
             self._retrieveItem(id);
             return;
         });
 
+        // Create an item
         $(this.addSelector).off().on('click', function() {
+            self._setTitle('New');
             self._disableForm(false);
             self.show(0);
         });
 
+        // Update the item
         $(this.saveSelector).off().on('click', function () {
             if (self.itemId != null) {
                 self._saveItem();
             }
         });
 
+        // Delete the item
         $(this.deleteSelector).off().on('click', function () {
             if (self.itemId != null) {
                 self._deleteItem();
             }
         });
+
+        // "Clean" the form when the cancel button is clicked
+        $(this.cancelSelector).off().on('click', function () {
+            self.form.dirtyForms('setClean')
+        });
+
          // Detect any changes to the form data
         $(this.formSelector).dirtyForms()
          .on('dirty.dirtyforms clean.dirtyforms', function (ev) {
@@ -597,8 +624,6 @@ var ModalForm = {
                  $submitButton.attr('disabled', 'disabled');
              }
          });
-
-
     }
 };
 /**
@@ -950,6 +975,12 @@ $(document).ready(function ($) {
             format: 'MM d, yyyy',
             orientation: 'bottom'
         });
+        $('.date-pick-short').datepicker({
+            format: 'mm/dd/yyyy',
+            orientation: 'bottom'
+        }).on('show', function(evt) {
+            $(this).datepicker('update');
+        });
 
          // Detect any changes to the form data
          $('#member_store, #member_update').dirtyForms()
@@ -1007,6 +1038,7 @@ $(document).ready(function ($) {
             saveSelector: '#contact_save',
             deleteSelector: '#contact_delete',
             submitSelector: '#contact_save',
+            cancelSelector: '#contact_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/contact/show',
             retrieveListUrl: appSpace.baseUrl + '/member/contacts',
             deleteDataUrl: appSpace.baseUrl + '/contact/delete',
@@ -1024,6 +1056,7 @@ $(document).ready(function ($) {
             saveSelector: '#dues_save',
             deleteSelector: '#dues_delete',
             submitSelector: '#dues_save',
+            cancelSelector: '#dues_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/dues/show',
             retrieveListUrl: appSpace.baseUrl + '/member/dues',
             deleteDataUrl: appSpace.baseUrl + '/dues/delete',
@@ -1041,6 +1074,7 @@ $(document).ready(function ($) {
             saveSelector: '#role_save',
             deleteSelector: '#role_delete',
             submitSelector: '#role_save',
+            cancelSelector: '#role_cancel',
             retrieveFormUrl: appSpace.baseUrl + '/role/show',
             retrieveListUrl: appSpace.baseUrl + '/member/roles',
             deleteDataUrl: appSpace.baseUrl + '/role/delete',
