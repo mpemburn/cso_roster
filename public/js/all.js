@@ -610,7 +610,7 @@ var ModalForm = {
         });
 
         // "Clean" the form when the cancel button is clicked
-        $(this.cancelSelector).off().on('click', function () {
+        $(this.cancelSelector + ', button.close').off().on('click', function () {
             self.form.dirtyForms('setClean')
         });
 
@@ -979,7 +979,10 @@ $(document).ready(function ($) {
             format: 'mm/dd/yyyy',
             orientation: 'bottom'
         }).on('show', function(evt) {
-            $(this).datepicker('update');
+            // Make sure date is set on picker when it first opens, but not after that
+            if (evt.dates.length == 0) {
+                $(this).datepicker('update');
+            }
         });
 
          // Detect any changes to the form data

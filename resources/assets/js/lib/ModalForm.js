@@ -166,7 +166,7 @@ var ModalForm = {
         });
 
         // "Clean" the form when the cancel button is clicked
-        $(this.cancelSelector).off().on('click', function () {
+        $(this.cancelSelector + ', button.close').off().on('click', function () {
             self.form.dirtyForms('setClean')
         });
 
