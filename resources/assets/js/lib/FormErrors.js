@@ -47,7 +47,9 @@ var FormErrors = {
             var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
             var $email = $(self.emailSelector);
             var $errorMessage = $email.parent().find('.form-error');
-            $errorMessage.toggle(!regex.test($email.val()));
+            var isValid = regex.test($email.val());
+            $email.toggleClass('error', !isValid);
+            $errorMessage.toggle(!isValid);
         })
     }
 };
