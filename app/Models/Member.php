@@ -94,6 +94,8 @@ class Member extends Model
             'state' => 'required',
             'zip' => 'required',
             'email' => 'required|email',
+            'cell_phone' => 'numeric|digits:10',
+            'home_phone' => 'numeric|digits:10',
         ];
     }
 }

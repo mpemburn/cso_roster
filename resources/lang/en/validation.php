@@ -125,6 +125,8 @@ return [
         'state' => 'State',
         'zip' => 'Zip',
         'email' => 'Email',
+        'cell_phone' => 'Cell Phone',
+        'home_phone' => 'Home Phone',
         'phone_one' => 'Phone 1',
         'calendar_year' => 'Year',
         'paid_amount' => 'Amount',

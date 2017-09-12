@@ -406,20 +406,17 @@ var FormErrors = {
     dialog: null,
     messages: null,
     append: false,
-    emailSelector: null,
     errors: null,
     show: function(options) {
         $.extend(this, options);
         this._clear();
+        this._setEvents();
         if (this.dialog != null) {
             this._listMessages();
             $(this.dialog).modal();
         }
         if (this.append) {
             this._appendMessages();
-        }
-        if (this.emailSelector != null) {
-            this._setEmailListener();
         }
     },
     _clear: function() {
@@ -445,14 +442,24 @@ var FormErrors = {
             }
         }
     },
-    _setEmailListener: function() {
+    _isValidEmail: function($email) {
+        var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+        return regex.test($email.val());
+    },
+    _setEvents: function() {
         var self = this;
-        $(this.emailSelector).off().on('input', function() {
-            var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-            var $email = $(self.emailSelector);
-            var $errorMessage = $email.parent().find('.form-error');
-            var isValid = regex.test($email.val());
-            $email.toggleClass('error', !isValid);
+        $('.required').off().on('input', function() {
+            var type = this.type || this.tagName.toLowerCase();
+            var $this = $(this);
+            var $errorMessage = $this.parent().find('.form-error');
+            var isValid = ($this.val() != '');
+            if (type == 'email' && isValid) {
+                isValid = self._isValidEmail($this);
+                if (!isValid) {
+                    $errorMessage.html('Not a valid email address');
+                }
+            }
+            $this.toggleClass('error', !isValid);
             $errorMessage.toggle(!isValid);
         })
     }
@@ -1058,7 +1065,6 @@ $(document).ready(function ($) {
                 formErrors.show({
                     append: true,
                     messages: '#error_messages',
-                    emailSelector: '[name="email"]',
                     errors: errors
                 });
             }

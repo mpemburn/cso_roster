@@ -79,7 +79,7 @@
                                     <label for="email" class="col-md-1 control-label">Email</label>
                                     <div class="col-md-11">
                                         <div class="col-md-10 field-wrapper">
-                                            {{ Form::text('email', $member->email, ['class' => 'col-md-12 required', 'placeholder' => 'Email *']) }}
+                                            {{ Form::email('email', $member->email, ['class' => 'col-md-12 required', 'placeholder' => 'Email *']) }}
                                         </div>
                                     </div>
                                 </div>
