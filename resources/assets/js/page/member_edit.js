@@ -57,6 +57,7 @@ $(document).ready(function ($) {
                 formErrors.show({
                     append: true,
                     messages: '#error_messages',
+                    emailSelector: '[name="email"]',
                     errors: errors
                 });
             }

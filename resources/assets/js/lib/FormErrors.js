@@ -2,6 +2,7 @@ var FormErrors = {
     dialog: null,
     messages: null,
     append: false,
+    emailSelector: null,
     errors: null,
     show: function(options) {
         $.extend(this, options);
@@ -12,6 +13,9 @@ var FormErrors = {
         }
         if (this.append) {
             this._appendMessages();
+        }
+        if (this.emailSelector != null) {
+            this._setEmailListener();
         }
     },
     _clear: function() {
@@ -36,5 +40,14 @@ var FormErrors = {
                 $parent.append('<div class="form-error">' + this.errors[field] + '</div>');
             }
         }
+    },
+    _setEmailListener: function() {
+        var self = this;
+        $(this.emailSelector).off().on('input', function() {
+            var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+            var $email = $(self.emailSelector);
+            var $errorMessage = $email.parent().find('.form-error');
+            $errorMessage.toggle(!regex.test($email.val()));
+        })
     }
 };
