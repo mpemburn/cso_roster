@@ -72,7 +72,8 @@
 
                         <ul class="dropdown-menu" role="menu">
                             @if (Auth::user()->member)
-                                <li><a href="{{ url('/member/details') }}/{{ Auth::user()->member->id }}"><i class="fa fa-btn fa-user-circle"></i> My Profile</a></li>
+                                <?php $member = Auth::user()->member; ?>
+                                <li><a href="{{ url('/member/details') }}/{{ $member->id }}"><i class="fa fa-btn fa-user-circle"></i> My Profile</a></li>
                                 <li><a href="{{ url('/profile/password') }}"><i class="fa fa-btn fa-user-secret"></i> Reset Password</a></li>
                             @endif
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>
