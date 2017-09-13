@@ -128,6 +128,7 @@ return [
         'cell_phone' => 'Cell Phone',
         'home_phone' => 'Home Phone',
         'phone_one' => 'Phone 1',
+        'phone_two' => 'Phone 2',
         'calendar_year' => 'Year',
         'paid_amount' => 'Amount',
         'paid_date' => 'Paid Date',
