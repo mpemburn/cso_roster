@@ -45,6 +45,8 @@ class MembersController extends Controller
      */
     public function details($id = 0)
     {
+        $is = $this->repository->isValidMemberEmailAddress('ark@pemburn.com');
+
         $memberDetails = $this->repository->getDetails($id);
 
         return view('member_edit', $memberDetails);

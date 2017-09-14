@@ -84,7 +84,7 @@ return [
     ],
     'string'               => 'The :attribute must be a string.',
     'timezone'             => 'The :attribute must be a valid zone.',
-    'unique'               => 'The :attribute has already been taken.',
+    'unique'               => 'This :attribute has already been taken.',
     'uploaded'             => 'The :attribute failed to upload.',
     'url'                  => 'The :attribute format is invalid.',
 
@@ -102,6 +102,17 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
+        ],
+        'email' => [
+            'member_email_found' => 'Your email address is not in our database',
+        ],
+        'password' => [
+            'required' => 'The "Password" field is required',
+            'invalid_pattern' => 'The password does not use the required pattern',
+        ],
+        'old_password' => [
+            'required' => 'The "Old Password" field is required',
+            'match_old' => 'Does not match your current password'
         ],
     ],
 

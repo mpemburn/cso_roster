@@ -22,6 +22,12 @@ interface MemberRepositoryContract extends RepositoryContract
     function save($request, $id);
 
     /**
+     * @param $email
+     * @return mixed
+     */
+    function isValidMemberEmailAddress($email);
+
+    /**
      * @param $memberId
      * @return mixed
      */
@@ -37,6 +43,6 @@ interface MemberRepositoryContract extends RepositoryContract
      * @param $memberId
      * @return mixed
      */
-    public function retrieveRoles($memberId);
+    function retrieveRoles($memberId);
 
 }
