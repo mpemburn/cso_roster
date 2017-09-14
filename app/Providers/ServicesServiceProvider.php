@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\Services\MemberServiceContract;
+
+use App\Services\MemberService;
 
 /**
- * Class ServiceServiceProvider
+ * Class ServicesServiceProvider
  * @package App\Providers
  */
-class ServiceServiceProvider extends ServiceProvider
+class ServicesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -27,8 +30,8 @@ class ServiceServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (glob(app_path().'/Services/*.php') as $filename){
-            require_once($filename);
-        }
+        $this->app->bind(MemberServiceContract::class, function () {
+            return new MemberService();
+        });
     }
 }

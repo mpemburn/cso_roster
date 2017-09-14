@@ -3,6 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row">
+        @if(isset($registered) !== false)
+        <div class="col-md-12 text-center">Success! You are now a registered user. Please enter your password below.</div>
+        @endif
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
@@ -14,7 +17,10 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                @if(!isset($email))
+                                    <?php $email = old('email') ?>
+                                @endif
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $email }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">

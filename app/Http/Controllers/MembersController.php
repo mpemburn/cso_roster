@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Services\MemberServiceContract;
 
 class MembersController extends Controller
 {
@@ -11,11 +12,6 @@ class MembersController extends Controller
      * @var MemberRepositoryContract
      */
     protected $repository;
-
-    /**
-     * @var MemberServiceContract
-     */
-    protected $memberService;
 
     /**
      * MembersController constructor.
@@ -45,8 +41,6 @@ class MembersController extends Controller
      */
     public function details($id = 0)
     {
-        $is = $this->repository->isValidMemberEmailAddress('ark@pemburn.com');
-
         $memberDetails = $this->repository->getDetails($id);
 
         return view('member_edit', $memberDetails);

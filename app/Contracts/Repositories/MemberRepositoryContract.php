@@ -22,12 +22,6 @@ interface MemberRepositoryContract extends RepositoryContract
     function save($request, $id);
 
     /**
-     * @param $email
-     * @return mixed
-     */
-    function isValidMemberEmailAddress($email);
-
-    /**
      * @param $memberId
      * @return mixed
      */

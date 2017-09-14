@@ -182,7 +182,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryProvider::class,
-        App\Providers\ServiceServiceProvider::class,
+        App\Providers\ServicesServiceProvider::class,
 
         /*
          * SimpleSoftwareIO SMS Service Provider

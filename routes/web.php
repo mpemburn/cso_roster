@@ -23,7 +23,11 @@ Route::get('refresh-csrf', function(){
     return csrf_token();
 });
 
+Route::get('register/success', [
+    'uses' => 'Auth\RegisterController@success'
+]);
 
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 

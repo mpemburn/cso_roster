@@ -52,13 +52,6 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         return $data;
     }
 
-    public function isValidMemberEmailAddress($email)
-    {
-        $foundMember = $this->model->where('email', $email)->first();
-
-        return (!is_null($foundMember));
-    }
-
     /**
      * @param $memberId
      * @return mixed

@@ -7,7 +7,7 @@
 namespace App\Validators;
 
 use Illuminate\Contracts\Validation\Validator;
-use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Services\MemberServiceContract;
 
 /**
  * Class MemberEmailFoundValidator
@@ -18,11 +18,11 @@ class MemberEmailFoundValidator
     /**
      * @$repository MemberRepositoryContract
      */
-    protected $repository;
+    protected $memberService;
 
-    public function __construct(MemberRepositoryContract $memberRepositoryContract)
+    public function __construct(MemberServiceContract $memberService)
     {
-        $this->repository = $memberRepositoryContract;
+        $this->memberService = $memberService;
     }
 
     /**
@@ -34,6 +34,6 @@ class MemberEmailFoundValidator
      * @return bool
      */
     public function validate($attribute, $value, $parameters = []) {
-        return $this->repository->isValidMemberEmailAddress($value);
+        return $this->memberService->isValidMemberEmailAddress($value);
     }
 }

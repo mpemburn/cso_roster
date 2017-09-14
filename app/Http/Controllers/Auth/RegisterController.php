@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Contracts\Services\MemberServiceContract;
 
 class RegisterController extends Controller
 {
@@ -27,16 +28,34 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/register/success';
+
+    /**
+     * @memberService MemberServiceContract
+     */
+    protected $memberService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MemberServiceContract $memberService)
     {
+        $this->memberService = $memberService;
         $this->middleware('guest');
+    }
+
+    public function success()
+    {
+        // Get memberId stored in the 'create' method
+        $memberId = session('memberId');
+        // Get member email.  Returns null if not found
+        $email = $this->memberService->getMemberEmailFromId($memberId);
+        // Zap the memberId so that this won't show success with repeated calls
+        session(['memberId' => null]);
+
+        return view('auth/login', ['registered' => $email, 'email' => $email]);
     }
 
     /**
@@ -48,7 +67,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
             'email' => 'required|member_email_found|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|invalid_pattern|confirmed',
         ]);
@@ -62,10 +80,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $member = $this->memberService->getMemberFromEmail($data['email']);
+        $memberName = $member->first_name . ' ' . $member->last_name;
+        session(['memberId' => $member->id]);
+
+        $newUser = User::create([
+            'name' => $memberName,
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        // Set the new User id into the Member record
+        $member->user_id = $newUser->id;
+        $member->save();
+
+        // return a blank instance of User,
+        // otherwise, the newly created user will login automatically
+        return new User;
     }
+
 }
