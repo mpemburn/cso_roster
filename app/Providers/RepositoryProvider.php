@@ -13,6 +13,7 @@ use App\Contracts\Repositories\BoardRoleRepositoryContract;
 use App\Contracts\Repositories\ContactRepositoryContract;
 use App\Contracts\Repositories\DuesRepositoryContract;
 use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Contracts\Repositories\Auth\ResetPasswordRepositoryContract;
 
 class RepositoryProvider extends ServiceProvider {
 
@@ -47,6 +48,13 @@ class RepositoryProvider extends ServiceProvider {
         $this->app->bind(MemberRepositoryContract::class, function () {
             return new Repositories\MemberRepository(
                 new Models\Member(),
+                $this->app->make('log')
+            );
+        });
+        
+        $this->app->bind(ResetPasswordRepositoryContract::class, function () {
+            return new Repositories\ResetPasswordRepository(
+                new Models\User(),
                 $this->app->make('log')
             );
         });

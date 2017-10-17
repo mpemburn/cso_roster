@@ -5,21 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use App\Contracts\Services\MemberServiceContract;
+use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class MembersController extends Controller
 {
     /**
-     * @var MemberRepositoryContract
+     * @$repository MemberRepositoryContract
      */
     protected $repository;
+
+    /**
+     * @$memberService MemberServiceContract
+     */
+    protected $memberService;
 
     /**
      * MembersController constructor.
      * @param MemberRepositoryContract $repository
      */
-    public function __construct(MemberRepositoryContract $memberRepository)
+    public function __construct(MemberRepositoryContract $memberRepository, MemberServiceContract $memberService)
     {
         $this->repository = $memberRepository;
+        $this->memberService = $memberService;
         $this->middleware('auth');
     }
 
@@ -162,12 +170,16 @@ class MembersController extends Controller
 
     public function resetProfilePassword(Request $request)
     {
-        return view('auth/passwords/profile_reset', ['token' => csrf_token()]);
+        $memberId = $this->memberService->getMemberIdFromUserId(Auth::user()->id);
+
+        return view('auth/passwords/profile_reset', ['member_id' => $memberId]);
     }
 
     public function setNewPassword(Request $request)
     {
+        $this->memberService->resetUserPassword($request);
         return 'Reset password, now?';
+
     }
 
 }

@@ -45,11 +45,13 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'uses' => 'Auth\LoginController@logout'
     ]);
 
+    // Allows user to reset their password while logged in
     Route::get('profile/password', [
         'middleware' => ['auth'],
         'uses' => 'MembersController@resetProfilePassword'
     ]);
 
+    // Performs the password reset action
     Route::post('profile/reset', [
         'middleware' => ['auth'],
         'uses' => 'MembersController@setNewPassword'

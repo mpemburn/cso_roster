@@ -22,8 +22,26 @@ interface MemberServiceContract extends ServiceContract
     function getMemberFromEmail($email);
 
     /**
+     * @param $user_id
+     * @return mixed
+     */
+    function getMemberFromUserId($user_id);
+
+    /**
+     * @param $user_id
+     * @return mixed
+     */
+    function getMemberIdFromUserId($user_id);
+
+    /**
      * @param $email
      * @return mixed
      */
     function isValidMemberEmailAddress($email);
+
+    /**
+     * @param $request
+     * @return mixed
+     */
+    function resetUserPassword($request);
 }

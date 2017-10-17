@@ -3,6 +3,9 @@ namespace App\Services;
 
 use App\Contracts\Services\MemberServiceContract;
 use App\Models\Member;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 /**
  * Class MemberService
@@ -30,6 +33,28 @@ class MemberService implements MemberServiceContract
     }
 
     /**
+     * @param $user_id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    function getMemberFromUserId($user_id)
+    {
+        $member = Member::where('user_id', $user_id)->first();
+
+        return $member;
+    }
+
+    /**
+     * @param $user_id
+     * @return integer|null
+     */
+    function getMemberIdFromUserId($user_id)
+    {
+        $member = $this->getMemberFromUserId($user_id);
+
+        return (!is_null($member)) ? $member->id : null;
+    }
+
+    /**
      * @param $email
      * @return bool
      */
@@ -38,6 +63,19 @@ class MemberService implements MemberServiceContract
         $foundMember = $this->getMemberFromEmail($email);
 
         return (!is_null($foundMember));
+    }
+
+    /**
+     * @param $request
+     */
+    public function resetUserPassword($request)
+    {
+        $oldPassword = $request->old_password;
+        $currentPassword = Auth::user()->password;
+        if (Hash::check($oldPassword, $currentPassword)) {
+            $foo = 'bar';
+        }
+
     }
 
 }

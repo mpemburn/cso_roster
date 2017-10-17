@@ -10,7 +10,7 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/profile/reset') }}">
                             {{ csrf_field() }}
 
-                            <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="member_id" value="{{ $member_id }}">
 
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="col-md-4 control-label">Old Password</label>
