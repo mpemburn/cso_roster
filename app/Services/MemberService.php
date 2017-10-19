@@ -3,8 +3,9 @@ namespace App\Services;
 
 use App\Contracts\Services\MemberServiceContract;
 use App\Models\Member;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 
 /**
@@ -45,6 +46,20 @@ class MemberService implements MemberServiceContract
 
     /**
      * @param $user_id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    function getUserFromMemberId($member_id)
+    {
+        $member = Member::find($member_id);
+        if (!is_null($member->user_id)) {
+            $user = User::find($member->user_id);
+            return $user;
+        }
+        return null;
+    }
+
+    /**
+     * @param $user_id
      * @return integer|null
      */
     function getMemberIdFromUserId($user_id)
@@ -70,12 +85,27 @@ class MemberService implements MemberServiceContract
      */
     public function resetUserPassword($request)
     {
-        $oldPassword = $request->old_password;
-        $currentPassword = Auth::user()->password;
-        if (Hash::check($oldPassword, $currentPassword)) {
-            $foo = 'bar';
+        $data = $request->all();
+        $memberId = $data['member_id'];
+        $user = $this->getUserFromMemberId($memberId);
+
+        $rules = [
+            'old_password' => 'required|matches_old_password',
+            'password' => 'required',
+            'password_confirmation' => 'required',
+        ];
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            $response = ['response' => 'success'];
         }
 
+        return $response;
     }
 
 }

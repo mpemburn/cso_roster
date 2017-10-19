@@ -110,9 +110,13 @@ return [
             'required' => 'The "Password" field is required',
             'invalid_pattern' => 'The password does not use the required pattern',
         ],
+        'password_confirmation' => [
+            'required' => 'The "Confirm Password" field is required',
+            'matches_old_password' => 'Does not match the "Password" field'
+        ],
         'old_password' => [
             'required' => 'The "Old Password" field is required',
-            'match_old' => 'Does not match your current password'
+            'matches_old_password' => 'Does not match your current password'
         ],
     ],
 
