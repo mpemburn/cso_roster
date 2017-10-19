@@ -112,7 +112,7 @@ return [
         ],
         'password_confirmation' => [
             'required' => 'The "Confirm Password" field is required',
-            'matches_old_password' => 'Does not match the "Password" field'
+            'confirmed' => 'Does not match the "Password" field'
         ],
         'old_password' => [
             'required' => 'The "Old Password" field is required',

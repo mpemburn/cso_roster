@@ -7,7 +7,7 @@
                     <div class="panel-heading">Reset Password</div>
 
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/profile/reset') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/profile/reset') }}" id="profile_reset" name="profile_reset">
                             {{ csrf_field() }}
 
                             <input type="hidden" name="member_id" value="{{ $member_id }}">

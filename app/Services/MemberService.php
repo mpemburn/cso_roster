@@ -91,7 +91,7 @@ class MemberService implements MemberServiceContract
 
         $rules = [
             'old_password' => 'required|matches_old_password',
-            'password' => 'required',
+            'password' => 'required|confirmed',
             'password_confirmation' => 'required',
         ];
 
@@ -102,7 +102,7 @@ class MemberService implements MemberServiceContract
         } else {
             $user->password = Hash::make($data['password']);
             $user->save();
-            $response = ['response' => 'success'];
+            $response = ['status' => 'success'];
         }
 
         return $response;

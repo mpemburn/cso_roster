@@ -177,7 +177,14 @@ class MembersController extends Controller
 
     public function setNewPassword(Request $request)
     {
-        return $this->memberService->resetUserPassword($request);
+        $response = $this->memberService->resetUserPassword($request);
+
+        return response()->json($response);
+    }
+
+    public function passwordResetSuccess()
+    {
+        return view('auth/passwords/reset_success', []);
     }
 
 }
