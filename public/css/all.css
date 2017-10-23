@@ -5885,6 +5885,11 @@ table.dataTable tbody tr:hover {
   table.dataTable tbody tr:hover a {
     color: #fff; }
 
+.alert-success {
+  background-color: #33acfe;
+  border-color: #0000AA;
+  text-align: center; }
+
 .dataTables_filter input {
   padding: 0 5px;
   border: 1pt solid #111; }

@@ -32,9 +32,13 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Password Reset Routes...
-Route::post('password/email', [
-    'as' => 'auth.password.email',
-    'uses' => 'Auth\PasswordController@sendResetLinkEmail'
+Route::get('password/reset', [
+    'uses' => 'Auth\ForgotPasswordController@showPasswordResetForm'
+]);
+
+Route::get('password/email', [
+    'as' => 'password.email',
+    'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
 ]);
 
 // All Auth protected routes

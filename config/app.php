@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'CSO Roster'),
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +183,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryProvider::class,
         App\Providers\ServicesServiceProvider::class,
+
+        /*
+         * IDE Helper Service Provider
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * SimpleSoftwareIO SMS Service Provider

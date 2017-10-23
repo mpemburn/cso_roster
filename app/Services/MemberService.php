@@ -5,8 +5,9 @@ use App\Contracts\Services\MemberServiceContract;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Validator;
-
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class MemberService
@@ -69,6 +70,17 @@ class MemberService implements MemberServiceContract
         return (!is_null($member)) ? $member->id : null;
     }
 
+    function getUserFromMemberEmailAddress($email)
+    {
+        $member = $this->getMemberFromEmail($email);
+
+        if (!is_null($member)) {
+            return $this->getUserFromMemberId($member->id);
+        }
+
+        return null;
+    }
+
     /**
      * @param $email
      * @return bool
@@ -108,4 +120,26 @@ class MemberService implements MemberServiceContract
         return $response;
     }
 
+    public function sendPasswordResetEmail(Request $request)
+    {
+        $data = $request->all();
+        $user = $this->getUserFromMemberEmailAddress($data['email']);
+
+        if (!is_null($user)) {
+            $hash = Hash::make($user->name . date('MdYHis', time()));
+            $resetLink = url('/') . '/password/reset/' . $hash;
+            $appName = config('app,name');
+
+            Mail::send('emails.reset_password', [
+                'user_name' => $user->name,
+                'app_name' => $appName,
+                'password_reset_link' => $resetLink
+            ], function ($mailer) use ($user) {
+                $domain = str_replace(['http://', 'https://'], '', url('/'));
+                $mailer->from('noreply@' . $domain, 'Your Application');
+                $mailer->to($user->email, $user->name)->subject('Password Reset');
+            });
+        }
+
+    }
 }

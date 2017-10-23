@@ -1,6 +1,7 @@
 <?php
 namespace App\Contracts\Services;
 
+use Illuminate\Http\Request;
 
 /**
  * Interface MemberServiceContract
@@ -13,35 +14,42 @@ interface MemberServiceContract extends ServiceContract
      * @param $memberId
      * @return mixed
      */
-    function getMemberEmailFromId($memberId);
+    public function getMemberEmailFromId($memberId);
 
     /**
      * @param $email
      * @return mixed
      */
-    function getMemberFromEmail($email);
+    public function getMemberFromEmail($email);
 
     /**
      * @param $user_id
      * @return mixed
      */
-    function getMemberFromUserId($user_id);
+    public function getMemberFromUserId($user_id);
 
     /**
      * @param $user_id
      * @return mixed
      */
-    function getMemberIdFromUserId($user_id);
+    public function getMemberIdFromUserId($user_id);
 
     /**
      * @param $email
      * @return mixed
      */
-    function isValidMemberEmailAddress($email);
+    public function isValidMemberEmailAddress($email);
 
     /**
      * @param $request
      * @return mixed
      */
-    function resetUserPassword($request);
+    public function resetUserPassword($request);
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function sendPasswordResetEmail(Request $request);
+
 }
