@@ -126,9 +126,13 @@ class MemberService implements MemberServiceContract
         $user = $this->getUserFromMemberEmailAddress($data['email']);
 
         if (!is_null($user)) {
-            $hash = Hash::make($user->name . date('MdYHis', time()));
-            $resetLink = url('/') . '/password/reset/' . $hash;
-            $appName = config('app,name');
+            // Create a unique hash based on user name and date
+            $hash = base64_encode(Hash::make($user->name . date('MdYHis', time())));
+            $resetLink = url('/') . '/password/token/' . $hash;
+            $appName = config('app.name');
+            // Save the hash into the user table (will be retrieved to complete reset process).
+            $user->reset_token = $hash;
+            $user->save();
 
             Mail::send('emails.reset_password', [
                 'user_name' => $user->name,

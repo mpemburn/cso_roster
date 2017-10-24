@@ -9,7 +9,7 @@
 
             We received a request to reset your {{ $app_name }} password.
             <br/>
-            Please click on the link below to reset your password:
+            Please click on the link below to complete the process:
 
         </td>
     </tr>

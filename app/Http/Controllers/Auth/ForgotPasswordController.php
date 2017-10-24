@@ -36,7 +36,7 @@ class ForgotPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function showPasswordResetForm()
+    public function showSendResetRequestForm()
     {
         return view('auth/passwords/send_reset', []);
     }
@@ -44,5 +44,11 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request, MemberServiceContract $memberService)
     {
         $memberService->sendPasswordResetEmail($request);
+    }
+
+    public function passwordResetForm($token)
+    {
+        echo $token . '<br>';
+        return "That's enough for tonight.";
     }
 }
