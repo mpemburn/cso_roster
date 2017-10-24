@@ -44,7 +44,7 @@ Route::get('password/email', [
 
 Route::get('password/token/{hash}', [
     'as' => 'password.token',
-    'uses' => 'Auth\ForgotPasswordController@passwordResetForm'
+    'uses' => 'Auth\ForgotPasswordController@showPasswordResetForm'
 ]);
 
 // All Auth protected routes

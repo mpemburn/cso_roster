@@ -47,6 +47,30 @@ class MemberService implements MemberServiceContract
 
     /**
      * @param $user_id
+     * @return integer|null
+     */
+    function getMemberIdFromUserId($user_id)
+    {
+        $member = $this->getMemberFromUserId($user_id);
+
+        return (!is_null($member)) ? $member->id : null;
+    }
+
+    /**
+     * @param $user_id
+     * @return integer|null
+     */
+    function getMemberIdFromUserResetToken($token)
+    {
+        $user = User::where('reset_token', $token)->first();
+        if (!is_null($user)) {
+            return $this->getMemberIdFromUserId($user->id);
+        }
+        return false;
+    }
+
+    /**
+     * @param $user_id
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
     function getUserFromMemberId($member_id)
@@ -60,16 +84,9 @@ class MemberService implements MemberServiceContract
     }
 
     /**
-     * @param $user_id
-     * @return integer|null
+     * @param $email
+     * @return MemberService|\Illuminate\Database\Eloquent\Model|null|static
      */
-    function getMemberIdFromUserId($user_id)
-    {
-        $member = $this->getMemberFromUserId($user_id);
-
-        return (!is_null($member)) ? $member->id : null;
-    }
-
     function getUserFromMemberEmailAddress($email)
     {
         $member = $this->getMemberFromEmail($email);

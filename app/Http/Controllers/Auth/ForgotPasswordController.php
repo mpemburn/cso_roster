@@ -36,19 +36,37 @@ class ForgotPasswordController extends Controller
         $this->middleware('guest');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showSendResetRequestForm()
     {
         return view('auth/passwords/send_reset', []);
     }
 
+    /**
+     * @param Request $request
+     * @param MemberServiceContract $memberService
+     */
     public function sendResetLinkEmail(Request $request, MemberServiceContract $memberService)
     {
         $memberService->sendPasswordResetEmail($request);
     }
 
-    public function passwordResetForm($token)
+    /**
+     * @param $token
+     * @return string
+     */
+    public function showPasswordResetForm($token, MemberServiceContract $memberService)
     {
-        echo $token . '<br>';
-        return "That's enough for tonight.";
+        $memberId = $memberService->getMemberIdFromUserResetToken($token);
+
+        if ($memberId !== false) {
+            return view('auth/passwords/token_reset', [
+                'member_id' => $memberId
+            ]);
+        } else {
+            return view('auth/passwords/token_expired');
+        }
     }
 }
