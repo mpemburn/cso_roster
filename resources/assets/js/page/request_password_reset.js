@@ -1,14 +1,14 @@
 $(document).ready(function ($) {
 
-    if ($('#profile_reset').is('*') || $('#password_submit').is('*')) {
+    if ($('#request_password_reset').is('*')) {
         
         // Save for Member form
         var passwordSave = Object.create(AjaxPost);
         // Save for Member form
         var passwordSave = Object.create(AjaxPost);
         passwordSave.init({
-            formSelector: '#profile_reset, #password_submit',
-            successAction: function(){
+            formSelector: '#request_password_reset',
+            successAction: function(response){
                 document.location = appSpace.baseUrl + '/profile/success';
             },
             errorAction: function(errors){

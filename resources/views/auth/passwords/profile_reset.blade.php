@@ -37,6 +37,9 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                     @endif
+                                    <div>
+                                        @lang('passwords.password')
+                                    </div>
                                 </div>
                             </div>
 

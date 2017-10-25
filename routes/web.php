@@ -47,6 +47,11 @@ Route::get('password/token/{hash}', [
     'uses' => 'Auth\ForgotPasswordController@showPasswordResetForm'
 ]);
 
+Route::post('password/submit', [
+    'as' => 'password.submit',
+    'uses' => 'Auth\ForgotPasswordController@submitNewPassword'
+]);
+
 // All Auth protected routes
 Route::group(['middlewareGroups' => 'web'], function () {
 

@@ -39,7 +39,7 @@
                                     </span>
                                 @endif
                                 <div>
-                                    Passwords must be at least 8 characters long and contain both upper and lower case, plus at least one number or special character.
+                                    @lang('passwords.password')
                                 </div>
                             </div>
                         </div>

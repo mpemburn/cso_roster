@@ -99,4 +99,10 @@ class RegisterController extends Controller
         return new User;
     }
 
+    // Override default from trait so that we can pass language string
+//    public function showRegistrationForm()
+//    {
+//        return view('auth.register', ['requirement' => lang()]);
+//    }
+
 }

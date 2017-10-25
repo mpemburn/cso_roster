@@ -69,4 +69,9 @@ class ForgotPasswordController extends Controller
             return view('auth/passwords/token_expired');
         }
     }
+
+    public function submitNewPassword(Request $request, MemberServiceContract $memberService)
+    {
+        return $memberService->resetUserPassword($request);
+    }
 }

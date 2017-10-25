@@ -119,11 +119,14 @@ class MemberService implements MemberServiceContract
         $user = $this->getUserFromMemberId($memberId);
 
         $rules = [
-            'old_password' => 'required|matches_old_password',
-            'password' => 'required|confirmed',
+            'password' => 'required|invalid_pattern|confirmed',
             'password_confirmation' => 'required',
         ];
 
+        if (isset($data['old_password'])) {
+            $rules['old_password'] = 'required|matches_old_password';
+
+        }
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
