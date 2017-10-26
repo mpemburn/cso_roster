@@ -82,4 +82,9 @@ class ForgotPasswordController extends Controller
 
         return view('auth/passwords/sent_success', ['email' => $email]);
     }
+
+    public function resetSuccess()
+    {
+        return view('auth/passwords/reset_success');
+    }
 }

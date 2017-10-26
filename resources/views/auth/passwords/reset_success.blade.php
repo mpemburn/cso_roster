@@ -8,7 +8,7 @@
                 <div class="panel-heading">Reset Password</div>
 
                 <div class="panel-body text-center">
-                    <h2>Success!</h2>
+                    <h3>@lang('passwords.reset')</h3>
                 </div>
             </div>
         </div>

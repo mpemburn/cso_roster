@@ -5,8 +5,8 @@ $(document).ready(function ($) {
         var profileReset = Object.create(AjaxPost);
         profileReset.init({
             formSelector: '#profile_reset, #password_submit',
-            successAction: function(){
-                document.location = appSpace.baseUrl + '/profile/success';
+            successAction: function(response){
+                document.location = response.url; //appSpace.baseUrl + '/profile/success';
             },
             errorAction: function(errors){
                 var formErrors = Object.create(FormErrors);

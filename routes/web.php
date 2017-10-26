@@ -57,6 +57,11 @@ Route::get('password/sent_success/{hash}', [
     'uses' => 'Auth\ForgotPasswordController@emailSuccess'
 ]);
 
+Route::get('password/success', [
+    'as' => 'password.success',
+    'uses' => 'Auth\ForgotPasswordController@resetSuccess'
+]);
+
 // All Auth protected routes
 Route::group(['middlewareGroups' => 'web'], function () {
 

@@ -49,7 +49,7 @@ class MemberService implements MemberServiceContract
      * @param $user_id
      * @return integer|null
      */
-    function getMemberIdFromUserId($user_id)
+    public function getMemberIdFromUserId($user_id)
     {
         $member = $this->getMemberFromUserId($user_id);
 
@@ -60,7 +60,7 @@ class MemberService implements MemberServiceContract
      * @param $token
      * @return Member
      */
-    function getMemberFromUserResetToken($token)
+    public function getMemberFromUserResetToken($token)
     {
         $user = User::where('reset_token', $token)->first();
         if (!is_null($user)) {
@@ -73,7 +73,7 @@ class MemberService implements MemberServiceContract
      * @param $token
      * @return string|bool
      */
-    function getMemberEmailFromUserResetToken($token)
+    public function getMemberEmailFromUserResetToken($token)
     {
         $member = $this->getMemberFromUserResetToken($token);
         if (!is_null($member)) {
@@ -86,10 +86,10 @@ class MemberService implements MemberServiceContract
      * @param $token
      * @return string|bool
      */
-    function getMemberIdFromUserResetToken($token)
+    public function getMemberIdFromUserResetToken($token)
     {
         $member = $this->getMemberFromUserResetToken($token);
-        if (!is_null($member)) {
+        if (!is_null($member) && $member !== false) {
             return $member->id;
         }
         return false;
@@ -99,7 +99,7 @@ class MemberService implements MemberServiceContract
      * @param $user_id
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
-    function getUserFromMemberId($member_id)
+    public function getUserFromMemberId($member_id)
     {
         $member = Member::find($member_id);
         if (!is_null($member->user_id)) {
@@ -113,7 +113,7 @@ class MemberService implements MemberServiceContract
      * @param $email
      * @return MemberService|\Illuminate\Database\Eloquent\Model|null|static
      */
-    function getUserFromMemberEmailAddress($email)
+    public function getUserFromMemberEmailAddress($email)
     {
         $member = $this->getMemberFromEmail($email);
 
@@ -143,14 +143,17 @@ class MemberService implements MemberServiceContract
         $data = $request->all();
         $memberId = $data['member_id'];
         $user = $this->getUserFromMemberId($memberId);
+        $nextUrl = '/password/success';
 
         $rules = [
             'password' => 'required|invalid_pattern|confirmed',
             'password_confirmation' => 'required',
         ];
 
+        // if this is being submitted by logged-in user,'old_password' will be present
         if (isset($data['old_password'])) {
             $rules['old_password'] = 'required|matches_old_password';
+            $nextUrl = '/profile/success';
 
         }
         $validator = Validator::make($data, $rules);
@@ -159,8 +162,13 @@ class MemberService implements MemberServiceContract
             $response = ['errors' => $validator->errors()];
         } else {
             $user->password = Hash::make($data['password']);
+            // Delete the reset token so that it can't be used again.
+            $user->reset_token = '';
             $user->save();
-            $response = ['status' => 'success'];
+            $response = [
+                'status' => 'success',
+                'data' => ['url' => url('/') . $nextUrl]
+            ];
         }
 
         return $response;
@@ -206,6 +214,6 @@ class MemberService implements MemberServiceContract
         }
 
         return $response;
-
+//$2y$10$iccsIxfW8KDtLjBKxggzVOE2hpMWWcUguPRcsUyCItiUp79Yzwa.i
     }
 }
