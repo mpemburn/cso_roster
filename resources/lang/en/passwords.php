@@ -15,8 +15,8 @@ return [
 
     'password' => 'Passwords must be at least 8 characters long and contain both upper and lower case, plus at least one number or special character.',
     'reset' => 'Your password has been reset!',
-    'sent' => 'We have e-mailed your password reset link!',
+    'sent' => 'We\'ve emailed a password reset link to',
     'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that e-mail address.",
+    'user' => "We can't find a user with that email address.",
 
 ];

@@ -50,7 +50,7 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request, MemberServiceContract $memberService)
     {
-        $memberService->sendPasswordResetEmail($request);
+        return $memberService->sendPasswordResetEmail($request);
     }
 
     /**
@@ -63,7 +63,8 @@ class ForgotPasswordController extends Controller
 
         if ($memberId !== false) {
             return view('auth/passwords/token_reset', [
-                'member_id' => $memberId
+                'member_id' => $memberId,
+                'token' => $token
             ]);
         } else {
             return view('auth/passwords/token_expired');
@@ -73,5 +74,12 @@ class ForgotPasswordController extends Controller
     public function submitNewPassword(Request $request, MemberServiceContract $memberService)
     {
         return $memberService->resetUserPassword($request);
+    }
+
+    public function emailSuccess($token, MemberServiceContract $memberService)
+    {
+        $email = $memberService->getMemberEmailFromUserResetToken($token);
+
+        return view('auth/passwords/sent_success', ['email' => $email]);
     }
 }

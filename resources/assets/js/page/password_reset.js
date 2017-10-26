@@ -2,11 +2,8 @@ $(document).ready(function ($) {
 
     if ($('#profile_reset').is('*') || $('#password_submit').is('*')) {
         
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        passwordSave.init({
+        var profileReset = Object.create(AjaxPost);
+        profileReset.init({
             formSelector: '#profile_reset, #password_submit',
             successAction: function(){
                 document.location = appSpace.baseUrl + '/profile/success';

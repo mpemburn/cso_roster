@@ -1187,11 +1187,8 @@ $(document).ready(function ($) {
 
     if ($('#profile_reset').is('*') || $('#password_submit').is('*')) {
         
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        passwordSave.init({
+        var profileReset = Object.create(AjaxPost);
+        profileReset.init({
             formSelector: '#profile_reset, #password_submit',
             successAction: function(){
                 document.location = appSpace.baseUrl + '/profile/success';
@@ -1212,14 +1209,11 @@ $(document).ready(function ($) {
 
     if ($('#request_password_reset').is('*')) {
         
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        // Save for Member form
-        var passwordSave = Object.create(AjaxPost);
-        passwordSave.init({
+        var requestReset = Object.create(AjaxPost);
+        requestReset.init({
             formSelector: '#request_password_reset',
             successAction: function(response){
-                document.location = appSpace.baseUrl + '/profile/success';
+                document.location = response.url;
             },
             errorAction: function(errors){
                 var formErrors = Object.create(FormErrors);

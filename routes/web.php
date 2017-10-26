@@ -52,6 +52,11 @@ Route::post('password/submit', [
     'uses' => 'Auth\ForgotPasswordController@submitNewPassword'
 ]);
 
+Route::get('password/sent_success/{hash}', [
+    'as' => 'password.sent_success',
+    'uses' => 'Auth\ForgotPasswordController@emailSuccess'
+]);
+
 // All Auth protected routes
 Route::group(['middlewareGroups' => 'web'], function () {
 

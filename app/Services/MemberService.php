@@ -57,14 +57,40 @@ class MemberService implements MemberServiceContract
     }
 
     /**
-     * @param $user_id
-     * @return integer|null
+     * @param $token
+     * @return Member
      */
-    function getMemberIdFromUserResetToken($token)
+    function getMemberFromUserResetToken($token)
     {
         $user = User::where('reset_token', $token)->first();
         if (!is_null($user)) {
-            return $this->getMemberIdFromUserId($user->id);
+            return $this->getMemberFromUserId($user->id);
+        }
+        return false;
+    }
+
+    /**
+     * @param $token
+     * @return string|bool
+     */
+    function getMemberEmailFromUserResetToken($token)
+    {
+        $member = $this->getMemberFromUserResetToken($token);
+        if (!is_null($member)) {
+            return $member->email;
+        }
+        return false;
+    }
+
+    /**
+     * @param $token
+     * @return string|bool
+     */
+    function getMemberIdFromUserResetToken($token)
+    {
+        $member = $this->getMemberFromUserResetToken($token);
+        if (!is_null($member)) {
+            return $member->id;
         }
         return false;
     }
@@ -143,27 +169,43 @@ class MemberService implements MemberServiceContract
     public function sendPasswordResetEmail(Request $request)
     {
         $data = $request->all();
-        $user = $this->getUserFromMemberEmailAddress($data['email']);
 
-        if (!is_null($user)) {
-            // Create a unique hash based on user name and date
-            $hash = base64_encode(Hash::make($user->name . date('MdYHis', time())));
-            $resetLink = url('/') . '/password/token/' . $hash;
-            $appName = config('app.name');
-            // Save the hash into the user table (will be retrieved to complete reset process).
-            $user->reset_token = $hash;
-            $user->save();
+        $rules = [
+            'email' => 'required|member_email_found|string|email|max:255'
+        ];
 
-            Mail::send('emails.reset_password', [
-                'user_name' => $user->name,
-                'app_name' => $appName,
-                'password_reset_link' => $resetLink
-            ], function ($mailer) use ($user) {
-                $domain = str_replace(['http://', 'https://'], '', url('/'));
-                $mailer->from('noreply@' . $domain, 'Your Application');
-                $mailer->to($user->email, $user->name)->subject('Password Reset');
-            });
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $user = $this->getUserFromMemberEmailAddress($data['email']);
+            if (!is_null($user)) {
+                // Create a unique hash based on user name and date
+                $hash = base64_encode(Hash::make($user->name . date('MdYHis', time())));
+                $resetLink = url('/') . '/password/token/' . $hash;
+                $appName = config('app.name');
+                // Save the hash into the user table (will be retrieved to complete reset process).
+                $user->reset_token = $hash;
+                $user->save();
+
+                Mail::send('emails.reset_password', [
+                    'user_name' => $user->name,
+                    'app_name' => $appName,
+                    'password_reset_link' => $resetLink
+                ], function ($mailer) use ($user) {
+                    $domain = str_replace(['http://', 'https://'], '', url('/'));
+                    $mailer->from('noreply@' . $domain, 'Your Application');
+                    $mailer->to($user->email, $user->name)->subject('Password Reset');
+                });
+                $response = [
+                    'status' => 'success',
+                    'data' => ['url' => url('/') . '/password/sent_success/' . $hash]
+                ];
+            }
         }
+
+        return $response;
 
     }
 }
