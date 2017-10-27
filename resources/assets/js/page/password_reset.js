@@ -5,8 +5,11 @@ $(document).ready(function ($) {
         var profileReset = Object.create(AjaxPost);
         profileReset.init({
             formSelector: '#profile_reset, #password_submit',
+            setupAction: function(){
+                $('#resetting_password').removeClass('hidden');
+            },
             successAction: function(response){
-                document.location = response.url; //appSpace.baseUrl + '/profile/success';
+                document.location = response.url;
             },
             errorAction: function(errors){
                 var formErrors = Object.create(FormErrors);
@@ -15,7 +18,8 @@ $(document).ready(function ($) {
                     messages: '#error_messages',
                     errors: errors
                 });
-            }
+                 $('#resetting_password').addClass('hidden');
+           }
          });
     }
 });

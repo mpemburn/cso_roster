@@ -201,9 +201,9 @@ class MemberService implements MemberServiceContract
                     'user_name' => $user->name,
                     'app_name' => $appName,
                     'password_reset_link' => $resetLink
-                ], function ($mailer) use ($user) {
+                ], function ($mailer) use ($user, $appName) {
                     $domain = str_replace(['http://', 'https://'], '', url('/'));
-                    $mailer->from('noreply@' . $domain, 'Your Application');
+                    $mailer->from('noreply@' . $domain, $appName . ' Team');
                     $mailer->to($user->email, $user->name)->subject('Password Reset');
                 });
                 $response = [

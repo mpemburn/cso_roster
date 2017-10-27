@@ -61,6 +61,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fa fa-btn fa-refresh"></i> Reset Password
                                     </button>
+                                    <i id="resetting_password" class="fa fa-spinner fa-spin hidden"></i>
                                 </div>
                             </div>
                         </form>

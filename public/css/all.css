@@ -5886,9 +5886,9 @@ table.dataTable tbody tr:hover {
     color: #fff; }
 
 .alert-success {
-  background-color: #33acfe;
-  border-color: #0000AA;
-  text-align: center; }
+  background-color: #33acfe !important;
+  border-color: #0000AA !important;
+  text-align: center !important; }
 
 .dataTables_filter input {
   padding: 0 5px;

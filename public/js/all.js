@@ -1190,8 +1190,11 @@ $(document).ready(function ($) {
         var profileReset = Object.create(AjaxPost);
         profileReset.init({
             formSelector: '#profile_reset, #password_submit',
-            successAction: function(){
-                document.location = appSpace.baseUrl + '/profile/success';
+            setupAction: function(){
+                $('#resetting_password').removeClass('hidden');
+            },
+            successAction: function(response){
+                document.location = response.url;
             },
             errorAction: function(errors){
                 var formErrors = Object.create(FormErrors);
@@ -1200,7 +1203,8 @@ $(document).ready(function ($) {
                     messages: '#error_messages',
                     errors: errors
                 });
-            }
+                 $('#resetting_password').addClass('hidden');
+           }
          });
     }
 });
@@ -1212,6 +1216,9 @@ $(document).ready(function ($) {
         var requestReset = Object.create(AjaxPost);
         requestReset.init({
             formSelector: '#request_password_reset',
+            setupAction: function(){
+                $('#sending_link').removeClass('hidden');
+            },
             successAction: function(response){
                 document.location = response.url;
             },
@@ -1222,6 +1229,7 @@ $(document).ready(function ($) {
                     messages: '#error_messages',
                     errors: errors
                 });
+                $('#sending_link').addClass('hidden');
             }
          });
     }

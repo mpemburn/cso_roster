@@ -5,6 +5,9 @@ $(document).ready(function ($) {
         var requestReset = Object.create(AjaxPost);
         requestReset.init({
             formSelector: '#request_password_reset',
+            setupAction: function(){
+                $('#sending_link').removeClass('hidden');
+            },
             successAction: function(response){
                 document.location = response.url;
             },
@@ -15,6 +18,7 @@ $(document).ready(function ($) {
                     messages: '#error_messages',
                     errors: errors
                 });
+                $('#sending_link').addClass('hidden');
             }
          });
     }

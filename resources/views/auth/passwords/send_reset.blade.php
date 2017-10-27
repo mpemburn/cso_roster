@@ -35,6 +35,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Send Password Reset Link
                                 </button>
+                                <i id="sending_link" class="fa fa-spinner fa-spin hidden"></i>
                             </div>
                         </div>
                     </form>
