@@ -9,6 +9,7 @@
 
                 <div class="panel-body text-center">
                     <h3>@lang('passwords.reset')</h3>
+                    <a href="{{ url('/login') }}">Login</a>
                 </div>
             </div>
         </div>

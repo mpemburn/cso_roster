@@ -181,6 +181,7 @@ class MemberService implements MemberServiceContract
         $rules = [
             'email' => 'required|member_email_found|string|email|max:255'
         ];
+        $response = null;
 
         $validator = Validator::make($data, $rules);
 
@@ -197,23 +198,45 @@ class MemberService implements MemberServiceContract
                 $user->reset_token = $hash;
                 $user->save();
 
-                Mail::send('emails.reset_password', [
-                    'user_name' => $user->name,
-                    'app_name' => $appName,
-                    'password_reset_link' => $resetLink
-                ], function ($mailer) use ($user, $appName) {
-                    $domain = str_replace(['http://', 'https://'], '', url('/'));
-                    $mailer->from('noreply@' . $domain, $appName . ' Team');
-                    $mailer->to($user->email, $user->name)->subject('Password Reset');
-                });
-                $response = [
-                    'status' => 'success',
-                    'data' => ['url' => url('/') . '/password/sent_success/' . $hash]
-                ];
+                // Send the email
+                $mailResult = $this->mailSendResetLink($user, $appName, $resetLink);
+
+                if ($mailResult == 'success') {
+                    $response = [
+                        'status' => 'success',
+                        'data' => ['url' => url('/') . '/password/sent_success/' . $hash]
+                    ];
+                } else {
+                    $response = [
+                        'errors' => $mailResult,
+                    ];
+                }
             }
         }
 
         return $response;
-//$2y$10$iccsIxfW8KDtLjBKxggzVOE2hpMWWcUguPRcsUyCItiUp79Yzwa.i
+    }
+
+    // PROTECTED Methods
+
+    protected function mailSendResetLink($user, $appName, $resetLink)
+    {
+        $failed = [];
+        try {
+            Mail::send('emails.reset_password', [
+                'user_name' => $user->name,
+                'app_name' => $appName,
+                'password_reset_link' => $resetLink
+            ], function ($mailer) use ($user, $appName) {
+                $domain = str_replace(['http://', 'https://'], '', url('/'));
+                $mailer->from('noreply@' . $domain, $appName . ' Team');
+                $mailer->to($user->email, $user->name)->subject('Password Reset');
+            });
+            $failed = Mail::failures();
+        } catch (\Exception $e) {
+            return ['email' => 'Unable to send to this address'];
+        }
+
+        return (count($failed) == 0) ? 'success' : $failed;
     }
 }

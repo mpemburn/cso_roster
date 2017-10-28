@@ -9,9 +9,9 @@
 
                 <div class="panel-body">
                     @if (Auth::check())
-                        Welcome to the <strong>Chesapeake Spokes Roster</strong> application.
+                        @include('partials.welcome_message')
                     @else
-                        To use the <strong>Chesapeake Spokes Roster</strong>, please <a href="{{ url('/login') }}">Login</a>
+                        To use the <strong>@lang('app.fullname')</strong>, please <a href="{{ url('/login') }}">Login</a>
                     @endif
                 </div>
             </div>

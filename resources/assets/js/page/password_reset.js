@@ -18,7 +18,7 @@ $(document).ready(function ($) {
                     messages: '#error_messages',
                     errors: errors
                 });
-                 $('#resetting_password').addClass('hidden');
+                $('#resetting_password').addClass('hidden');
            }
          });
     }
