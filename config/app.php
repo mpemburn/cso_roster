@@ -185,11 +185,6 @@ return [
         App\Providers\ServicesServiceProvider::class,
 
         /*
-         * IDE Helper Service Provider
-         */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-
-        /*
          * SimpleSoftwareIO SMS Service Provider
          */
         SimpleSoftwareIO\SMS\SMSServiceProvider::class,
