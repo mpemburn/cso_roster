@@ -229,7 +229,7 @@ class MemberService implements MemberServiceContract
                 'password_reset_link' => $resetLink
             ], function ($mailer) use ($user, $appName) {
                 $domain = str_replace(['http://', 'https://'], '', url('/'));
-                $mailer->from('noreply@' . $domain, $appName . ' Team');
+                $mailer->from(config('mail.from.address') , $appName . ' Team');
                 $mailer->to($user->email, $user->name)->subject('Password Reset');
             });
             $failed = Mail::failures();
