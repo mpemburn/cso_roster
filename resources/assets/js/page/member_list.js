@@ -21,7 +21,7 @@ $(document).ready(function ($) {
                 // Add 'clearable' x to search field, and callback to restore table on clear
                 $search.addClass('clearable').clearable({
                     onClear: function() {
-                        guildMemberList.search( '' ).columns().search( '' ).draw();
+                        mainMemberList.search( '' ).columns().search( '' ).draw();
                     }
                 });
                 // Add filter dropdowns to dataTables.js header
