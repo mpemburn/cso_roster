@@ -130,6 +130,7 @@ class ImportMembersFromCSVCommand extends Command
             }
         }
 
+        echo 'Importing: ' . $latestFilename . '...' . PHP_EOL;
         return $latestFilename;
     }
 
