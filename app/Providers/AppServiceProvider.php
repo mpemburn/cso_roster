@@ -46,5 +46,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() == 'local') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+
+        $this->app->bind(
+            \Auth0\Login\Contract\Auth0UserRepository::class,
+            \Auth0\Login\Repository\Auth0UserRepository::class
+        );
     }
 }

@@ -190,6 +190,11 @@ return [
         App\Providers\ServicesServiceProvider::class,
 
         /*
+         * Auth0 Service Provider
+         */
+        Auth0\Login\LoginServiceProvider::class,
+
+        /*
          * SimpleSoftwareIO SMS Service Provider
          */
         SimpleSoftwareIO\SMS\SMSServiceProvider::class,
@@ -216,6 +221,7 @@ return [
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Auth0' => Auth0\Login\Facade\Auth0::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
