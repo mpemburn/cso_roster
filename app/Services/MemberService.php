@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Mail;
 class MemberService implements MemberServiceContract
 {
 
+    public function __construct()
+    {
+
+    }
+
     public function getMemberEmailFromId($memberId)
     {
         $member = Member::find($memberId);
