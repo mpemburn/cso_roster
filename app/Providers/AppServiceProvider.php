@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 use App\Validators\MemberEmailFoundValidator;
 use App\Validators\MatchesOldPasswordValidator;
 use App\Validators\PasswordInvalidPatternValidator;
+use Auth0\Login\Contract\Auth0UserRepository as Auth0UserRepositoryContract;
+use Auth0\Login\Repository\Auth0UserRepository as Auth0UserRepository;
 use Validator;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,8 +50,8 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app->bind(
-            \Auth0\Login\Contract\Auth0UserRepository::class,
-            \Auth0\Login\Repository\Auth0UserRepository::class
+            Auth0UserRepositoryContract::class,
+            Auth0UserRepository::class
         );
     }
 }
