@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\MemberServiceContract;
+use Illuminate\Http\Request;
 
 /**
  * Class ApiController
@@ -38,5 +39,17 @@ class ApiController extends Controller
         }
 
         return null;
+    }
+
+    public function createOrUpdateMember(Request $request)
+    {
+        $data = $request->all();
+        $member = $this->memberService->getMemberFromEmail($data['email']);
+
+        if (!is_null($member)) {
+            return $member->toJson();
+        } else {
+
+        }
     }
 }
