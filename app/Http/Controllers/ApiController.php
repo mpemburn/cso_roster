@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\MemberServiceContract;
+use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Http\Request;
 
 /**
@@ -26,12 +27,13 @@ class ApiController extends Controller
 
     /**
      * @param $email
-     * @return json|null
+     * @param $zip
+     * @return null
      */
-    public function getUserFromEmail($email)
+    public function getUserFromEmailAndZip($email, $zip)
     {
         if (is_string($email)) {
-            $member = $this->memberService->getMemberFromEmail($email);
+            $member = $this->memberService->getMemberFromEmailAndZip($email, $zip);
 
             if (!is_null($member)) {
                 return $member->toJson();
@@ -41,13 +43,14 @@ class ApiController extends Controller
         return null;
     }
 
-    public function createOrUpdateMember(Request $request)
+    public function createOrUpdateMember(MemberRepositoryContract $repository, Request $request)
     {
         $data = $request->all();
-        $member = $this->memberService->getMemberFromEmail($data['email']);
 
-        if (!is_null($member)) {
-            return $member->toJson();
+        $response = $repository->save($request, $data['id']);
+
+        if (!is_null($response)) {
+            return $response;
         } else {
 
         }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Member;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Services\MemberServiceContract;
 
@@ -31,7 +33,7 @@ class ServicesServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(MemberServiceContract::class, function () {
-            return new MemberService();
+            return new MemberService(new Member(), new User());
         });
     }
 }

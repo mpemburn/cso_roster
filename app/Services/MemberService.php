@@ -15,15 +15,23 @@ use Illuminate\Support\Facades\Mail;
  */
 class MemberService implements MemberServiceContract
 {
+    protected $member;
+    protected $user;
 
-    public function __construct()
+    public function __construct(Member $member, User $user)
     {
+        $this->member = $member;
+        $this->user = $user;
+    }
 
+    public function createOrUpdateMember(Request $request)
+    {
+        // TODO: Implement createOrUpdateMember() method.
     }
 
     public function getMemberEmailFromId($memberId)
     {
-        $member = Member::find($memberId);
+        $member = $this->member->find($memberId);
 
         return (!is_null($member)) ? $member->email : null;
     }
@@ -34,7 +42,20 @@ class MemberService implements MemberServiceContract
      */
     public function getMemberFromEmail($email)
     {
-        $member = Member::where('email', $email)->first();
+        $member = $this->member->where('email', $email)->first();
+
+        return $member;
+    }
+
+    /**
+     * @param $email
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function getMemberFromEmailAndZip($email, $zip)
+    {
+        $member = $this->member->where('email', $email)
+            ->where('zip', $zip)
+            ->first();
 
         return $member;
     }
@@ -45,7 +66,7 @@ class MemberService implements MemberServiceContract
      */
     function getMemberFromUserId($user_id)
     {
-        $member = Member::where('user_id', $user_id)->first();
+        $member = $this->member->where('user_id', $user_id)->first();
 
         return $member;
     }
@@ -67,7 +88,7 @@ class MemberService implements MemberServiceContract
      */
     public function getMemberFromUserResetToken($token)
     {
-        $user = User::where('reset_token', $token)->first();
+        $user = $this->user->where('reset_token', $token)->first();
         if (!is_null($user)) {
             return $this->getMemberFromUserId($user->id);
         }
@@ -106,9 +127,9 @@ class MemberService implements MemberServiceContract
      */
     public function getUserFromMemberId($member_id)
     {
-        $member = Member::find($member_id);
+        $member = $this->member->find($member_id);
         if (!is_null($member->user_id)) {
-            $user = User::find($member->user_id);
+            $user = $this->user->find($member->user_id);
             return $user;
         }
         return null;
@@ -121,6 +142,22 @@ class MemberService implements MemberServiceContract
     public function getUserFromMemberEmailAddress($email)
     {
         $member = $this->getMemberFromEmail($email);
+
+        if (!is_null($member)) {
+            return $this->getUserFromMemberId($member->id);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $email
+     * @param $zip
+     * @return MemberService|\Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function getUserFromMemberEmailAndZip($email, $zip)
+    {
+        $member = $this->getMemberFromEmailAndZip($email, $zip);
 
         if (!is_null($member)) {
             return $this->getUserFromMemberId($member->id);
@@ -224,6 +261,12 @@ class MemberService implements MemberServiceContract
 
     // PROTECTED Methods
 
+    /**
+     * @param $user
+     * @param $appName
+     * @param $resetLink
+     * @return array|string
+     */
     protected function mailSendResetLink($user, $appName, $resetLink)
     {
         $failed = [];

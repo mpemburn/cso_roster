@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
  */
 interface MemberServiceContract extends ServiceContract
 {
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function createOrUpdateMember(Request $request);
+
     /**
      * @param $memberId
      * @return mixed
@@ -62,6 +69,13 @@ interface MemberServiceContract extends ServiceContract
      * @return MemberService|\Illuminate\Database\Eloquent\Model|null|static
      */
     public function getUserFromMemberEmailAddress($email);
+
+    /**
+     * @param $email
+     * @param $zip
+     * @return mixed
+     */
+    public function getMemberFromEmailAndZip($email, $zip);
 
     /**
      * @param $email

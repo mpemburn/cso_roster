@@ -17,6 +17,6 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::get('user/{email}', 'ApiController@getUserFromEmail');
+Route::get('user/{email}/{zip}', 'ApiController@getUserFromEmailAndZip');
 
 Route::post('member/post', 'ApiController@createOrUpdateMember');
