@@ -19,7 +19,7 @@ interface MemberRepositoryContract extends RepositoryContract
      * @param $id
      * @return mixed
      */
-    function save($request, $id);
+    function save($request, $id, $rules);
 
     /**
      * @param $memberId

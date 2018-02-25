@@ -90,20 +90,26 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function save($request, $id)
+    public function save($request, $id, $rules = null)
     {
         $data = $request->all();
+
         $thisMember = $this->model->findOrNew($id);
 
-        $timeNow = Format::formatDateForMySql(time());
-        $data['cell_phone'] = Format::rawPhone($data['cell_phone']);
-        $data['home_phone'] = Format::rawPhone($data['home_phone']);
-        $data['member_since_date'] = (empty($data['member_since_date'])) ? $timeNow : Format::formatDateForMySql($data['member_since_date']);
-        $data['google_group_date'] = (empty($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
-        $data['active'] = ($id == 0) ? 1 : $data['active'];
+        if (!empty($data)) {
+            $timeNow = Format::formatDateForMySql(time());
+            $data['home_phone'] = (isset($data['cell_phone'])) ? Format::rawPhone($data['cell_phone']) : '';
+            $data['home_phone'] = (isset($data['home_phone'])) ? Format::rawPhone($data['home_phone']) : '';
+            $data['contact_phone'] = (isset($data['contact_phone'])) ? Format::rawPhone($data['contact_phone']) : '';
+            $data['member_since_date'] = (empty($data['member_since_date'])) ? $timeNow : Format::formatDateForMySql($data['member_since_date']);
+            $data['google_group_date'] = (empty($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
+            $data['active'] = ($id == 0) ? 1 : $data['active'];
+        }
 
         // Validate user input.  Send them errors and let them try again if they fail
-        $rules = $thisMember->rules;
+        if (is_null($rules)) {
+            $rules = $thisMember->rules;
+        }
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];

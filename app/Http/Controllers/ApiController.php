@@ -46,8 +46,20 @@ class ApiController extends Controller
     public function createOrUpdateMember(MemberRepositoryContract $repository, Request $request)
     {
         $data = $request->all();
+        $memberId = (isset($data['id'])) ? $data['id'] : 0;
+        $rules = [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'contact_name' => 'required',
+            'contact_phone' => 'required',
+        ];
 
-        $response = $repository->save($request, $data['id']);
+
+        $response = $repository->save($request, $memberId, $rules);
 
         if (!is_null($response)) {
             return $response;
