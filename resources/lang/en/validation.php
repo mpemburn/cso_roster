@@ -150,6 +150,8 @@ return [
         'board_role_id' => 'Title',
         'start_date' => 'Start Date',
         'end_date' => 'End Date',
+        'contact_name' => 'Contact Name',
+        'contact_phone' => 'Contact Phone',
     ],
 
 ];
