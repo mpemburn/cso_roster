@@ -32,15 +32,16 @@ class ApiController extends Controller
      */
     public function getUserFromEmailAndZip($email, $zip)
     {
-        if (is_string($email)) {
+        $result = ['success' => false];
+        if (is_string($email) && is_string($zip)) {
             $member = $this->memberService->getMemberFromEmailAndZip($email, $zip);
 
             if (!is_null($member)) {
-                return $member->toJson();
+                $result['success'] = true;
             }
         }
 
-        return null;
+        return json_encode($result);
     }
 
     public function createOrUpdateMember(MemberRepositoryContract $repository, Request $request)
