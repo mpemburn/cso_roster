@@ -20,3 +20,5 @@ use Illuminate\Http\Request;
 Route::get('user/{email}/{zip}', 'ApiController@getUserFromEmailAndZip');
 
 Route::post('member/post', 'ApiController@createOrUpdateMember');
+
+Route::post('member/payment', 'ApiController@saveDuesPaymentForMember');

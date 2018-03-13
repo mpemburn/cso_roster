@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\MemberServiceContract;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Http\Request;
+use App\Contracts\Repositories\DuesRepositoryContract;
 
 /**
  * Class ApiController
@@ -67,5 +68,19 @@ class ApiController extends Controller
         } else {
 
         }
+    }
+
+    public function saveDuesPaymentForMember(DuesRepositoryContract $duesRepository, Request $request)
+    {
+        $data = $request->all();
+        $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
+
+        if (!is_null($member)) {
+            $duesRepository->savePaymentForMember($request, $member->id);
+            $result['success'] = true;
+        }
+
+        return json_encode($result);
+
     }
 }

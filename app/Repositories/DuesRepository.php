@@ -5,6 +5,7 @@ use App\Contracts\Repositories\DuesRepositoryContract;
 use App\Helpers\Format;
 use Validator;
 use App\Models\Member;
+use Illuminate\Http\Request;
 
 /**
  * Class DuesRepository
@@ -51,10 +52,30 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
                 'data' => $data
             ];
         }
-
         return $response;
     }
-    
+
+    public function savePaymentForMember(Request $request, $memberId)
+    {
+        $data = $request->all();
+        $data['paid_date'] = Format::formatDateForMySql(date('Y-m-d H:i:s', time()));
+
+        $thisDuesPayment = $this->model->findOrNew($memberId);
+        $result = $thisDuesPayment->fill($data)->save();
+
+        $thisMember = Member::find($memberId);
+        $thisMember->dues()->save($thisDuesPayment);
+
+        $response = [
+            'status' => $result,
+            'data' => $data
+        ];
+
+        echo json_encode($response);
+        return $response;
+
+    }
+
     public function delete($id)
     {
         $thisDuesPayment = $this->model->find($id);
