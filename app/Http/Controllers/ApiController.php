@@ -72,13 +72,7 @@ class ApiController extends Controller
 
     public function saveDuesPaymentForMember(DuesRepositoryContract $duesRepository, Request $request)
     {
-        $data = $request->all();
-        $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
-
-        if (!is_null($member)) {
-            $duesRepository->savePaymentForMember($request, $member->id);
-            $result['success'] = true;
-        }
+        $result = $duesRepository->savePaymentForMember($request, $this->memberService);
 
         return json_encode($result);
 

@@ -3,6 +3,8 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\DuesRepositoryContract;
 use App\Helpers\Format;
+use App\Services\MemberService;
+use App\Contracts\Services\MemberServiceContract;
 use Validator;
 use App\Models\Member;
 use Illuminate\Http\Request;
@@ -34,13 +36,17 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         $data = $request->all();
         $thisDuesPayment = $this->model->findOrNew($id);
 
+        $paidDate = (isset($data['paid_date'])) ? $data['paid_date'] : date('Y-m-d H:i:s', time());
+        $data['paid_date'] = Format::formatDateForMySql($paidDate);
+        $data['calendar_year'] = Format::formatDate('Y', $paidDate);
+        $data['member_id'] = (isset($data['member_id'])) ? $data['member_id'] : $id;
+
         // Validate user input.  Send them errors and let them try again if they fail
         $rules = $thisDuesPayment->rules;
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
         } else {
-            $data['paid_date'] = Format::formatDateForMySql($data['paid_date']);
             $result = $thisDuesPayment->fill($data)->save();
             // If this is a new dues payment, we also have to create a record in the pivot table
             if ($data['id'] == 0) {
@@ -55,24 +61,34 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         return $response;
     }
 
-    public function savePaymentForMember(Request $request, $memberId)
+    public function savePaymentForMember(Request $request, MemberServiceContract $memberService)
     {
         $data = $request->all();
         $data['paid_date'] = Format::formatDateForMySql(date('Y-m-d H:i:s', time()));
 
-        $thisDuesPayment = $this->model->findOrNew($memberId);
-        $result = $thisDuesPayment->fill($data)->save();
 
-        $thisMember = Member::find($memberId);
-        $thisMember->dues()->save($thisDuesPayment);
+        if ($data['process_type'] == 'new_member') {
+            //$this->
+        } else {
+            $member = $memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
+            $result = $this->save($request, $member->id);
+//            $thisDuesPayment = $this->model->findOrNew($member->id);
+//            $result = $thisDuesPayment->fill($data)->save();
+        }
 
-        $response = [
-            'status' => $result,
-            'data' => $data
-        ];
-
-        echo json_encode($response);
-        return $response;
+//        $thisDuesPayment = $this->model->findOrNew($memberId);
+//        $result = $thisDuesPayment->fill($data)->save();
+//
+//        $thisMember = Member::find($memberId);
+//        $thisMember->dues()->save($thisDuesPayment);
+//
+//        $response = [
+//            'status' => $result,
+//            'data' => $data
+//        ];
+//
+//        echo json_encode($response);
+        return $result;
 
     }
 
