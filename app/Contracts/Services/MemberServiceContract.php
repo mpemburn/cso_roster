@@ -2,6 +2,7 @@
 namespace App\Contracts\Services;
 
 use Illuminate\Http\Request;
+use App\Contracts\Repositories\MemberRepositoryContract;
 
 /**
  * Interface MemberServiceContract
@@ -14,7 +15,7 @@ interface MemberServiceContract extends ServiceContract
      * @param Request $request
      * @return mixed
      */
-    public function createOrUpdateMember(Request $request);
+    public function createMember(Request $request);
 
     /**
      * @param $memberId

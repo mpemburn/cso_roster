@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Contracts\Services\MemberServiceContract;
+use App\Contracts\Repositories\MemberRepositoryContract;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -24,9 +25,21 @@ class MemberService implements MemberServiceContract
         $this->user = $user;
     }
 
-    public function createOrUpdateMember(Request $request)
+    public function createMember(Request $request)
     {
-        // TODO: Implement createOrUpdateMember() method.
+        $data = $request->all();
+        $rules = $this->member->rules;
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $data['member_since'] = date('Y-m-d H:i:s', time());
+            $response = $this->member->fill($data)->save();
+        }
+
+        return $response;
     }
 
     public function getMemberEmailFromId($memberId)
@@ -92,6 +105,7 @@ class MemberService implements MemberServiceContract
         if (!is_null($user)) {
             return $this->getMemberFromUserId($user->id);
         }
+
         return false;
     }
 
