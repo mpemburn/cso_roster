@@ -15,5 +15,7 @@ interface DuesRepositoryContract extends RepositoryContract
 
     public function save($request, $id);
 
+    public function makePayment(array $data = [], $memberId = 0);
+
     public function delete($id);
 }

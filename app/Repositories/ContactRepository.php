@@ -2,7 +2,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\ContactRepositoryContract;
-use App\Models\Member;
+use Illuminate\Database\Eloquent\Model;
 use Validator;
 use App\Helpers\Format;
 
@@ -33,30 +33,47 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
         $data = $request->all();
         $thisContact = $this->model->findOrNew($id);
 
-        $data['phone_one'] = Format::rawPhone($data['phone_one']);
-        $data['phone_two'] = Format::rawPhone($data['phone_two']);
-        $data['work_phone'] = Format::rawPhone($data['work_phone']);
+        $contactData = $this->prepareData($data);
 
         // Validate user input.  Send them errors and let them try again if they fail
         $rules = $thisContact->rules;
-        $validator = Validator::make($data, $rules);
+        $validator = Validator::make($contactData, $rules);
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
         } else {
-            $result = $thisContact->fill($data)->save();
+            $result = $thisContact->fill($contactData)->save();
             // If this is a new contact, we also have to create a record in the pivot table
-            if ($data['id'] == 0) {
-                $thisMember = Member::find($data['member_id']);
+            if ($contactData['id'] == 0) {
+                $thisMember = Member::find($contactData['member_id']);
                 $thisMember->contacts()->save($thisContact);
             }
             $response = [
                 'status' => $result,
-                'data' => $data
+                'data' => $contactData
             ];
         }
 
         return $response;
     }
+
+    public function createNewContact(array $data = [], Model $member)
+    {
+        $contactData = $this->prepareData($data);
+
+        $thisContact = $this->model->findOrNew($member->id);
+
+        $result = $thisContact->fill($contactData)->save();
+
+        $member->contacts()->save($thisContact);
+
+        $response = [
+            'status' => $result,
+            'data' => $data
+        ];
+
+        return $response;
+    }
+
 
     public function delete($id)
     {
@@ -75,5 +92,14 @@ class ContactRepository extends AbstractRepository implements ContactRepositoryC
         $thisContact->delete($id);
 
         return $remainingContacts;
+    }
+
+    protected function prepareData($data)
+    {
+        $data['phone_one'] = isset($data['phone_one']) ?  Format::rawPhone($data['phone_one']) : null;
+        $data['phone_two'] = isset($data['phone_two']) ?  Format::rawPhone($data['phone_two']) : null;
+        $data['work_phone'] = isset($data['work_phone']) ?  Format::rawPhone($data['work_phone']) : null;
+
+        return $data;
     }
 }

@@ -36,11 +36,7 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         $data = $request->all();
         $thisDuesPayment = $this->model->findOrNew($id);
 
-        $paidDate = (isset($data['paid_date'])) ? $data['paid_date'] : date('Y-m-d H:i:s', time());
-        $data['paid_date'] = Format::formatDateForMySql($paidDate);
-        $data['calendar_year'] = Format::formatDate('Y', $paidDate);
-        $data['member_id'] = (isset($data['member_id'])) ? $data['member_id'] : $id;
-        $data['helmet_fund'] = (isset($data['helmet_fund'])) ? $data['helmet_fund'] : false;
+        $paymentData = $this->prepareData($data, $id);
 
         // Validate user input.  Send them errors and let them try again if they fail
         $rules = $thisDuesPayment->rules;
@@ -48,7 +44,7 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
         } else {
-            $result = $thisDuesPayment->fill($data)->save();
+            $result = $thisDuesPayment->fill($paymentData)->save();
             // If this is a new dues payment, we also have to create a record in the pivot table
             if ($data['id'] == 0) {
                 $thisMember = (new Member)->find($data['member_id']);
@@ -59,6 +55,22 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
                 'data' => $data
             ];
         }
+        return $result;
+    }
+
+    /**
+     * @param array $data
+     * @param int $memberId
+     * @return bool
+     */
+    public function makePayment(array $data = [], $memberId = 0)
+    {
+        $paymentData = $this->prepareData($data, $memberId);
+
+        $thisDuesPayment = $this->model->findOrNew(0);
+
+        $result = $thisDuesPayment->fill($paymentData)->save();
+
         return $result;
     }
 
@@ -76,5 +88,16 @@ class DuesRepository extends AbstractRepository implements DuesRepositoryContrac
 
         $remainingPayments = $thisMember->dues;
         return $remainingPayments;
+    }
+
+    protected function prepareData($data, $memberId = 0)
+    {
+        $paidDate = (isset($data['paid_date'])) ? $data['paid_date'] : date('Y-m-d H:i:s', time());
+        $data['paid_date'] = Format::formatDateForMySql($paidDate);
+        $data['calendar_year'] = Format::formatDate('Y', $paidDate);
+        $data['member_id'] = (isset($data['member_id'])) ? $data['member_id'] : $memberId;
+        $data['helmet_fund'] = (isset($data['helmet_fund'])) ? $data['helmet_fund'] : false;
+
+        return $data;
     }
 }

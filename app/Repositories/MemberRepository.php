@@ -35,7 +35,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         } else {
             $data['member_since'] = date('Y-m-d H:i:s', time());
             $member = parent::create($data);
-            event(new MemberJoined($member));
+            event(new MemberJoined($member, $data));
             $response = true;
 
         }
