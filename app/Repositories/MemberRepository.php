@@ -3,7 +3,8 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\MemberRepositoryContract;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Contact;
 use App\Models\BoardRole;
 use App\Models\BoardRoleTitle;
@@ -14,12 +15,35 @@ use App\Models\Relationship;
 use App\Helpers\Format;
 use App\Helpers\Date;
 
+use App\Events\MemberJoined;
+
+
 /**
  * Class MemberRepository
  * @package App\Repositories
  */
 class MemberRepository extends AbstractRepository implements MemberRepositoryContract
 {
+    public function create(array $data = [])
+    {
+        $rules = $this->model->rules;
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            $response = ['errors' => $validator->errors()];
+        } else {
+            $data['member_since'] = date('Y-m-d H:i:s', time());
+            $member = parent::create($data);
+            event(new MemberJoined($member));
+            $response = true;
+
+        }
+
+        return $response;
+    }
+
+
     /**
      * @param $id
      * @return array

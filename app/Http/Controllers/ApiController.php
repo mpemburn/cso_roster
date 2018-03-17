@@ -70,13 +70,12 @@ class ApiController extends Controller
         }
     }
 
-    public function saveDuesPaymentForMember(DuesRepositoryContract $duesRepository, Request $request)
+    public function saveDuesPaymentForMember(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
     {
         $data = $request->all();
 
         if ($data['process_type'] == 'new_member') {
-            $result = $this->memberService->createMember($request);
-            //$result = 'otay!';
+            $result = $memberRepository->create($data);
         } else { // If not new member, this is a renewal
             $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
             $request->request->add(['member_id' => $member->id]);

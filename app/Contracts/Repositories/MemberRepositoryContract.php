@@ -8,6 +8,13 @@ namespace App\Contracts\Repositories;
  */
 interface MemberRepositoryContract extends RepositoryContract
 {
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function create(array $data = []);
+
     /**
      * @param $id
      * @return mixed
