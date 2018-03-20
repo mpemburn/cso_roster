@@ -31,8 +31,8 @@ class SendGreetingEmail
             Mail::send('emails.joined_greeting', [
                 'first_name' => $member->first_name,
             ], function ($mailer) use ($member) {
-                $mailer->from(config('mail.from.address') , 'hesapeake Spokes');
-                $mailer->to($member->email, $member->first_name . ' ' . $member->last_name)->subject('Welcome New Member!');
+                $mailer->from(config('mail.from.address') , 'Chesapeake Spokes');
+                $mailer->to($member->email, $member->first_name . ' ' . $member->last_name)->subject('Welcome to Chesapeake Spokes!');
             });
             $failed = Mail::failures();
         } catch (\Exception $e) {

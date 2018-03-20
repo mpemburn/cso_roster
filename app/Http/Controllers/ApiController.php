@@ -45,6 +45,27 @@ class ApiController extends Controller
         return json_encode($result);
     }
 
+    /**
+     * @param $email
+     * @param $zip
+     * @return null
+     */
+    public function verifyMember(Request $request)
+    {
+        $data = $request->all();
+        $result = ['success' => false];
+
+        if (isset($data['member_email']) && isset($data['member_zip'])) {
+            $member = $this->memberService->getMemberFromEmailAndZip($data['member_email'], $data['member_zip']);
+
+            if (!is_null($member)) {
+                $result['success'] = true;
+            }
+        }
+
+        return json_encode($result);
+    }
+
     public function createOrUpdateMember(MemberRepositoryContract $repository, Request $request)
     {
         $data = $request->all();

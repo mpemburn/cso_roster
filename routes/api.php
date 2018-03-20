@@ -17,8 +17,8 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::get('user/{email}/{zip}', 'ApiController@getUserFromEmailAndZip');
+Route::get('member/verify/{email}/{zip}', 'ApiController@getUserFromEmailAndZip');
 
-Route::post('member/post', 'ApiController@createOrUpdateMember');
+//Route::post('member/verify', 'ApiController@verifyMember');
 
 Route::match(['POST', 'GET'], 'member/payment', 'ApiController@saveDuesPaymentForMember');

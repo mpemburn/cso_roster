@@ -35,7 +35,8 @@ class SendEmailToSecretary
                 'member_url' => url('/') . '/member/details/' . $member->id,
             ], function ($mailer) use ($member) {
                 $mailer->from(config('mail.from.address') , 'Chesapeake Spokes Website');
-                $mailer->to('admin@chesapeakespokes.org', 'admin@chesapeakespokes.org')->subject('A New Member has joined');
+                $mailer->to('admin@chesapeakespokesclub.org', 'admin@chesapeakespokesclub.org')
+                    ->subject('A New Member has joined: ' . $member->first_name . ' ' . $member->last_name);
             });
             $failed = Mail::failures();
         } catch (\Exception $e) {

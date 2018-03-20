@@ -9,7 +9,7 @@
 
             A new member has joined Chesapeke Spokes: {{ $first_name }} {{ $last_name }}.
             <br/>
-            Here's a link to their member record:
+            Here's a link to their member record: {{ $member_url }}
 
         </td>
     </tr>
