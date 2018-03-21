@@ -112,10 +112,13 @@ class ApiController extends Controller
 
         $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
 
-        $request->request->add(['member_id' => $member->id]);
-        $result = $duesRepository->makePayment($data, $member->id);
+        if (isset($member->id)) {
+            $request->request->add(['member_id' => $member->id]);
+            $result = $duesRepository->makePayment($data, $member->id);
 
-        return json_encode($result);
+            return json_encode($result);
+        }
 
+        return ['success' => false];
     }
 }
