@@ -36,16 +36,19 @@ class ApiController extends Controller
         $result = ['success' => false];
         if (is_string($email) && is_string($zip)) {
             $member = $this->memberService->getMemberFromEmailAndZip($email, $zip);
-
+            //var_dump($member);
             if (!is_null($member)) {
-                $result['success'] = true;
+                $result = [
+                    'success' => true,
+                    'data' => $member
+                ];
             }
         }
 
         return json_encode($result);
     }
 
-    /**
+    /** TODO: Consolidate this with the above
      * @param $email
      * @param $zip
      * @return null
@@ -57,9 +60,11 @@ class ApiController extends Controller
 
         if (isset($data['member_email']) && isset($data['member_zip'])) {
             $member = $this->memberService->getMemberFromEmailAndZip($data['member_email'], $data['member_zip']);
-
             if (!is_null($member)) {
-                $result['success'] = true;
+                $result = [
+                    'success' => true,
+                    'data' => $member
+                ];
             }
         }
 
@@ -91,19 +96,24 @@ class ApiController extends Controller
         }
     }
 
+    public function newMemberJoin(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
+    {
+        $data = $request->all();
+
+        $result = $memberRepository->create($data);
+
+        return json_encode($result);
+
+    }
+
     public function saveDuesPaymentForMember(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
     {
         $data = $request->all();
 
-        if ($data['process_type'] == 'new_member') {
-            $result = $memberRepository->create($data);
-        } else { // If not new member, this is a renewal
-            $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
-            $request->request->add(['member_id' => $member->id]);
-            $result = $duesRepository->save($request, 0);
-        }
+        $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
 
-            //$result = $duesRepository->savePaymentForMember($request, $this->memberService);
+        $request->request->add(['member_id' => $member->id]);
+        $result = $duesRepository->makePayment($data, $member->id);
 
         return json_encode($result);
 

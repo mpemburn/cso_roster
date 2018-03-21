@@ -21,4 +21,6 @@ Route::get('member/verify/{email}/{zip}', 'ApiController@getUserFromEmailAndZip'
 
 //Route::post('member/verify', 'ApiController@verifyMember');
 
+Route::match(['POST', 'GET'], 'member/join', 'ApiController@newMemberJoin');
+
 Route::match(['POST', 'GET'], 'member/payment', 'ApiController@saveDuesPaymentForMember');
