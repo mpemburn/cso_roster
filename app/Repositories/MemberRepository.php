@@ -28,6 +28,9 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
     {
         $rules = $this->model->rules;
 
+        $data = $this->fixPhones($data);
+        $data = $this->fixTimes($data);
+
         $validator = Validator::make($data, $rules);
 
         if ($validator->fails()) {
@@ -121,12 +124,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $thisMember = $this->model->findOrNew($id);
 
         if (!empty($data)) {
-            $timeNow = Format::formatDateForMySql(time());
-            $data['home_phone'] = (isset($data['cell_phone'])) ? Format::rawPhone($data['cell_phone']) : '';
-            $data['home_phone'] = (isset($data['home_phone'])) ? Format::rawPhone($data['home_phone']) : '';
-            $data['contact_phone'] = (isset($data['contact_phone'])) ? Format::rawPhone($data['contact_phone']) : '';
-            $data['member_since_date'] = (empty($data['member_since_date'])) ? $timeNow : Format::formatDateForMySql($data['member_since_date']);
-            $data['google_group_date'] = (empty($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
+            $data = $this->fixPhones($data);
+            $data = $this->fixTimes($data);
             $data['active'] = ($id == 0) ? 1 : $data['active'];
         }
 
@@ -159,5 +158,23 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         $response = $this->save($request, 0);
 
         return $response;
+    }
+
+    protected function fixPhones($data)
+    {
+        $data['cell_phone'] = (isset($data['cell_phone'])) ? Format::rawPhone($data['cell_phone']) : '';
+        $data['home_phone'] = (isset($data['home_phone'])) ? Format::rawPhone($data['home_phone']) : '';
+        $data['contact_phone'] = (isset($data['contact_phone'])) ? Format::rawPhone($data['contact_phone']) : '';
+
+        return $data;
+    }
+
+    protected function fixTimes($data)
+    {
+        $timeNow = Format::formatDateForMySql(time());
+        $data['member_since_date'] = (empty($data['member_since_date'])) ? $timeNow : Format::formatDateForMySql($data['member_since_date']);
+        $data['google_group_date'] = (empty($data['google_group_date'])) ? $timeNow : Format::formatDateForMySql($data['google_group_date']);
+
+        return $data;
     }
 }
