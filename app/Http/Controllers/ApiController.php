@@ -108,6 +108,7 @@ class ApiController extends Controller
 
     public function saveDuesPaymentForMember(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
     {
+        $success = false;
         $data = $request->all();
 
         $member = $this->memberService->getMemberFromEmailAndZip($data['email'], $data['zip']);
@@ -116,9 +117,10 @@ class ApiController extends Controller
             $request->request->add(['member_id' => $member->id]);
             $result = $duesRepository->makePayment($data, $member->id);
 
-            return json_encode($result);
+            $success = true;
+            //return json_encode($result);
         }
 
-        return ['success' => false];
+        return ['success' => $success];
     }
 }

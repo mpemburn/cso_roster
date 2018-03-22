@@ -26,6 +26,8 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
 {
     public function create(array $data = [])
     {
+        $success = false;
+
         $rules = $this->model->rules;
 
         $data = $this->fixPhones($data);
@@ -39,11 +41,11 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             $data['member_since'] = date('Y-m-d H:i:s', time());
             $member = parent::create($data);
             event(new MemberJoined($member, $data));
-            $response = true;
+            $success = true;
 
         }
 
-        return $response;
+        return ['success' => $success];
     }
 
 
