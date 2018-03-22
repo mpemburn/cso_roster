@@ -30,7 +30,7 @@ class SendNewMemberEmailToSecretary
         $failed = [];
         try {
             Mail::send('emails.notify_secretary', [
-                'message' => 'A new member has joined Chesapeake Spokes: ' . $member->first_name . ' ' . $member->last_name,
+                'text' => 'A new member has joined Chesapeake Spokes: ' . $member->first_name . ' ' . $member->last_name,
                 'member_url' => url('/') . '/member/details/' . $member->id,
             ], function ($mailer) use ($member) {
                 $mailer->from(config('mail.from.address') , 'Chesapeake Spokes Website');

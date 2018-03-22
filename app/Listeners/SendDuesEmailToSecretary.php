@@ -30,11 +30,11 @@ class SendDuesEmailToSecretary
         $failed = [];
         try {
             Mail::send('emails.notify_secretary', [
-                'message' => $member->first_name . ' ' . $member->last_name . ' just made a dues payment.',
+                'text' => $member->first_name . ' ' . $member->last_name . ' just made a dues payment.',
                 'member_url' => url('/') . '/member/details/' . $member->id,
             ], function ($mailer) use ($member) {
                 $mailer->from(config('mail.from.address') , 'Chesapeake Spokes Website');
-                $mailer->to('admin@chesapeakespokesclub.org', 'admin@chesapeakespokesclub.org')
+                $mailer->to('admin@chesapeakespokesclub.org')
                     ->subject('A Member has renewed: ' . $member->first_name . ' ' . $member->last_name);
             });
             $failed = Mail::failures();

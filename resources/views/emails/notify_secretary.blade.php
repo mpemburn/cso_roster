@@ -2,15 +2,19 @@
     <tr>
         <td>
             Hello
+            <br/>
+            <br/>
         </td>
     </tr>
     <tr>
         <td>
 
-            {{ $message }}
+            {{ $text }}
+            <br/>
             <br/>
             Here's a link to their member record: <a href="{{ $member_url }}">{{ $member_url }}</a>
-
+            <br/>
+            <br/>
         </td>
     </tr>
     <tr>
