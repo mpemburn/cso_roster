@@ -1,15 +1,13 @@
 <table>
     <tr>
         <td>
-            Hello
+            Hi {{ $first_name }}!
         </td>
     </tr>
     <tr>
         <td>
 
-            {{ $message }}
-            <br/>
-            Here's a link to their member record: <a href="{{ $member_url }}">{{ $member_url }}</a>
+          We've received your payment to Chesapeake Spokes.  Thank you!
 
         </td>
     </tr>
@@ -18,7 +16,7 @@
             Best regards,
             <br/>
             <br/>
-            The Member Roster
+            The Chesapeake Spokes Team
         </td>
     </tr>
 

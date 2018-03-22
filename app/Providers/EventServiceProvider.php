@@ -17,7 +17,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CreateEmergencyContact',
             'App\Listeners\MakeDuesPayment',
             'App\Listeners\SendGreetingEmail',
-            'App\Listeners\SendEmailToSecretary',
+            'App\Listeners\SendNewMemberEmailToSecretary',
+        ],
+        'App\Events\MemberRenewed' => [
+            'App\Listeners\SendPaymentConfirmationEmail',
+            'App\Listeners\SendDuesEmailToSecretary',
         ],
     ];
 

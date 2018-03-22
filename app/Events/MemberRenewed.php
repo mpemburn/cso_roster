@@ -5,7 +5,7 @@ namespace App\Events;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
-class MemberJoined
+class MemberRenewed
 {
     use SerializesModels;
 
@@ -13,8 +13,9 @@ class MemberJoined
     public $data;
 
     /**
-     * MemberJoined constructor.
+     * MemberRenewed constructor.
      * @param Model $member
+     * @param array $data
      */
     public function __construct(Model $member, array $data)
     {

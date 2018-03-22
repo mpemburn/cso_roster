@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\MemberServiceContract;
 use App\Contracts\Repositories\MemberRepositoryContract;
+use App\Events\MemberRenewed;
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\DuesRepositoryContract;
 
@@ -96,7 +97,7 @@ class ApiController extends Controller
         }
     }
 
-    public function newMemberJoin(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
+    public function newMemberJoin(MemberRepositoryContract $memberRepository, Request $request)
     {
         $data = $request->all();
 
@@ -106,7 +107,7 @@ class ApiController extends Controller
 
     }
 
-    public function saveDuesPaymentForMember(MemberRepositoryContract $memberRepository, DuesRepositoryContract $duesRepository, Request $request)
+    public function saveDuesPaymentForMember(DuesRepositoryContract $duesRepository, Request $request)
     {
         $success = false;
         $data = $request->all();
@@ -116,9 +117,9 @@ class ApiController extends Controller
         if (isset($member->id)) {
             $request->request->add(['member_id' => $member->id]);
             $result = $duesRepository->makePayment($data, $member->id);
+            event(new MemberRenewed($member, $data));
 
-            $success = true;
-            //return json_encode($result);
+            $success = $result;
         }
 
         return ['success' => $success];
