@@ -19,6 +19,6 @@ interface RepositoryContract
     /**
      * @return mixed
      */
-    public function findAll();
+    public function findAll(array $where = [], array $with = [], int $limit = 10, array $orderBy = []);
 
 }

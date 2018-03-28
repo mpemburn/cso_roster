@@ -40,41 +40,19 @@ abstract class AbstractRepository
      * @return mixed
      * @throws NotImplementedException
      */
-    public function findAll(array $where = [], array $with = [], int $limit = 10, array $belongsToArray = [])
+    public function findAll(array $where = [], array $with = [], int $limit = 10, array $orderBy = [])
     {
         $result = $this->model->with($with);
+        $dataSet = $result->where($where)
+            // Conditionally use $orderBy if not empty
+            ->when(!empty($orderBy), function($query) use($orderBy) {
+                $query->orderBy(...$orderBy);
+            })
+            //->orderBy(...$orderBy)
+            ->paginate($limit)
+            ->appends(Input::except('page'));
 
-/* TODO: Implement $belongsTo logic
-
-         foreach ($belongsToArray as $parentModel) {
-            $parentModelPluralFunction = $this->getRelationshipFunctionName($parentModel, $this->model);
-
-            $parentRelationship = $this->model->$parentModelPluralFunction();
-
-            switch (true) {
-                case ($parentRelationship instanceof BelongsTo):
-                    $queryKey = $parentRelationship->getQualifiedForeignKey();
-                    $parentModelKeyField = $parentRelationship->getOwnerKey();
-
-                    break;
-
-                case ($parentRelationship instanceof BelongsToMany):
-                    $queryKey = $parentRelationship->getQualifiedRelatedKeyName();
-                    $parentModelKeyField = $parentRelationship->getRelated()->getKeyName();
-                    break;
-
-                default:
-                    throw new NotImplementedException('A relationship has not yet been handled.');
-            }
-
-            $parentModelValue = $parentModel->$parentModelKeyField;
-            $result->whereHas($parentModelPluralFunction, function($query) use ($queryKey, $parentModelValue) {
-                $query->where($queryKey, '=', $parentModelValue);
-            });
-        }
-*/
-
-        return $result->where($where)->paginate($limit)->appends(Input::except('page'));
+        return $dataSet;
     }
 
     /**
@@ -91,4 +69,9 @@ abstract class AbstractRepository
         return $model;
     }
 
+    // TODO: Figure out how to use multiple ORDER BY conditions
+    protected function expandOrderBy($query, $orderByArray)
+    {
+
+    }
 }
