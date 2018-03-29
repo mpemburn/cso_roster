@@ -1,11 +1,7 @@
 <?php
 namespace App\Repositories;
 
-use App\Exceptions\NotImplementedException;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Input;
 
 abstract class AbstractRepository
 {
@@ -39,7 +35,7 @@ abstract class AbstractRepository
      * @param int $limit
      * @return mixed
      */
-    public function findAll(array $where = [], array $with = [], array $orderBy = [], int $limit = null)
+    public function findAll(array $where = [], array $with = [], array $orderBy = [], $limit = null)
     {
         $result = $this->model->with($with);
         $dataSet = $result
