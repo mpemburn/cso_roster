@@ -35,22 +35,27 @@ abstract class AbstractRepository
     /**
      * @param array $where
      * @param array $with
+     * @param array $orderBy
      * @param int $limit
-     * @param array $belongsToArray
      * @return mixed
-     * @throws NotImplementedException
      */
-    public function findAll(array $where = [], array $with = [], int $limit = 10, array $orderBy = [])
+    public function findAll(array $where = [], array $with = [], array $orderBy = [], int $limit = null)
     {
         $result = $this->model->with($with);
-        $dataSet = $result->where($where)
-            // Conditionally use $orderBy if not empty
-            ->when(!empty($orderBy), function($query) use($orderBy) {
-                $query->orderBy(...$orderBy);
+        $dataSet = $result
+            // Conditionally use $where if not empty
+            ->when(!empty($orderBy), function ($query) use ($where) {
+                $this->chunkExpression($where, [$query, 'where']);
             })
-            //->orderBy(...$orderBy)
-            ->paginate($limit)
-            ->appends(Input::except('page'));
+            // Conditionally use $orderBy if not empty
+            ->when(!empty($orderBy), function ($query) use ($orderBy) {
+                $this->chunkExpression($orderBy, [$query, 'orderBy']);
+            })
+            // Conditionally use $limit if not null
+            ->when(!empty($limit), function ($query) use ($limit) {
+                $query->limit($limit);
+            })
+            ->get();
 
         return $dataSet;
     }
@@ -69,9 +74,19 @@ abstract class AbstractRepository
         return $model;
     }
 
-    // TODO: Figure out how to use multiple ORDER BY conditions
-    protected function expandOrderBy($query, $orderByArray)
+    /**
+     * @param array $expression
+     * @param array $queryMethod
+     */
+    protected function chunkExpression(array $expression, array $queryMethod)
     {
+        // Break $expression into pairs
+        $pairs = array_chunk($expression, 2);
+        // Iterate over the pairs
+        foreach ($pairs as $pair) {
+            // Use the 'splat' to turn the pair into two arguments
+            $queryMethod(...$pair);
+        }
 
     }
 }
