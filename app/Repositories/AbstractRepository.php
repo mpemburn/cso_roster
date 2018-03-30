@@ -35,10 +35,13 @@ abstract class AbstractRepository
      * @param int $limit
      * @return mixed
      */
-    public function findAll(array $where = [], array $with = [], array $orderBy = [], $limit = null)
+    public function findAll(array $select = [], array $where = [], array $with = [], array $orderBy = [], $limit = null)
     {
         $result = $this->model->with($with);
         $dataSet = $result
+            ->when(!empty($select), function ($query) use ($select) {
+                $query->select(...$select);
+            })
             // Conditionally use $where if not empty
             ->when(!empty($where), function ($query) use ($where) {
                 $this->chunkExpression($where, [$query, 'where']);

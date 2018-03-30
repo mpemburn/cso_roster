@@ -52,9 +52,10 @@ class ApiController extends Controller
 
     public function getMemberList(MemberRepositoryContract $repository)
     {
-        $members = $repository->findAll([
-            'is_active', true],
-            ['contacts', 'dues'],
+        $members = $repository->findAll(
+            ['last_name', 'first_name'],
+            ['is_active', true],
+            [],
             ['last_name', 'asc', 'first_name', 'asc']
         );
 

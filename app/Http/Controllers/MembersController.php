@@ -38,8 +38,9 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $activeMembers = $this->repository->findAll([
-            'is_active', true],
+        $activeMembers = $this->repository->findAll(
+            [],
+            ['is_active', true],
             ['contacts', 'dues'],
             ['last_name', 'asc', 'first_name', 'asc']
         );
