@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\MemberServiceContract;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use App\Events\MemberRenewed;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\DuesRepositoryContract;
 
@@ -47,6 +48,24 @@ class ApiController extends Controller
         }
 
         return json_encode($result);
+    }
+
+    public function getMemberList(MemberRepositoryContract $repository)
+    {
+        $members = $repository->findAll([
+            'is_active', true],
+            ['contacts', 'dues'],
+            ['last_name', 'asc', 'first_name', 'asc']
+        );
+
+        $list = [];
+        /** @var Member $member */
+        foreach ($members as $member) {
+            if (!in_array($member, $list)) {
+                $list[] = $member->last_name . ', ' . $member->first_name;
+            }
+        }
+        return $list;
     }
 
     /** TODO: Consolidate this with the above

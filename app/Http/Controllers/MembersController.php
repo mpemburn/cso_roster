@@ -43,7 +43,7 @@ class MembersController extends Controller
             ['contacts', 'dues'],
             ['last_name', 'asc', 'first_name', 'asc']
         );
-        
+
         return view('members_list', ['members' => $activeMembers]);
     }
 

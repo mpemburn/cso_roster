@@ -40,7 +40,7 @@ abstract class AbstractRepository
         $result = $this->model->with($with);
         $dataSet = $result
             // Conditionally use $where if not empty
-            ->when(!empty($orderBy), function ($query) use ($where) {
+            ->when(!empty($where), function ($query) use ($where) {
                 $this->chunkExpression($where, [$query, 'where']);
             })
             // Conditionally use $orderBy if not empty
