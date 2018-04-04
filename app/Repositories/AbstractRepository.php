@@ -86,6 +86,11 @@ abstract class AbstractRepository
             // Use the 'splat' to turn the pair into two arguments
             $queryMethod(...$pair);
         }
-
     }
+
+    protected function isNewRecord(Model $model)
+    {
+        return (strtotime($model->created_at->toDateTimeString()) >= time());
+    }
+
 }

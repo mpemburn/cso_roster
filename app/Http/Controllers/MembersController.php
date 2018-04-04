@@ -49,6 +49,23 @@ class MembersController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inactive()
+    {
+        $activeMembers = $this->repository->findAll(
+            [],
+            ['is_active', false],
+            ['contacts', 'dues'],
+            ['last_name', 'asc', 'first_name', 'asc']
+        );
+
+        return view('members_list', ['members' => $activeMembers]);
+    }
+
+    /**
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

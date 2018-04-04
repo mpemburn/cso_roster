@@ -21,5 +21,12 @@ class Guest extends Model
 
     protected $guarded = [];
 
-        
+    public function getRulesAttribute()
+    {
+        return [
+            'first_name' => 'required',
+            'last_name' => 'required',
+        ];
+    }
+
 }

@@ -18,8 +18,8 @@
                         <main class="main-column col-md-12">
                             @if ($can_edit)
                                 <div class="form-group">
-                                    <label for="active"
-                                           class="control-label">{{ Form::checkbox('active', $member->is_active, $is_active) }}
+                                    <label for="is_active"
+                                           class="control-label">{{ Form::checkbox('is_active', $member->is_active, $is_active) }}
                                         Active</label>
                                     <span class="saved hidden">SAVED</span>
                                 </div>

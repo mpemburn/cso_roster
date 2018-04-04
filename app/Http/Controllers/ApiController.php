@@ -8,6 +8,7 @@ use App\Events\MemberRenewed;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\DuesRepositoryContract;
+use App\Contracts\Repositories\GuestRepositoryContract;
 
 /**
  * Class ApiController
@@ -27,6 +28,11 @@ class ApiController extends Controller
         $this->memberService = $memberService;
     }
 
+
+    public function addGuest(GuestRepositoryContract $guestRepository, Request $request)
+    {
+        return $guestRepository->create($request->all());
+    }
 
     /**
      * @param $email
@@ -63,7 +69,7 @@ class ApiController extends Controller
         /** @var Member $member */
         foreach ($members as $member) {
             if (!in_array($member, $list)) {
-                $list[] = $member->last_name . ', ' . $member->first_name;
+                $list[] = $member->first_name . ' ' . $member->last_name;
             }
         }
         return $list;
