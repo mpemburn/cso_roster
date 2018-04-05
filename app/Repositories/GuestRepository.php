@@ -24,7 +24,7 @@ class GuestRepository extends AbstractRepository implements GuestRepositoryContr
 
         $guestData['first_name'] = $parsed->getFirstname();
         $guestData['last_name'] = $parsed->getLastname();
-        $guestData['phone'] = (isset($data['phone'])) ? $data['phone'] : null;
+        $guestData['phone'] = (isset($data['guest_phone'])) ? $data['guest_phone'] : null;
 
 
         $rules = $this->model->rules;
