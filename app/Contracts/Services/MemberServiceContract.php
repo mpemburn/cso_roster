@@ -67,7 +67,7 @@ interface MemberServiceContract extends ServiceContract
 
     /**
      * @param $email
-     * @return MemberService|\Illuminate\Database\Eloquent\Model|null|static
+     * @return mixed
      */
     public function getUserFromMemberEmailAddress($email);
 
@@ -77,6 +77,12 @@ interface MemberServiceContract extends ServiceContract
      * @return mixed
      */
     public function getMemberFromEmailAndZip($email, $zip);
+
+    /**
+     * @param $phone
+     * @return mixed
+     */
+    public function getMemberFromPhoneNumber($phone);
 
     /**
      * @param $email

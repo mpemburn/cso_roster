@@ -56,6 +56,28 @@ class ApiController extends Controller
         return json_encode($result);
     }
 
+    /**
+     * @param $email
+     * @param $zip
+     * @return null
+     */
+    public function getMemberFromPhoneNumber($phone)
+    {
+        $result = ['success' => false];
+        if (is_string($phone)) {
+            $member = $this->memberService->getMemberFromPhoneNumber($phone);
+            //var_dump($member);
+            if (!is_null($member)) {
+                $result = [
+                    'success' => true,
+                    'data' => $member
+                ];
+            }
+        }
+
+        return json_encode($result);
+    }
+
     public function getMemberList(MemberRepositoryContract $repository)
     {
         $members = $repository->findAll(
