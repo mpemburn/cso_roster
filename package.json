@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "jquery.dirtyforms": "^2.0.0",
+    "npm": "^6.2.0",
     "typeahead": "^0.2.2"
   }
 }
