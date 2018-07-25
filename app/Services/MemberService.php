@@ -164,6 +164,17 @@ class MemberService implements MemberServiceContract
         return null;
     }
 
+    public function getMemberFromPhoneNumber($phone)
+    {
+        $phone = preg_replace("/^\+?1/", '',$phone);
+
+        $member = $this->member->where('home_phone', $phone)
+            ->orWhere('cell_phone', $phone)
+            ->first();
+
+        return $member;
+    }
+
     /**
      * @param $email
      * @param $zip

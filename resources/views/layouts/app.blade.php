@@ -49,6 +49,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Members <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item"><a href="{{ url('/member') }}"><i class="fa fa-btn fa-users"></i> Members List</a></li>
+                            <li class="dropdown-item"><a href="{{ url('/member/inactive') }}"><i class="fa fa-btn fa-minus-circle"></i> Inactive List</a></li>
                             {{-- TODO: Implement RolesService --}}
                             @if (true)
                                 <li class="dropdown-item"><a href="{{ url('/member/details') }}"><i class="fa fa-btn fa-user-plus"></i> Add Member</a></li>

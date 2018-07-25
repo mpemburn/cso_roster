@@ -38,12 +38,30 @@ class MembersController extends Controller
      */
     public function index()
     {
-        $activeMembers = $this->repository->findAll([
-            'is_active', true],
+        $activeMembers = $this->repository->findAll(
+            [],
+            ['is_active', true],
             ['contacts', 'dues'],
             ['last_name', 'asc', 'first_name', 'asc']
         );
-        
+
+        return view('members_list', ['members' => $activeMembers]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inactive()
+    {
+        $activeMembers = $this->repository->findAll(
+            [],
+            ['is_active', false],
+            ['contacts', 'dues'],
+            ['last_name', 'asc', 'first_name', 'asc']
+        );
+
         return view('members_list', ['members' => $activeMembers]);
     }
 

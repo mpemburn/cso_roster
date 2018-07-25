@@ -35,12 +35,15 @@ abstract class AbstractRepository
      * @param int $limit
      * @return mixed
      */
-    public function findAll(array $where = [], array $with = [], array $orderBy = [], $limit = null)
+    public function findAll(array $select = [], array $where = [], array $with = [], array $orderBy = [], $limit = null)
     {
         $result = $this->model->with($with);
         $dataSet = $result
+            ->when(!empty($select), function ($query) use ($select) {
+                $query->select(...$select);
+            })
             // Conditionally use $where if not empty
-            ->when(!empty($orderBy), function ($query) use ($where) {
+            ->when(!empty($where), function ($query) use ($where) {
                 $this->chunkExpression($where, [$query, 'where']);
             })
             // Conditionally use $orderBy if not empty
@@ -83,6 +86,11 @@ abstract class AbstractRepository
             // Use the 'splat' to turn the pair into two arguments
             $queryMethod(...$pair);
         }
-
     }
+
+    protected function isNewRecord(Model $model)
+    {
+        return (strtotime($model->created_at->toDateTimeString()) >= time());
+    }
+
 }

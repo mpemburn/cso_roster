@@ -75,7 +75,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
             'contact' => new Contact(),
             'role' => new BoardRole(),
             'dues' => $thisMember->dues,
-            'is_active' => true,
+            'is_active' => ($thisMember->is_active == 1),
         ];
 
         return $data;
@@ -128,7 +128,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         if (!empty($data)) {
             $data = $this->fixPhones($data);
             $data = $this->fixTimes($data);
-            $data['active'] = ($id == 0) ? 1 : $data['active'];
+            $data['is_active'] = (isset($data['is_active'])) ? 1 : 0;
         }
 
         // Validate user input.  Send them errors and let them try again if they fail
@@ -139,7 +139,7 @@ class MemberRepository extends AbstractRepository implements MemberRepositoryCon
         if ($validator->fails()) {
             $response = ['errors' => $validator->errors()];
         } else {
-            $result = $thisMember->fill($data)->save();
+            $result = $thisMember->fill($data)->update();
             $data['member_id'] = $thisMember->id;
             $response = [
                 'status' => $result,

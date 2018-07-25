@@ -92,6 +92,10 @@ Route::group(['middlewareGroups' => 'web'], function () {
         'middleware' => ['auth'],
         'uses' => 'MembersController@index'
     ]);
+    Route::get('member/inactive', [
+        'middleware' => ['auth'],
+        'uses' => 'MembersController@inactive'
+    ]);
     Route::get('/member/details', [
         'middleware' => ['auth'],
         'uses' => 'MembersController@details'

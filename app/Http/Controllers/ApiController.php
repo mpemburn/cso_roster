@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\MemberServiceContract;
 use App\Contracts\Repositories\MemberRepositoryContract;
 use App\Events\MemberRenewed;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Contracts\Repositories\DuesRepositoryContract;
+use App\Contracts\Repositories\GuestRepositoryContract;
 
 /**
  * Class ApiController
@@ -26,6 +28,11 @@ class ApiController extends Controller
         $this->memberService = $memberService;
     }
 
+
+    public function addGuest(GuestRepositoryContract $guestRepository, Request $request)
+    {
+        return $guestRepository->create($request->all());
+    }
 
     /**
      * @param $email
@@ -47,6 +54,47 @@ class ApiController extends Controller
         }
 
         return json_encode($result);
+    }
+
+    /**
+     * @param $email
+     * @param $zip
+     * @return null
+     */
+    public function getMemberFromPhoneNumber($phone)
+    {
+        $result = ['success' => false];
+        if (is_string($phone)) {
+            $member = $this->memberService->getMemberFromPhoneNumber($phone);
+            //var_dump($member);
+            if (!is_null($member)) {
+                $result = [
+                    'success' => true,
+                    'data' => $member
+                ];
+            }
+        }
+
+        return json_encode($result);
+    }
+
+    public function getMemberList(MemberRepositoryContract $repository)
+    {
+        $members = $repository->findAll(
+            ['last_name', 'first_name'],
+            ['is_active', true],
+            [],
+            ['last_name', 'asc', 'first_name', 'asc']
+        );
+
+        $list = [];
+        /** @var Member $member */
+        foreach ($members as $member) {
+            if (!in_array($member, $list)) {
+                $list[] = $member->first_name . ' ' . $member->last_name;
+            }
+        }
+        return $list;
     }
 
     /** TODO: Consolidate this with the above
